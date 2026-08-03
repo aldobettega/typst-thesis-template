@@ -73,4 +73,4 @@ Lo scopo di questo progetto è quello di creare un template funzionante in Typst
 ## Fonti e utilità
 
 - [Documentazione Typst](https://typst.app/docs/)
-- [FIUP Code of Conduct](https://github.com/FIUP/Getting_Started/blob/master/CODE_OF_CONDUCT.md)
+- [FIUP Code of Conduct](https://github.com/FIUP/Getting_Started/blob/master/CODE_OF_CONDUCT.md))
