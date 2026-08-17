@@ -12,6 +12,8 @@
 
 #v(1em)
 
+== Studio del dominio
+
 == Casi d'uso
 
 Per lo studio dei casi di utilizzo del prodotto sono stati creati dei diagrammi.

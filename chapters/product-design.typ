@@ -1,25 +1,12 @@
 #pagebreak(to:"odd")
 
 = Progettazione e codifica
-<cap:progettazione-codifica>
 
-#v(1em)
-#text(style: "italic", [
-    Breve introduzione al capitolo
-])
+== Architettura
 
-#v(1em)
+=== Backend
 
-== Tecnologie e strumenti
-<sec:tecnologie-strumenti>
-
-Di seguito viene data una panoramica delle tecnologie e strumenti utilizzati.
-
-=== Tecnologia 1
-Descrizione Tecnologia 1.
-
-=== Tecnologia 2
-Descrizione Tecnologia 2
+=== Frontend
 
 == Ciclo di vita del software
 <sec:ciclo-vita-software>
@@ -27,7 +14,7 @@ Descrizione Tecnologia 2
 == Progettazione
 <sec:progettazione>
 
-== Design Pattern utilizzati
+== Design Pattern e Decisioni Architetturali
 <sec:design-pattern>
 
 == Codifica

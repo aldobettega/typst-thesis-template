@@ -1,17 +1,3 @@
-# Introduzione
-
-Questa repository contiene un template per la tesi triennale in Informatica.
-Il template e stato realizzato con [Typst](https://typst.app/) e ispirandosi al [template LaTeX già esistente](https://github.com/FIUP/Thesis-template.git) e alla sua versione in [Markdown](https://github.com/FIUP/pandoc-thesis-template)
-
-## Problemi e mancanze
-
-- [ ] Aggiungere glossario
-- [ ] Aggiungere appendici
-- [x] Aggiungere bibliografia
-- [x] Gestione "Capitolo x - Titolo capitolo"
-- [x] Capitoli su pagina dispari
-- [ ] Supporto alla stampa
-- [x] Supporto PDF/A
 
 ### Aggiungere glossario
 
@@ -65,10 +51,6 @@ Struttura del template:
   - `summary.typ`: sommario in cui viene descritto di cosa tratta la tesi.
 - `structure.typ`: contiene la struttura e l'ordine dei capitoli.
 - `thesis.typ`: vera e propria tesi, file che andrà compilato per produrre il PDF.
-
-## Motivazioni
-
-Lo scopo di questo progetto è quello di creare un template funzionante in Typst, che sia il più simile possibile al template LaTeX già esistente e che sia facile da utilizzare. Adattate il template alle vostre esigenze e segnalate eventuali problemi o mancanze.
 
 ## Fonti e utilità
 
