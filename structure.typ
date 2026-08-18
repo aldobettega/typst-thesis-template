@@ -11,14 +11,15 @@
 
 #counter(page).update(1)
 
-#include "./chapters/introduction.typ"
-#include "./chapters/process.typ"
-#include "./chapters/stage-description.typ"
-#include "./chapters/requirements.typ"
-#include "./chapters/technology-stack.typ"
-#include "./chapters/product-design.typ"
-#include "./chapters/product-testing.typ"
-#include "./chapters/conclusion.typ"
+#include "chapters/1_introduzione.typ"
+#include "chapters/2_processi.typ"
+#include "chapters/3_analisi_requisiti.typ"
+#include "chapters/4_tecnologie.typ"
+#include "chapters/5_ambiente_di_test.typ"
+#include "chapters/6_progettazione_architetturale.typ"
+#include "chapters/7_ai.typ"
+#include "chapters/8_problematiche_incontrate.typ"
+#include "chapters/9_conclusioni.typ"
 
 // // Appendix
 
