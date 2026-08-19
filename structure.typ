@@ -1,5 +1,4 @@
 // Frontmatter
-
 #include "./preface/firstpage.typ"
 #include "./preface/copyright.typ"
 // #include "./preface/dedication.typ"
@@ -8,7 +7,6 @@
 #include "./preface/table-of-contents.typ"
 
 // Mainmatter
-
 #counter(page).update(1)
 
 #include "chapters/1_introduzione.typ"
@@ -21,14 +19,11 @@
 #include "chapters/8_problematiche_incontrate.typ"
 #include "chapters/9_conclusioni.typ"
 
-// // Appendix
-
+// Appendix
 // #include "./appendix/appendice-a.typ"
 
-// // Backmatter
-
-// // Praticamente il glossario
+// Backmatter
+#include "./appendix/glossario.typ"
 
 // Bibliography
-
-#include("./appendix/bibliography/bibliography.typ")
+#include "./appendix/bibliography/bibliography.typ"
