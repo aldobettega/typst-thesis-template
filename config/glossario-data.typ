@@ -39,6 +39,41 @@
     parola: "patch",
     desc: "Piccolo pezzo di codice o un file eseguibile progettato per aggiornare, correggere o migliorare un programma, un sistema operativo o il firmware.",
   ),
+  (
+    key: "teams",
+    parola: "Teams",
+    desc: "Piattaforma Microsoft di comunicazione e collaborazione unificata che combina chat di lavoro persistente, teleconferenza e condivisione di contenuti ",
+  ),
+  (
+    key: "notion",
+    parola: "Notion",
+    desc: "Applicazione web di produttività e gestione degli appunti, sviluppata da Notion Labs Inc. Lanciata nel 2016, Notion offre funzionalità per la creazione e l'organizzazione di note, documenti, database, bacheche Kanban e molto altro.",
+  ),
+  (
+    key: "angular",
+    parola: "Angular",
+    desc: "Framework open-source multipiattaforma sviluppato e mantenuto da Google (insieme a una community globale) per costruire applicazioni web dinamiche, scalabili e manutenibili, basate principalmente su TypeScript",
+  ),
+  (
+    key: "backend",
+    parola: "backend",
+    desc: "Parte di un'applicazione o di un sito web che gestisce la logica di business, il database e altre operazioni invisibili all'utente finale.",
+  ),
+  (
+    key: "fastapi",
+    parola: "FastApi",
+    desc: "Moderno framework web per Python utilizzato per costruire API ad alte prestazioni.",
+  ),
+  (
+    key: "refactoring",
+    parola: "refacoring",
+    desc: "Il refactoring è una tecnica di ingegneria del software che consiste nella ristrutturazione della struttura interna del codice sorgente con l'obiettivo principale di migliorare la leggibilità, la manutenibilità e l'efficienza del codice, rendendolo più pulito e facile da comprendere per gli sviluppatori.",
+  ),
+  (
+    key: "codebase",
+    parola: "codebase",
+    desc: "Il termine codebase, o code base, è usato nello sviluppo del software per indicare l'intera collezione di codice sorgente usata per costruire una particolare applicazione o un particolare componente",
+  ),
 )
 
 /*

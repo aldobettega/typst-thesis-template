@@ -1,7 +1,7 @@
 #import "variables.typ": myLang
 
 #let supervisor = (
-  "it" : "Relatore",
+  "it" : "Relatrice",
   "en" : "Supervisor",
 ).at(myLang)
 

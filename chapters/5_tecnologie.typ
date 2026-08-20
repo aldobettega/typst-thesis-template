@@ -1,2 +1,3 @@
-= Tecnologie usate
+#pagebreak(to:"odd")
 
+= Tecnologie usate

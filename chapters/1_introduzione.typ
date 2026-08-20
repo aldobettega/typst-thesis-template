@@ -10,7 +10,7 @@ specializzata nel fornire supporto e soluzioni avanzate per aiutare le organizza
 
 == L'idea del progetto
 
-Il progetto intende inserirsi nel contesto del #gls("vulnerability-assessment"), un campo nel quale al giorno d'oggi c'è il problema del vulnerability fatigue, dove la scoperta e risoluzione di minacce ed applicazione di #gls("patch") è un processo continuo senza sosta, che porta ad un overloading congnitivo da parte di chi deve assicurarsi che i sistemi siano aggiornati e superino un livello minimo di sicurezza.
+Il progetto intende inserirsi nel contesto del #gls("vulnerability-assessment"), un campo nel quale al giorno d'oggi c'è il problema del vulnerability fatigue, dove la scoperta e risoluzione di minacce ed applicazione di #gls("patch") è un processo continuo senza sosta, che porta ad un sovraccarico congnitivo da parte di chi deve assicurarsi che i sistemi siano aggiornati e superino un livello minimo di sicurezza.
 Per questo occorre ottimizzare l'efficacia delle risorse allocate nelle remediation, intervenendo con priorità.
 La piattaforma ha l'obiettivo affiancare l'analista di sicurezza nell'individuazione e gestione delle vulnerabilità più importanti, fornendo un contesto completo e attendibile. 
 

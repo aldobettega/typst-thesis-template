@@ -27,7 +27,7 @@
         #align(center, text(12pt, weight: "light", style: "italic", myDegree))
         #v(40pt)
 
-        // Relatore e laureando
+        // relatrice e laureando
         #align(left, text(12pt, weight: 400, style: "italic", supervisor))
         #v(5pt)
         #align(left, text(11pt, profTitle + myProf))

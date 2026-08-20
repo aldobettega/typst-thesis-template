@@ -16,7 +16,7 @@
 
 #v(3em)
 
-#text(style: "italic", "Innanzitutto, vorrei esprimere la mia gratitudine al " + profTitle + myProf + " relatore della mia tesi, per l'aiuto e il sostegno fornitomi durante la stesura del lavoro.")
+#text(style: "italic", "Innanzitutto, vorrei esprimere la mia gratitudine al " + profTitle + myProf + " relatrice della mia tesi, per l'aiuto e il sostegno fornitomi durante la stesura del lavoro.")
 
 #linebreak()
 
