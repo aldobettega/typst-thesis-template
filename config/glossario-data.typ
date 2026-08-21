@@ -74,6 +74,11 @@
     parola: "codebase",
     desc: "Il termine codebase, o code base, è usato nello sviluppo del software per indicare l'intera collezione di codice sorgente usata per costruire una particolare applicazione o un particolare componente",
   ),
+  (
+    key: "pipeline",
+    parola: "pipeline",
+    desc: "Catena di trasformazioni automatizzate che gestisce il ciclo di vita del software o un flusso dei dati",
+  ),
 )
 
 /*
