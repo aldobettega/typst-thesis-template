@@ -79,6 +79,31 @@
     parola: "pipeline",
     desc: "Catena di trasformazioni automatizzate che gestisce il ciclo di vita del software o un flusso dei dati",
   ),
+  (
+    key: "AI",
+    parola: "AI",
+    desc: [#emph("Artificial Intelligence") - sistema automatizzato, dotato di un certo grado di autonomia, progettato per operare in vista di obiettivi espliciti o impliciti, capace di generare, a partire dai dati in input, risultati sotto forma di previsioni, contenuti, raccomandazioni o decisioni, influenzando ambienti reali o virtuali. Nel presente testo, il termine è usato in senso estensivo per indicare l’impiego di modelli LLM come Gemini Flash nella generazione di contenuti testuali a partire da dati in input.],
+  ),
+  (
+    key: "ip",
+    parola: "IP",
+    desc: [#emph("Internet Protocol") - identificativo di un dispositivo all'interno di una rete.],
+  ),
+  (
+    key: "asset context",
+    parola: "asset context",
+    desc: "Insieme di parametri (quali ambiente, esposizione e criticità) che definiscono il profilo di rischio di un asset informatico. Consente di contestualizzare le vulnerabilità rilevate valutandone il potenziale impatto operativo reale.",
+  ),
+  (
+    key: "scanner",
+    parola: "scanner",
+    desc: [termine che indica scanner di vulnerabilità (come qualys) che consentono di rilevare le CVE associate alle CPE di un dispositivo],
+  ),
+  (
+    key: "docx",
+    parola: "DOCX",
+    desc: "formato di file predefinito per Microsoft Word, utilizzato per archiviare documenti di elaborazione testi contenenti testo formattato, immagini, tabelle e altri elementi multimediali.",
+  ),
 )
 
 /*
