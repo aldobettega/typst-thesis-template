@@ -103,9 +103,8 @@ A seguito dello studio del dominio del problema e della definizione dei processi
 
 == Requisiti Funzionali
 
-Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratti dai casi d'uso. Ogni requisito rappresenta una funzionalità atomica e testabile che il sistema deve implementare, fungendo da *to-do list* formale per lo sviluppatore durante la fase di codifica.
+Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratti dai casi d'uso.
 
-// Impostiamo l'intestazione in grassetto
 #show table.cell.where(y: 0): set text(weight: "bold")
 
 #table(

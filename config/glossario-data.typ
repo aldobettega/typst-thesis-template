@@ -104,6 +104,11 @@
     parola: "DOCX",
     desc: "formato di file predefinito per Microsoft Word, utilizzato per archiviare documenti di elaborazione testi contenenti testo formattato, immagini, tabelle e altri elementi multimediali.",
   ),
+  (
+    key: "sdk",
+    parola: "SDK",
+    desc: [#emph("Software Development Kit") - indica genericamente un insieme di strumenti per lo sviluppo],
+  ),
 )
 
 /*
