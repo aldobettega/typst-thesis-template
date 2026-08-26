@@ -90,7 +90,7 @@ Per lo sviluppo del backend si è adottato un approccio moderno basato su Python
 
 == Tecnologie Frontend
 
-In linea con il principio architetturale di mantenere il client come puro strato di visualizzazione (*Backend Source of Truth*), il frontend non contiene logiche di dominio o DTO intermedi, ma si limita a consumare gli schemi API esposti dal server[cite: 7]. Per lo sviluppo della Single Page Application (SPA) è stato impiegato il framework Angular.
+Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo vasto ecosistema di programmazione web (che include il routing nativo), una forte scalabilità per la sua architettura a componenti, per la presenza di pattern integrati nel sistema come l'iniezione delle dipendenze, e per l'uso di moderne liberie come RxJS per la programmazione reattiva.
 
 #v(1em)
 
@@ -110,39 +110,113 @@ In linea con il principio architetturale di mantenere il client come puro strato
   
   [TypeScript], 
   [~6.0.2], 
-  [Superset tipizzato di JavaScript utilizzato per tutto il codice applicativo. Garantisce un *type-checking* rigoroso e permette di mappare specularmente i modelli esposti dalle API JSON del backend[cite: 7].],
+  [Linguaggio utilizzato per il frontend che garantirearantisce un *type-checking* rigoroso, nativo del framework di Angular.],
   
   [HTML5 & CSS3], 
   [Nativi], 
-  [Linguaggi standard utilizzati per la strutturazione semantica della pagina e per il design (styling) dei componenti utente.],
+  [Linguaggi standard utilizzati per la strutturazione semantica della pagina e per il design dei componenti utente.],
 
   // -- SEZIONE 2: Framework Principale --
   table.cell(colspan: 3)[*Framework e Moduli Core*],
   
-  [\@angular/core], 
+  [angular], 
   [^22.0.0], 
-  [Core del framework Angular. Impiega le moderne primitive di reattività (`signal`, `computed`) e la *Dependency Injection* (`inject`) per una gestione dello stato performante e dichiarativa.],
-  
-  [\@angular/forms], 
-  [^22.0.0], 
-  [Modulo impiegato per la costruzione dei form reattivi (`ReactiveFormsModule`). Consente la gestione e la validazione sincrona di campi come l'inserimento dell'IP target e l'Asset Context.],
-  
-  [\@angular/router], 
-  [^22.0.0], 
-  [Sistema di routing ufficiale di Angular, utilizzato per la navigazione client-side senza ricaricamento della pagina (`RouterOutlet`, `RouterLink`).],
-  
-  [\@angular/common/http], 
-  [^22.0.0], 
-  [Modulo nativo (`provideHttpClient`) impiegato per le chiamate HTTP asincrone verso i servizi RESTful esposti dal backend[cite: 7].],
-
-  // -- SEZIONE 3: Dipendenze Ecosistema --
-  table.cell(colspan: 3)[*Dipendenze dell'Ecosistema*],
+  [Framework open source per lo sviluppo di Single-page application, è stato usato per realizzare il frontend dell'applicazione.],
   
   [RxJS], 
   [~7.8.0], 
   [Libreria per la programmazione reattiva basata su *Observable*, fondamentale per la gestione dei flussi asincroni e degli eventi nel framework Angular.],
+)
+
+== Altri Strumenti
+
+#v(1em)
+
+#table(
+  columns: (auto, auto, 1fr),
+  align: (col, row) => if col == 1 { center } else { left },
+  fill: (col, row) => if row == 0 { rgb("007373") } else { none },
+  stroke: 0.5pt + black,
   
-  [TSLib], 
-  [^2.3.0], 
-  [Libreria di runtime per TypeScript contenente funzioni helper necessarie per la corretta compilazione del codice applicativo.],
+  // -- INTESTAZIONE --
+  text(fill: white, weight: "bold")[Nome], 
+  text(fill: white, weight: "bold")[Versione], 
+  text(fill: white, weight: "bold")[Descrizione],
+
+  // -- SEZIONE 1: Linguaggi --
+  table.cell(colspan: 3)[*Linguaggi di Programmazione e Markup*],
+  
+  [Docker], 
+  [~6.0.2], 
+  [Linguaggio utilizzato per il frontend che garantirearantisce un *type-checking* rigoroso, nativo del framework di Angular.],
+  
+  [HTML5 & CSS3], 
+  [Nativi], 
+  [Linguaggi standard utilizzati per la strutturazione semantica della pagina e per il design dei componenti utente.],
+
+  // -- SEZIONE 2: Framework Principale --
+  table.cell(colspan: 3)[*Framework e Moduli Core*],
+  
+  [angular], 
+  [^22.0.0], 
+  [Framework open source per lo sviluppo di Single-page application, è stato usato per realizzare il frontend dell'applicazione.],
+  
+  [RxJS], 
+  [~7.8.0], 
+  [Libreria per la programmazione reattiva basata su *Observable*, fondamentale per la gestione dei flussi asincroni e degli eventi nel framework Angular.],
+)
+
+== Strumenti di Sviluppo e Ambiente
+
+Durante il ciclo di vita del software sono stati inoltre usati una serie di strumenti trasversali che hanno garantito un corretto sviluppo della piattaforma.
+
+#v(1em)
+
+#table(
+  columns: (auto, auto, 1fr),
+  align: (col, row) => if col == 1 { center } else { left },
+  fill: (col, row) => if row == 0 { rgb("007373") } else { none },
+  stroke: 0.5pt + black,
+  
+  // -- INTESTAZIONE --
+  text(fill: white, weight: "bold")[Nome], 
+  text(fill: white, weight: "bold")[Versione], 
+  text(fill: white, weight: "bold")[Descrizione],
+
+  // -- SEZIONE 1: Codifica e Versionamento --
+  table.cell(colspan: 3)[*Codifica e Versionamento*],
+  
+  [Visual Studio Code], 
+  [-], 
+  [Editor di codice sorgente avanzato utilizzato come ambiente di sviluppo integrato (IDE) principale, configurato con estensioni per il supporto nativo a Python, TypeScript e Typst.],
+  
+  [Git], 
+  [-], 
+  [Sistema di controllo di versione distribuito, impiegato per il tracciamento progressivo delle modifiche, la gestione dei *branch* e la storicizzazione sicura del progetto.],
+
+  // -- SEZIONE 2: Containerizzazione e Virtualizzazione --
+  table.cell(colspan: 3)[*Ambiente di Esecuzione e Test*],
+  
+  [Docker & Compose], 
+  [-], 
+  [Strumenti standard per la containerizzazione, impiegati per definire, creare e orchestrare i vari servizi dell'infrastruttura di backend, garantendone una semplice riproducibilità in locale.],
+  
+  [VMware], 
+  [-], 
+  [Software *hypervisor* utilizzato per l'esecuzione locale di macchine virtuali isolate. È risultato fondamentale per istanziare i *target* di test da analizzare tramite lo scanner.],
+
+  // -- SEZIONE 3: Progettazione e Documentazione --
+  table.cell(colspan: 3)[*Progettazione, Appunti e Documentazione*],
+  
+  [PlantUML], 
+  [-], 
+  [Strumento utilizzato per la modellazione e la generazione automatica di diagrammi architetturali.],
+  
+  [Notion], 
+  [-], 
+  [Piattaforma di produttività impiegata come *knowledge base* centralizzata per la raccolta degli appunti, la stesura dei requisiti e il tracciamento delle decisioni progettuali.],
+
+  [MkDocs], 
+  [-], 
+  [Generatore di siti web statici tipicamente usato per documentare il codice di progetti python tramite file in formato markdown.]
 )

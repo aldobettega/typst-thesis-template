@@ -40,6 +40,11 @@
     desc: "Piccolo pezzo di codice o un file eseguibile progettato per aggiornare, correggere o migliorare un programma, un sistema operativo o il firmware.",
   ),
   (
+    key: "patching",
+    parola: "patching",
+    desc: "Processo di risoluzione di un problema in modo reattivo.",
+  ),
+  (
     key: "teams",
     parola: "Teams",
     desc: "Piattaforma Microsoft di comunicazione e collaborazione unificata che combina chat di lavoro persistente, teleconferenza e condivisione di contenuti ",
@@ -108,6 +113,31 @@
     key: "sdk",
     parola: "SDK",
     desc: [#emph("Software Development Kit") - indica genericamente un insieme di strumenti per lo sviluppo],
+  ),
+  (
+    key: "core",
+    parola: "core",
+    desc: "Parte interna dell'architettura esagonale, include dominio, service e porte di inbound ed outbound per interfacciarsi con le tecnologie esterne.",
+  ),
+  (
+    key: "cvss",
+    parola: "CVSS",
+    desc: [#emph("Common Vulnerability Scoring System") - standard sviluppato da FIRTS per valutare la gravità delle vulnerabilità di sicurezza, assegnando un punteggio da 0,0 a 10,0.],
+  ),
+    (
+    key: "triage",
+    parola: "triage",
+    desc: "Nel campo del vulnerability assessment indica il processo di classificazione di vulnerabilità in classi di emergenza crescenti in base alla loro gravità",
+  ),
+  (
+    key: "epss",
+    parola: "EPSS",
+    desc: [#emph("Exploit Prediction Scoring System"), gestito da FIRST, stima la probabilità che una CVE venga sfruttata nei successivi 30 giorni.],
+  ),
+  (
+    key: "kev",
+    parola: "KEV",
+    desc: "Il CISA KEV è un catalogo di vulnerabilità note già sfruttate attivamente, indicando se l’exploit scoperto è già stato sfruttato.",
   ),
 )
 
