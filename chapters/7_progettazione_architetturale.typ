@@ -34,6 +34,9 @@ Il sistema è strutturato in livelli concentrici:
 \ 
 \
 Il diagramma raffigura la modellazione principale delle componenti di backend.
-\
-\
-L'inbound adapter
+
+
+Spiego:
+- pattern architetturali
+- esempi del merchè è modulare (ai, scanner factory)
+- struttura della pipeline: ordine di recupero e normalizzazione dati, utilizzo dei thread
