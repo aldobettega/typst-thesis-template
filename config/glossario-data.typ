@@ -139,6 +139,31 @@
     parola: "KEV",
     desc: "Il CISA KEV è un catalogo di vulnerabilità note già sfruttate attivamente, indicando se l’exploit scoperto è già stato sfruttato.",
   ),
+  (
+    key: "debugging",
+    parola: "debugging",
+    desc: "Indica l'attività che consiste nell'individuazione e correzione da parte del programmatore di uno o più errori (bug) rilevati nel software.",
+  ),
+  (
+    key: "nvd",
+    parola: "NVD",
+    desc: [#emph("Il National Vulnerability Database")  è un archivio gestito dal governo degli Stati Uniti e in particolare dal #emph("National Institute of Standards and Technology (NIST)") che raccoglie informazioni sulle vulnerabilità di sicurezza note.],
+  ),
+  (
+    key: "first",
+    parola: "FIRST",
+    desc: [#emph("Forum of Incident Response and Security Teams"): organizzazione globale leader nella risposta agli incidenti di sicurezza, che riunisce oltre 800 team di esperti per la cooperazione internazionale.],
+  ),
+  (
+    key: "cisa",
+    parola: "CISA",
+    desc: [La #emph("Cybersecurity and Infrastructure Security Agency") (CISA) è un'agenzia federale statunitense parte del Dipartimento della Sicurezza Interna responsabile per la sicurezza informatica e delle infrastrutture su suolo statunitense],
+  ),
+  (
+    key: "mock",
+    parola: "mock",
+    desc: "Oggetti fittizi che imitano il comportamento di oggetti reali in modo controllato.  Vengono utilizzati principalmente negli unit test per isolare il codice testato, simulando dipendenze complesse, non deterministiche o non ancora implementate (come database o API esterne)",
+  ),
 )
 
 /*

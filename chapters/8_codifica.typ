@@ -1,13 +1,27 @@
+#pagebreak(to:"odd")
 
-qui parlo di
+#import "../config/glossario-data.typ": gls
 
-- come è organizzato il codice di backend
-  - pattern di fastapi (router, depends per DI, config per env)
-  - pattern costruzione router per aggiornamenti api, preso da progetto di fastapi
-  - principi del clean code di suddivisione funzioni in sottofunzioni, mostrare degli esempi
-  - principi del clean code di gestione degli errori
-  - pydantic fuori dal dominio e mappers
+// = Codifica
+// qui parlo di
 
-- come è organizzato il codice di frontend
-  - observer pattern
-  - come funziona routing
+// - come è organizzato il codice di backend
+//   - pattern di fastapi (router, depends per DI, config per env)
+//   - pattern costruzione router per aggiornamenti api, preso da progetto di fastapi
+//   - principi del clean code di suddivisione funzioni in sottofunzioni, mostrare degli esempi
+//   - principi del clean code di gestione degli errori
+//   - pydantic fuori dal dominio e mappers
+
+// - come è organizzato il codice di frontend
+//   - observer pattern
+//   - come funziona routing
+
+= Implementazione e Scelte Tecnologiche
+
+== Disaccoppiamento dei modellazione
+
+== Single Responsability Principle
+
+== Esecuzione Asincrona e Threading
+
+== Implementazione frontend

@@ -3,9 +3,7 @@
 #v(3cm)
 
 #align(center, [
-    Dice l'uomo ragno...
-    #v(6pt)
-    #sym.dash#sym.dash#sym.dash Tullio Vardanega
+    Citazione
 ])
 
 #v(2cm)

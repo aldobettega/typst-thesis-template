@@ -18,7 +18,7 @@
         spacing: 0.55em,
         first-line-indent: 1.8em,
         justify: true)
-    set text(font: "New Computer Modern", size: 10pt, lang: myLang)
+    set text(font: "New Computer Modern", size: 12pt, lang: myLang)
     set heading(numbering: myNumbering)
     show raw: set text(size: 10pt, lang: myLang)
     //show par: set block(spacing: 0.55em)

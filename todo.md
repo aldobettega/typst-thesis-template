@@ -1,7 +1,7 @@
-- 21 ven: cap 4 adr
-- 22 sab: cap 5 tecnologie
-- 
-- 24 lun: cap 6: ambiente test 
-- 25 mar: cap 7: progettazione arc 
-- 26 mer: cap 6: ai 
-- 27 gio: cap 9, 10: problematiche conclusioni
+
+
+
+- progettazione
+- codifica
+- ai
+- conclusioni

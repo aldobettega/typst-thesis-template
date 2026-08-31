@@ -5,9 +5,8 @@
 #set page(numbering: "i")
 
 #align(right, [
-    #text(style: "italic", "Tieni l'infinito per ciò che lo merita...")
+    #text(style: "italic", "cit...")
     #v(6pt)
-    #sym.dash#sym.dash#sym.dash Tullio Vardanega
 ])
 
 #v(10em)
@@ -16,15 +15,15 @@
 
 #v(3em)
 
-#text(style: "italic", "Innanzitutto, vorrei esprimere la mia gratitudine al " + profTitle + myProf + " relatrice della mia tesi, per l'aiuto e il sostegno fornitomi durante la stesura del lavoro.")
+#text(style: "italic", "Innanzitutto, vorrei esprimere la mia gratitudine alla " + profTitle + myProf + " relatrice della mia tesi, per l'aiuto e il sostegno fornitomi durante la stesura del lavoro.")
 
 #linebreak()
 
-#text(style: "italic", "Desidero ringraziare con affetto i miei genitori per il sostegno, il grande aiuto e per essermi stati vicini in ogni momento durante gli anni di studio.")
+#text(style: "italic", "Desidero ringraziare ...")
 
 #linebreak()
 
-#text(style: "italic", "Ho desiderio di ringraziare poi i miei amici per tutti i bellissimi anni passati insieme e le mille avventure vissute.")
+#text(style: "italic", "Ringrazio anche...")
 
 #v(2em)
 

@@ -20,23 +20,63 @@ Questo strumento ha permesso di monitorare efficacemente lo stato di avanzamento
 
 Questo crono-programma veniva poi condiviso a fine settimana per mostrare il progresso raggiunto e condividere le attività che erano state più onerose, al fine di chiedere un consiglio ai colleghi più esperti per le problematiche ancora aperte.
 
-- *Prima settiamna*:\
-  è stato fatto uno studio approfondito delle tecnologie che sono state usate nel progetto, in particolare il framework di #gls("angluar"), con esercizi, tutorial e progetti didattici orientati alle parti del framework che avrei dovuto usare per sviluppare la piattaforma.
+=== Prima settimana
 
-- *Seconda settimana*:\
-  è stato affrontato il dominio del problema: sono stati studiati i concetti di cve e che cosa sia uno scanner. Questo studio è stato integrato dalla lettura di articoli scientifici inerenti alle tematiche del #gls("vulnerability-assessment") e della prioritizzazione del rischio.
+L'attività di tirocinio si è aperta con una fase di inserimento in azienda, focalizzata sull'acquisizione del metodo di lavoro e sulla strutturazione delle attività di sviluppo del progetto.
+In seguito è stato fatto uno studio approfondito delle principali tecnologie con le quali si sarebbe sviluppata la piattaforma, partendo dal framework di #gls("angular") e il suo linguaggio typescript.
+Lo studio teorico dei concetti è stato affiancato da esercizi, tutorial e progetti didattici orientati alla comprensione dei moduli principali del framework.
 
-- *Terza settimana*:\
-  è stata fatta un'analisi dei requisiti della piattaforma, delineando le principali funzionalità dell'applicazione e la sua interfaccia. Inoltre è stata iniziata la progettazione del sistema, definendo le classi di #gls("backend") e le componenti #gls("angular") con le loro principali funzioni. In aggiunta è stata progettata l'organizzazione della repo e dei suoi file, in modo da poter procedere con uno sviluppo il quanto più possibile ordinato ed efficiente.
+=== Seconda settimana
 
-- *Quarta settimana*:\
-  è continuato lo studio delle tecnologie al fine di comprendere i pattern di organizzazione del codice di #gls("angular") e #gls("fastapi"), in modo da utilizzarle nello sviluppo della piattaforma rispettando la progettazione architetturale.
+Durante la seconda settimana è continuato lo studio di #gls("angular"), vedendo concetti più avanzati come #emph("routing"), gli #emph("observer"), la #emph("dependency injecion").
+In seguito è stato affrontato il dominio del problema: sono stati studiati i concetti di #gls("cve") e #gls("cpe") e che cosa sia uno scanner di vulnerabilità. Questo studio è stato integrato dalla lettura di articoli scientifici inerenti alle tematiche del #gls("vulnerability-assessment") e della prioritizzazione del rischio.
 
-- *Quinta settimana*:\
-  è cominciata la codifica del prodotto partendo dalle funzionalità di #gls("backend"). Si è sviluppato in modo progressivo integrando man mano le parti che contribuissero al sistema di calcolo delle priorità, questa modularità ha facilitato la scrittura dei test e produrre risultati parziali ma concreti durante tutto il ciclo di implementazione.
 
-- *Sesta e settima settimana*:\
-  è stato creato l'ambiente di test delle macchine virtuali ed è stato integrato lo scanner #gls("qualys") nel sistema e l'utilizzo dell'AI per la generazione delle spiegazioni relative alle vulnerabilità.
+=== Terza settimana
 
-- *Ottava e nona settimana*:\
-  sono state dedicate al #gls("refactoring") del codice, rendendo più coerente la #gls("codebase"). È stata implementata gestione degli errori personalizzata e granulare, al fine di segnalare in modo preciso e completo all'utente quale parte avesse fallito durante la produzione del report delle vulnerabilità.
+In questo periodo è stato completato lo studio del dominio della piattaforma ed è inizata l'analisi dei requisiti della piattaforma, delineando le principali funzionalità dell'applicazione e la sua interfaccia.
+Contestualmente è stata fatta formazione riguardo alla piattaforma di #gls("qualys"), prodotto enterprise utilizzato dall'azienda per scansionare le vulnerabilità di dispositivi.
+È stata poi fatta della formazione sull'utilizzo di docker e docker compose, raffinando i concetti già presenti per avere un più consapevole utilizzo dello strumento.
+
+=== Quarta settimana
+
+Durante la quarta settimana è iniziata la progettazione del sistema, definendo le classi di #gls("backend") e le componenti #gls("angular") con le loro principali funzioni. Per formalizzare ed esporre i risultati del lavoro sono stato prodotti dei diagrammi in UML, per discutere della direzione progettuale e raffinare il lavoro compiuto.
+In aggiunta è stata progettata l'organizzazione della repo e dei suoi file, in modo da poter procedere con uno sviluppo il quanto più possibile ordinato ed efficiente.
+È continuato lo studio delle tecnologie al fine di comprendere i pattern di organizzazione del codice di #gls("angular") e #gls("fastapi"), in modo da utilizzarle nello sviluppo della piattaforma rispettando la progettazione architetturale.
+
+=== Quinta settimana
+
+In questo periodo è iniziata la codifica del prodotto, partendo dalle funzionalità di #gls("backend").
+Si è sviluppato in modo progressivo integrando man mano le parti che contribuissero al sistema di calcolo delle priorità, questa modularità ha facilitato la scrittura dei test e produrre risultati parziali ma concreti durante tutto il ciclo di implementazione.
+In particolare sono stati raggiunti questi obiettivi:
+- codifica della struttura di api di backend, dalla quale si interfaccerà il frontend
+- codifica del service principale che orchestra la pipeline di analisi
+- impostazione di interfaccia minimale per l'avvio di analisi dal web
+- integrazione degli adapter per il recupero di dati reali per l'analisi (#gls("kev"), #gls("epss"), #gls("cvss"))
+Per acellerare la codifica di questa parte e testare la validità degli studi fatti riguardo al dominio è stato fatto uso di fixture di dati (risposte sintentiche delle chiamate API dei vari servizi), in modo da strutturare la logica di backend anche senza avere le credenziali di qualys o claude.
+
+=== Sesta settimana
+
+Nella sesta settimana è stato integrato nel sistema l'#gls("AI"), tuttavia è stato necessario virare ad un modello gratuito come Gemini-Flash, per una mancanza di credenziali di un modello a pagamento come Claude Sonnet.
+L'utilizzo di un modello gratuito è stato fortemente limitante per un analisi accurata di tutte le #gls("cve") trovate dallo scanner. Per questo motivo nell'#gls("mvp") dimostrativo è stato necessario far generare una spiegazione solo alle cinque più gravi vulnerabilità del dispositivo target.
+In seguito è stato anche impostato l'ambiente di test con la macchina virtuale di #gls("qualys") con utenza al tenant cloud per interfacciarsi alle API di lancio analisi e recupero dati.
+
+=== Settima settimana
+
+Durante questa settimana è stato raffinato il recupero di informazioni tramite API, risolvendo un problema di limiti di richieste e numero di dati richiesti.
+In seguito è stato completato e stilizzato il frontend, pensato per essere piacevole e funzionale ad una figura come un analista di sicurezza, più precisamente sono state completate:
+- pagina di home con lista di scansioni completate.
+- pagina di lancio scansione, con pipeline visiva per monitorare l'avanzamento del processo.
+- pagina di report con una dettagliata spiegazione di come interpretare i dati forniti e una tabella dimostrativa e piacevole da consultare con funzionalità di ordinamento per campo dati selezionato.
+- bottone di esportazione con annessa funzionalità di creazione report in formato #gls("docx").
+
+=== Ottava settimana
+
+Durante questa fase, è stato progettato e implementato un sistema di gestione delle eccezioni personalizzato e granulare, al fine di segnalare in modo preciso e completo all'utente eventuali fallimenti durante la generazione del report delle vulnerabilità. Nello specifico sono state modellate delle classi di errore dedicate, sollevate in risposta a casi di errore di api esterne. Queste eccezioni vengono poi normalizzate in una struttura standardizzata, comprensiva di codice errore, descrizione ed altri parametri di contesto.
+Questo approccio serve sia per notificare correttamente l'utente e migliorare la #emph("user experienxe"), sia per agevolare lo sviluppatore in fase di #emph[#gls("debugging")] della piattaforma.
+
+=== Nona settimana
+
+Nell'ultima settimana è stato raffinato il lavoro compiuto, procedendo con un'attenta fase di #gls("refactoring") del codice.
+Questo intervento ha permesso di ordinare e modularizzare le funzioni presenti nella #gls("codebase"), garantendo un codice più pulito, coerente e facilmente manutenibile in vista di sviluppi futuri.
+È stato infine predisposto un sito web statico per la documentazione del codice, in modo da lasciare una guida di riferimento che può essere mantenuta per agevolare l'orientamento e l'intervento di futuri sviluppatori.
