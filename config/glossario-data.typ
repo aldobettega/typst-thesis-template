@@ -225,6 +225,11 @@
     parola: "pentesting",
     desc: "Pratica di sicurezza informatica che consiste nell'esecuzione di attacchi simulati e autorizzati contro sistemi, reti o applicazioni per identificare e sfruttare le vulnerabilità che un cybercriminale potrebbe utilizzare.",
   ),
+  (
+    key: "payload",
+    parola: "payload",
+    desc: "Porzione di un messaggio, pacchetto o trasmissione che contiene i dati effettivi destinati all'utente finale o all'applicazione.",
+  ),
 )
 
 /*

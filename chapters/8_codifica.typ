@@ -21,3 +21,5 @@
 == Pydantic fuori dal dominio
 
 == Single Responsability Principle
+
+== Gestione del CORS

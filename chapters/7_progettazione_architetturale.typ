@@ -151,14 +151,14 @@ Durante la progettazione sono state usate una serie di tecniche e design pattern
 
 Il principio di *inversione delle dipendenze* (#emph("Dependency Inversion Principle")) rappresenta il fondamento dell'architettura esagonale perchè rende possibile il disaccoppiamento tra modellazione del dominio e tecnologie esterne.
 In ThreatLens il nucleo applicativo, composto dalle classi di dominio e i servizi applicativi, non importa nessuna libreria esterna o tecnologia, ma fa uso solamente di moduli nativi del linguaggio python.
-I servizi applicativi, per ottenere i dati necessari al calcolo, non eseguono direttamente chiamate API, ma fanno riferimento a interfacce astratte (le #emph("outbound ports")) che espongono dei metodi generici (per esempio `fetch_data()` o `scan()`)) la cui implementazione sarà gestita da un modulo esterno al #emph("core").
+I servizi applicativi, per ottenere i dati necessari al calcolo, non eseguono direttamente chiamate #gls("api"), ma fanno riferimento a interfacce astratte (le #emph("outbound ports")) che espongono dei metodi generici (per esempio `fetch_data()` o `scan()`)) la cui implementazione sarà gestita da un modulo esterno al #emph("core").
 Questo approccio ha tre principali vantaggi:
 
-- *Alta testabilità*: per testare un servizio applicativo non è necessario istanziare l'infrastruttura reale, ma basterà iniettare un componente fittizzio (un #gls[#emph("mock")]).
+- *Alta testabilità*: per testare un servizio applicativo non è necessario istanziare l'infrastruttura reale, ma basterà iniettare un componente fittizzio (un #emph[#gls("mock")]).
 
-- *Iisolamento degli errori*: la maggior parte delle criticità in un sistema deriva dall'interazione con tecnolgie esterne (es. timeout di rete, deserializzazione di payload imprevisti o librerie che possono variare e diventare incompatibili con il nostro sistema). Isolandole in un modulo esterno è possibile gestire in modo più efficace e ordinato questi errori, senza inquinare internamente la logica del sistema.
+- *Iisolamento degli errori*: la maggior parte delle criticità in un sistema deriva dall'interazione con tecnolgie esterne (es. #emph("timeout") di rete, deserializzazione di #emph[#gls("payload")] imprevisti o librerie che possono variare e diventare incompatibili con il nostro sistema). Isolandole in un modulo esterno è possibile gestire in modo più efficace e ordinato questi errori, senza inquinare internamente la logica del sistema.
 
-- *Modularità*: se si vuole cambiare tecnologia basta scrivere un altro adapter dedicato, senza dover modificare la logica interna del sistema. Questa flessibilità si è rivelata utile anche in fase di sviluppo, consentendo lo sviluppo del #emph("core") tramite adattatori #emph("dummy") (es. oggetti che ritornano risposte fittizzie simulando le API esterne) per verificare il funzionamento interno del sistema e man mano integrare le tencologie esterne con moduli reali.
+- *Modularità*: se si vuole cambiare tecnologia basta scrivere un altro adapter dedicato, senza dover modificare la logica interna del sistema. Questa flessibilità si è rivelata utile anche in fase di sviluppo, consentendo lo sviluppo del #emph("core") tramite adattatori #emph("dummy") (es. oggetti che ritornano risposte fittizzie simulando le #gls("api") esterne) per verificare il funzionamento interno del sistema e man mano integrare le tencologie esterne con moduli reali.
 
 === Estensibilità tramite Strategy e Registry
 
@@ -170,11 +170,11 @@ Questa responsabilità è dello `ScannerRegistryAdapter` che concretizza l'inter
 A differenza dei pattern creazionali come il #emph("Factory"), che gestiscono l'istanziazione di nuovi oggetti, il #emph("Registry") opera esclusivamente come risolutore di dipendenze.
 Lo `ScannerRegistryAdapter` riceve tramite #emph("Dependency Injection") istanze di adattatori già configurate e create all'avvio dell'applicazione dal #emph("Composition Root") (rappresentato nel sistema dal file `dependencies.py` di #gls("fastapi")).
 
-== Modellazione della Pipeline di Assessment
+== Modellazione della #gls("pipeline") di assessment
 
-La pipeline di Assessment è il motore del sistema che colleziona dati da una serie di servizi esterni e da questi ne calcola un report finale ordinato.
+La #gls("pipeline") di assessment è il motore del sistema che colleziona dati da una serie di servizi esterni e da questi ne calcola un report finale ordinato.
 La classe che orchestra queste operazioni è l'`AssessmentApplicationService` che fa partire l'analisi con il metodo `start_assessment`.
-Il processo della pipeline richiede diversi minuti, dunque è stato gestito attraverso l'utilizzo dei #emph("thread") di python.
+Il processo della #gls("pipeline") richiede diversi minuti, dunque è stato gestito attraverso l'utilizzo dei #emph("thread") di Python.
 Nel thread viene avviato in background il metodo `run_pipeline` che consta di cinque fasi:
 + scansione
 + enrichment
@@ -182,7 +182,7 @@ Nel thread viene avviato in background il metodo `run_pipeline` che consta di ci
 + generazione della spiegazione con l'#gls("AI")
 + creazione del report
 
-Nell'implementazione si è cercato di rispettare il single responsability principle, infatti come si può notare dalla struttura della pipeline, nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabiità e gestione degli errori.
+Nell'implementazione si è cercato di rispettare il single responsability principle, infatti come si può notare dalla struttura della #gls("pipeline"), nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabiità e gestione degli errori.
 
 === Fase 1: Scansione
 
@@ -231,5 +231,5 @@ Come ultima fase vi è la creazione di un report riassuntivo. Il metodo `_genera
 
 === Principi di design nel #gls("frontend")
 ==== Observer pattern
-==== Gestione del CORS
+
 
