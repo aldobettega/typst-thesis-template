@@ -5,12 +5,12 @@
 = Progettazione Architetturale
 
 L'obiettivo della fase di progettazione è stato delineare la struttura di un sistema in grado di rispettare i requisiti derivati dalla fase di studio del dominio.
-La fase iniziale è stata dedicata alla strutturazione del backend, costruendo i diagrammi delle classi per modellare le principali entità del sistema. A questa fase è stata data particolare attenzione poichè è il backend che contiene tutta la logica del sistema, il recupero dati e il motore di classificazione delle vulnerabilità, delegando al frontend solo la parte di interfaccia.
-Successivamente è stato strutturato il frontend, ricercando quali fossero i pattern più usati nel framework di Angular per strutturare correttamente un'interfaccia web.
+La fase iniziale è stata dedicata alla strutturazione del #gls("backend"), costruendo i diagrammi delle classi per modellare le principali entità del sistema. A questa fase è stata data particolare attenzione poichè è il #gls("backend") che contiene tutta la logica del sistema, il recupero dati e il motore di classificazione delle vulnerabilità, delegando al #gls("frontend") solo la parte di interfaccia.
+Successivamente è stato strutturato il #gls("frontend"), ricercando quali fossero i pattern più usati nel framework di Angular per strutturare correttamente un'interfaccia web.
 
-== Architettura di Backend: Ports & Adapters
+== Architettura di #gls("backend"): Ports & Adapters
 
-Il backend è stato modellato con un'architettura esagonale, conosciuta anche come #emph("Ports & Adapters"). Questo tipo di struttura ha come obiettivo primario isolare la logica di business, garantendo un'elevata testabilità e indipendenza da tecnologie esterne. Il #emph([#gls("core")]) in questo modo risulta completamente agnostico rispetto ai dettagli implementativi di framework, database o provider di dati esterni.
+Il #gls("backend") è stato modellato con un'architettura esagonale, conosciuta anche come #emph("Ports & Adapters"). Questo tipo di struttura ha come obiettivo primario isolare la logica di business, garantendo un'elevata testabilità e indipendenza da tecnologie esterne. Il #emph([#gls("core")]) in questo modo risulta completamente agnostico rispetto ai dettagli implementativi di framework, database o provider di dati esterni.
 Il sistema è strutturato in livelli concentrici:
 
 - #emph("Domain"): rappresenta il nucleo dell'architettura, contiene le entità (modellate tramite classi) sulle quali si basa tutto il sistema ed è privo di dipendenze esterne.
@@ -21,7 +21,7 @@ Il sistema è strutturato in livelli concentrici:
 
 - #emph("Adapters"): rappresentano lo strato più esterno e operando come traduttori tra le tecnologie specifiche ed il nucleo. Si suddividono in #emph("Inbound Adapters") (guidano l'input invocando le #emph("Inbound Ports")) e #emph("Outbound Adapters") (vengono guidati dall'applicazione per interagire con l'infrastruttura esterna tramite le #emph("Outbound Ports")).
 
-=== Diagramma delle classi di backend
+=== Diagramma delle classi di #gls("backend")
 \
 \
 
@@ -32,28 +32,9 @@ Il sistema è strutturato in livelli concentrici:
   )
 ]
 
-=== Servizi Applicativi
-
-==== AssessmentApplicationService
-
-L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione. Gestisce i tre casi d'uso principali, organizzando tutto il ciclo di vita dell'applicazione.
-\ \ 
-- `start_assessment(request: AssessmentRequest) -> AssessmentResponse:`
-  \ \
-  crea l'analisi e chiama in background la pipeline di esecuzione, in questo modo il backend non è bloccato durante l'esecuzione e può gestire altre richieste da parte del frontend. Ritorna al frontend l'id dell'analisi creata, in modo che lo possa usare per chiederne lo stato e recuperarne il report.
-\ \
-- `get_status(self, analysis_id: str) -> Pipeline:`
-  \ \
-  utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi 
-
-==== PriorityEngine
-
-Il `PriorityEnginer` è una classe di supporto all'`AssessmentApplicationService` che incapsula la logica di calcolo della priorità di ThreatLens.
-Questa classe modella il #emph("decision tree") descritto in @VMC
-
 === Inbound Adapters
 
-L'unico Inbound Adater è l'`AssessmentRouter`, responsabile dell'esposizione delle API di backend al frontend.
+L'unico Inbound Adater è l'`AssessmentRouter`, responsabile dell'esposizione delle API di #gls("backend") al #gls("frontend").
 Questo modulo delega la validazione dei dati in ingresso e uscita agli schemi pydantic. Questa scelta protegge il core dell'applicazione e lo isola completamente.
 I metodi principali di questa classe sono:
 \
@@ -64,7 +45,7 @@ I metodi principali di questa classe sono:
     ) -> AssessmentResponseSchema:`\ \
   Avvia l'esecuzione della pipeline ricevendo in input l'IP e le informazioni di contesto del dispositivo target.
   Poichè la produzione del report è un'operazione che richiede diversi minuti per completarsi, la funzione non ritorna il report finale, ma lancia il processo in background e ne ritorna l'id.
-  In questo modo il frontend può effettuare un polling periodico per monitorare lo stato dell'operazione e mostrare all'utente gli avanzamenti di essa.
+  In questo modo il #gls("frontend") può effettuare un polling periodico per monitorare lo stato dell'operazione e mostrare all'utente gli avanzamenti di essa.
 \
 - `get_status(
         analysis_id: str,
@@ -99,6 +80,25 @@ I metodi principali di questa classe sono:
   \ \
   Dato l'id di un'analisi e l'estensione richiesta (nell'MVP l'unico formato disponibile è #gls("docx")), ne ritorna il file scaricabile.
 
+=== Servizi Applicativi
+
+==== AssessmentApplicationService
+
+L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione. Gestisce i tre casi d'uso principali, organizzando tutto il ciclo di vita dell'applicazione.
+\ \ 
+- `start_assessment(request: AssessmentRequest) -> AssessmentResponse:`
+  \ \
+  crea l'analisi e chiama in background la pipeline di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'id dell'analisi creata, in modo che lo possa usare per chiederne lo stato e recuperarne il report.
+\ \
+- `get_status(self, analysis_id: str) -> Pipeline:`
+  \ \
+  utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi 
+
+==== PriorityEngine
+
+Il `PriorityEnginer` è una classe di supporto all'`AssessmentApplicationService` che incapsula la logica di calcolo della priorità di ThreatLens.
+Questa classe modella il #emph("decision tree") descritto in @VMC. 
+
 === Outbound Adapters
 
 ==== Scanner
@@ -113,7 +113,7 @@ L'adapter deve implementare il metodo della porta:
 
 L'adapter `InMemoryAnalysisStore` gestisce la persistenza volatile delle `StoredAnalysis`, contenenti i risultati di un'analisi prodotti al termine della #gls("pipeline").
 Mette a disposizione metodi di lettura e scrittura dell'oggetto:
-
+\ \
 - `get_analysis(analysis_id: str) -> StoredAnalysis`: \
   ritorna l'oggetto desiderato tramite il suo id\ \
 
@@ -143,7 +143,7 @@ Il `GeminiExplanationAdapter` adapter contretizza l'interfaccia definita in `AiE
 \ \
 Questo metodo riceve in input l'output delle fasi precedenti della #gls("pipeline"): una lista di vulnerabilità già prioritizzate e arricchite con le relative metriche di contesto. Restituisce una struttura dati indicizzata (`ExplanationById`) che mappa l'identificativo di ciascuna vulnerabilità al resoconto testuale generato dall'Intelligenza Artificiale.
 
-== Principi di Design e Modularità
+== Principi di Design e Modularità nel #gls("backend")
 
 Durante la progettazione sono state usate una serie di tecniche e design pattern volti a risolvere specifiche sfide implementative. L'applicazione di queste soluzioni ha permesso di strutturare il sistema in modo solido ed efficace, garantendo maggiore modularità e manutenibilità.
 
@@ -200,48 +200,36 @@ Ne risulta una lista di `EnrichedVulnerability` che contiene degli elementi indi
 
 === Fase 3: Calcolo della priorità
 
-Questa fase è gestita dalla funzione `_calculate_priority` che utilizza una classe 
- 
+Questa fase è affidata al metodo `_calculate_priority`. La computazione è delegata al componente `PriorityEngine`, che incapsula la logica del #emph[#gls("decision-tree")] descritta in @VMC.
+
+L'elaborazione restituisce una lista di `PrioritizedVulnerability`. Ad ogni vulnerabilità viene assegnata una `OperationalPriority` che ne categorizza la gravità in ordine crescente:
+- `TRACK`
+- `TRACK*`
+- `ATTEND`
+- `ACT`
+
+==== Fase 4: Generazione della spiegazione con l'#gls("AI")
+
+Dopo aver ottenuto tutti i dati necessari all'analisi di una #gls("cve"), l'#gls("AI") ha il compito di produrre una spiegazione sintetica in linguaggio naturale, con l'obiettivo di fornire un chiaro contesto della situazione motivando la priorità operativa assegnata dal `PriorityEngine`. La logica di questa fase risiede nel metodo `_generate_ai_explanation` che ha la responsabilità di utilizzare il metodo dell'`AiExplanationPort`, gestendone correttamente la risposta.
+Per una questione di performance, nell'#gls("mvp") vengono analizzate solamente le prime cinque vulnerabilità più gravi.
+Queste vengono date all'`_ai_explanation_provider` che tramite il metodo `generate_explanation_bulk` genera le spiegazioni necessarie a costruire la lista di `ExplainedVulnerability`.
+
+==== Fase 5: Creazione del report
+
+Come ultima fase vi è la creazione di un report riassuntivo. Il metodo `_generate_report` ha il compito di aggiornare lo stato della #gls("pipeline") a `COMPLETED` e salvare in memoria l'oggetto finale, il `VulnerabilityReport`, con un identificativo grazie al quale sarà possibile recuperarlo e mostrarlo all'utente.
+
+=== Architettura di gestione degli errori
 
 
-
-La generazione di un report di vulnerabilità è intrinsecamente un'operazione #emph("time-consuming"), in quanto richiede l'interazione sequenziale con molteplici provider esterni e l'elaborazione di ampi volumi di dati. Per gestire questa complessità, il sistema non si limita a un'esecuzione procedurale sincrona, ma modella il processo attraverso una #emph("pipeline") asincrona orchestrata dal modulo `AssessmentApplicationService`.
-
-=== Esecuzione Asincrona e Macchina a Stati
-
-Per garantire la reattività dell'infrastruttura di backend e non mantenere bloccato il *thread* della richiesta HTTP, il metodo d'ingresso della *pipeline* innesca l'esecuzione su un *thread* demone in #emph("background"), restituendo immediatamente al *client* l'identificativo univoco dell'analisi[cite: 2].
-
-Il ciclo di vita di questo processo in *background* è stato modellato rigorosamente come una macchina a stati. Il dominio definisce il macro-stato dell'operazione (`PipelineState`: in esecuzione, completata o fallita) e il passo atomico attualmente in elaborazione (`PipelineStepType`)[cite: 2]. 
-Durante l'esecuzione, il sistema transita sequenzialmente attraverso le seguenti fasi[cite: 2]:
-+ *Scanning*: avvio e attesa della scansione delle vulnerabilità sul target.
-+ *Enrichment*: arricchimento dei #emph("finding") con metriche di contesto (CVSS, EPSS, KEV).
-+ *Priority Calculation*: elaborazione algoritmica della priorità operativa.
-+ *AI Explanation*: generazione dell'argomentazione in linguaggio naturale.
-+ *Report Generation*: consolidamento dei dati in un documento finale.
-
-L'aggiornamento costante di questi stati su una memoria persistente abilita il pattern architetturale del #emph("polling"): il *frontend* può interrogare deterministicamente il sistema per conoscere lo stato di avanzamento e fornire un #emph("feedback") reattivo all'utente[cite: 2].
-
-=== Single Responsibility Principle nell'Orchestrazione
-
-L'implementazione del flusso rispetta rigorosamente il #emph("Single Responsibility Principle") (SRP)[cite: 2]. Il metodo principale, `_run_pipeline`, non contiene alcuna logica di *business* o di trasformazione dei dati, ma agisce puramente da orchestratore ad alto livello[cite: 2]. 
-
-Esso delega l'effettiva computazione a una serie di metodi privati (come `_scan`, `_enrich_with_data` e `_calculate_priority`), ciascuno dei quali è responsabile unicamente di una singola fase e dell'interazione con la specifica porta di riferimento[cite: 2]. Questa atomizzazione della logica garantisce un'elevata coesione interna e abbatte l'accoppiamento: eventuali modifiche alla logica di arricchimento non intaccano in alcun modo il flusso di calcolo della priorità o le funzioni di *routing*[cite: 2].
-
-=== Resilienza e Fault Tolerance
-
-Uno degli aspetti architetturali più critici della *pipeline* è la sua resilienza ai guasti, differenziata in base alla gravità dell'anomalia rilevata[cite: 2].
-Il sistema distingue architetturalmente due tipologie di fallimento:
-
-- *Fallimenti bloccanti (PipelineFailure):* Se un'operazione fondamentale fallisce (ad esempio, lo scanner va in errore o l'algoritmo di prioritizzazione riceve dati corrotti), i singoli metodi sollevano eccezioni specifiche[cite: 2]. L'orchestratore intercetta tali eccezioni e transita immediatamente la macchina a stati in condizione `FAILED`, interrompendo l'esecuzione e salvando i dettagli dell'errore per agevolare il *debugging*[cite: 2].
-- *Degradazione morbida (Graceful Degradation):* Fasi dipendenti da API esterne, come il recupero dei punteggi EPSS o la generazione della spiegazione tramite intelligenza artificiale, sono state progettate per essere tolleranti ai guasti infrastrutturali[cite: 2]. Qualora si verifichi un *timeout* di rete (`InfrastructureError`), la *pipeline* non si interrompe[cite: 2]. Il sistema cattura l'eccezione, registra un #emph("Warning") (anomalia non bloccante) associato a quella specifica fase e procede fornendo un report parziale[cite: 2]. Questo approccio garantisce che una momentanea indisponibilità di un *provider* terzo non vanifichi l'intero *assessment*, preservando la disponibilità del servizio[cite: 2].
-
-== Architettura di frontend
+== Architettura di #gls("frontend")
 
 === Diagramma delle classi
-
 ==== Service Model
 ==== Facade
 ==== ViewModel
 ==== View
 
+=== Principi di design nel #gls("frontend")
+==== Observer pattern
+==== Gestione del CORS
 

@@ -6,7 +6,7 @@
 
 == Tecnologie Backend
 
-Per lo sviluppo del backend si è adottato un approccio moderno basato su Python, impiegando framework ad alte prestazioni e librerie fortemente tipizzate. Di seguito sono riportate le tecnologie e dipendenze che compongono l'infrastruttura lato server.
+Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato su Python. Di seguito sono riportate le tecnologie e dipendenze che compongono l'infrastruttura lato server.
 
 #v(1em)
 
@@ -26,9 +26,9 @@ Per lo sviluppo del backend si è adottato un approccio moderno basato su Python
   
   [Python], 
   [3.12], 
-  [Linguaggio di programmazione utilizzato per il backend, scelto per il suo ampio numero di librerie, la velocità di sviluppo e poichè è il linguaggio di FastAPI, uno dei principali framework di backend.],
+  [Linguaggio di programmazione utilizzato per il #gls("backend"), scelto per il suo ampio numero di librerie, la velocità di sviluppo e poichè è il linguaggio di FastAPI, uno dei principali framework di #gls("backend").],
   
-  [Docker & Compose], 
+  [Docker & Docker Compose], 
   [-], 
   [Piattaforma di containerizzazione utilizzata per l'isolamento dell'ambiente di esecuzione e l'orchestrazione dei servizi collegati.],
 
@@ -48,7 +48,7 @@ Per lo sviluppo del backend si è adottato un approccio moderno basato su Python
   
   [Pydantic], 
   [2.13.4], 
-  [Libreria per la validazione rigida e type-safe. Viene utilizzato per validare tutti i dati in entrata e in uscita del backend, supportata nativamente da FastAPI.],
+  [Libreria per la validazione rigida e type-safe. Viene utilizzato per validare tutti i dati in entrata e in uscita del #gls("backend"), supportata nativamente da FastAPI.],
   
   [Pydantic Settings], 
   [2.14.2], 
@@ -119,45 +119,7 @@ Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo
   // -- SEZIONE 2: Framework Principale --
   table.cell(colspan: 3)[*Framework e Moduli Core*],
   
-  [angular], 
-  [^22.0.0], 
-  [Framework open source per lo sviluppo di Single-page application, è stato usato per realizzare il frontend dell'applicazione.],
-  
-  [RxJS], 
-  [~7.8.0], 
-  [Libreria per la programmazione reattiva basata su *Observable*, fondamentale per la gestione dei flussi asincroni e degli eventi nel framework Angular.],
-)
-
-== Altri Strumenti
-
-#v(1em)
-
-#table(
-  columns: (auto, auto, 1fr),
-  align: (col, row) => if col == 1 { center } else { left },
-  fill: (col, row) => if row == 0 { rgb("007373") } else { none },
-  stroke: 0.5pt + black,
-  
-  // -- INTESTAZIONE --
-  text(fill: white, weight: "bold")[Nome], 
-  text(fill: white, weight: "bold")[Versione], 
-  text(fill: white, weight: "bold")[Descrizione],
-
-  // -- SEZIONE 1: Linguaggi --
-  table.cell(colspan: 3)[*Linguaggi di Programmazione e Markup*],
-  
-  [Docker], 
-  [~6.0.2], 
-  [Linguaggio utilizzato per il frontend che garantirearantisce un *type-checking* rigoroso, nativo del framework di Angular.],
-  
-  [HTML5 & CSS3], 
-  [Nativi], 
-  [Linguaggi standard utilizzati per la strutturazione semantica della pagina e per il design dei componenti utente.],
-
-  // -- SEZIONE 2: Framework Principale --
-  table.cell(colspan: 3)[*Framework e Moduli Core*],
-  
-  [angular], 
+  [Angular], 
   [^22.0.0], 
   [Framework open source per lo sviluppo di Single-page application, è stato usato per realizzare il frontend dell'applicazione.],
   
@@ -192,20 +154,47 @@ Durante il ciclo di vita del software sono stati inoltre usati una serie di stru
   
   [Git], 
   [-], 
-  [Sistema di controllo di versione distribuito, impiegato per il tracciamento progressivo delle modifiche, la gestione dei *branch* e la storicizzazione sicura del progetto.],
+  [Sistema di controllo di versione distribuito, impiegato per il tracciamento progressivo delle modifiche, la gestione dei #emph("branch") e la storicizzazione sicura del progetto.],
 
   // -- SEZIONE 2: Containerizzazione e Virtualizzazione --
   table.cell(colspan: 3)[*Ambiente di Esecuzione e Test*],
   
-  [Docker & Compose], 
-  [-], 
-  [Strumenti standard per la containerizzazione, impiegati per definire, creare e orchestrare i vari servizi dell'infrastruttura di backend, garantendone una semplice riproducibilità in locale.],
-  
   [VMware], 
   [-], 
-  [Software *hypervisor* utilizzato per l'esecuzione locale di macchine virtuali isolate. È risultato fondamentale per istanziare i *target* di test da analizzare tramite lo scanner.],
+  [Software #emph("hypervisor") utilizzato per l'esecuzione locale di macchine virtuali isolate. È risultato fondamentale per istanziare i target di test da analizzare tramite lo scanner.],
 
-  // -- SEZIONE 3: Progettazione e Documentazione --
+  [Qualys Virtual Scanner], 
+  [-], 
+  [Appliance virtuale fornita da Qualys, eseguita in locale per materializzare le scansioni sui target interni comunicando con l'infrastruttura Cloud.],
+
+  [Metasploitable 2], 
+  [-], 
+  [Macchina virtuale basata su Linux, intenzionalmente vulnerabile. È stata impiegata come ambiente #emph("target") controllato per validare l'effettivo rilevamento delle minacce.],
+
+  // -- SEZIONE 3: Servizi Esterni e API --
+  table.cell(colspan: 3)[*Servizi Esterni e API*],
+
+  [Qualys Tenant API], 
+  [-], 
+  [Interfaccia REST esposta dal Cloud Qualys per orchestrare il processo di scansione, inviare comandi all'appliance locale ed estrarre i referti tecnici.],
+  
+  [Google AI API], 
+  [-], 
+  [Servizio di intelligenza artificiale interrogato per generare la spiegazione contestuale delle vulnerabilità rilevate, sfruttando avanzati modelli linguistici.],
+
+  [NVD API], 
+  [-], 
+  [API del National Vulnerability Database interrogata per recuperare le metriche base e il punteggio di severità (#gls("cvss")) associato alle singole vulnerabilità.],
+
+  [CISA KEV Catalog], 
+  [-], 
+  [Catalogo fornito dalla CISA e interrogato tramite feed JSON per verificare in modo deterministico se una specifica vulnerabilità risulta attivamente sfruttata (#emph("Exploited")).],
+
+  [FIRST EPSS API], 
+  [-], 
+  [Endpoint REST fornito dal framework FIRST per il recupero dell'#gls("epss"), utilizzato per stimare la probabilità di sfruttamento di una falla entro 30 giorni.],
+
+  // -- SEZIONE 4: Progettazione e Documentazione --
   table.cell(colspan: 3)[*Progettazione, Appunti e Documentazione*],
   
   [PlantUML], 
@@ -214,9 +203,9 @@ Durante il ciclo di vita del software sono stati inoltre usati una serie di stru
   
   [Notion], 
   [-], 
-  [Piattaforma di produttività impiegata come *knowledge base* centralizzata per la raccolta degli appunti, la stesura dei requisiti e il tracciamento delle decisioni progettuali.],
+  [Piattaforma di produttività impiegata come #emph("knowledge base") centralizzata per la raccolta degli appunti, la stesura dei requisiti e il tracciamento delle decisioni progettuali.],
 
   [MkDocs], 
   [-], 
-  [Generatore di siti web statici tipicamente usato per documentare il codice di progetti python tramite file in formato markdown.]
+  [Generatore di siti web statici tipicamente usato per documentare il codice di progetti Python tramite file in formato Markdown.]
 )

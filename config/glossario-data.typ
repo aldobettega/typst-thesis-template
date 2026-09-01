@@ -12,7 +12,7 @@
   (
     key: "cpe",
     parola: "CPE",
-    desc: "Le Common Platform Enumeration sono stringhe standardizzate utilizzae per identificare in modo univoco hardware, software e sistemi operativi all’interno di un’infrastrutttura",
+    desc: "Le Common Platform Enumeration sono stringhe standardizzate utilizzae per identificare in modo univoco hardware, software e sistemi operativi all’interno di un’infrastruttura.",
   ),
   (
     key: "ctem",
@@ -47,7 +47,7 @@
   (
     key: "teams",
     parola: "Teams",
-    desc: "Piattaforma Microsoft di comunicazione e collaborazione unificata che combina chat di lavoro persistente, teleconferenza e condivisione di contenuti ",
+    desc: "Piattaforma Microsoft di comunicazione e collaborazione unificata che combina chat di lavoro persistente, teleconferenza e condivisione di contenuti.",
   ),
   (
     key: "notion",
@@ -57,7 +57,7 @@
   (
     key: "angular",
     parola: "Angular",
-    desc: "Framework open-source multipiattaforma sviluppato e mantenuto da Google (insieme a una community globale) per costruire applicazioni web dinamiche, scalabili e manutenibili, basate principalmente su TypeScript",
+    desc: "Framework open-source multipiattaforma sviluppato e mantenuto da Google (insieme a una community globale) per costruire applicazioni web dinamiche, scalabili e manutenibili, basate principalmente su TypeScript.",
   ),
   (
     key: "backend",
@@ -77,12 +77,12 @@
   (
     key: "codebase",
     parola: "codebase",
-    desc: "Il termine codebase, o code base, è usato nello sviluppo del software per indicare l'intera collezione di codice sorgente usata per costruire una particolare applicazione o un particolare componente",
+    desc: "Il termine codebase, o code base, è usato nello sviluppo del software per indicare l'intera collezione di codice sorgente usata per costruire una particolare applicazione o un particolare componente.",
   ),
   (
     key: "pipeline",
     parola: "pipeline",
-    desc: "Catena di trasformazioni automatizzate che gestisce il ciclo di vita del software o un flusso dei dati",
+    desc: "Catena di trasformazioni automatizzate che gestisce il ciclo di vita del software o un flusso dei dati.",
   ),
   (
     key: "AI",
@@ -102,7 +102,7 @@
   (
     key: "scanner",
     parola: "scanner",
-    desc: [termine che indica scanner di vulnerabilità (come qualys) che consentono di rilevare le CVE associate alle CPE di un dispositivo],
+    desc: [termine che indica scanner di vulnerabilità (come qualys) che consentono di rilevare le CVE associate alle CPE di un dispositivo.],
   ),
   (
     key: "docx",
@@ -112,7 +112,7 @@
   (
     key: "sdk",
     parola: "SDK",
-    desc: [#emph("Software Development Kit") - indica genericamente un insieme di strumenti per lo sviluppo],
+    desc: [#emph("Software Development Kit") - indica genericamente un insieme di strumenti per lo sviluppo.],
   ),
   (
     key: "core",
@@ -157,12 +157,73 @@
   (
     key: "cisa",
     parola: "CISA",
-    desc: [La #emph("Cybersecurity and Infrastructure Security Agency") (CISA) è un'agenzia federale statunitense parte del Dipartimento della Sicurezza Interna responsabile per la sicurezza informatica e delle infrastrutture su suolo statunitense],
+    desc: [La #emph("Cybersecurity and Infrastructure Security Agency") (CISA) è un'agenzia federale statunitense parte del Dipartimento della Sicurezza Interna responsabile per la sicurezza informatica e delle infrastrutture su suolo statunitense.],
   ),
   (
     key: "mock",
     parola: "mock",
     desc: "Oggetti fittizi che imitano il comportamento di oggetti reali in modo controllato.  Vengono utilizzati principalmente negli unit test per isolare il codice testato, simulando dipendenze complesse, non deterministiche o non ancora implementate (come database o API esterne)",
+  ),
+  (
+    key: "decision-tree",
+    parola: "decision tree",
+    desc: [Un #emph("decision tree") (albero decisionale) è un modello logico composto da *nodi decisionali* (che valutano una condizione sui dati in ingresso), *rami* (che instradano il flusso in base all'esito) e *nodi foglia* (che definiscono il verdetto finale).
+    ],
+  ),
+  (
+    key: "typescript",
+    parola: "TypeScript",
+    desc: "Linguaggio di programmazione con tipizzazione statica opzionale, spesso utilizzato nella realizzazione di applicazioni web.",
+  ),
+  (
+    key: "uml",
+    parola: "UML",
+    desc: "Standard per la modellazione visiva di sistemi software, usato nel progetto per creare i diagrammi delle classi.",
+  ),
+  (
+    key: "api",
+    parola: "API",
+    desc: [#emph("Application Programming Interface") - insieme di regole e protocolli che consente a sistemi software distinti di comunicare tra loro, astraendo e nascondendo i dettagli implementativi tramite un contratto formale.],
+  ),
+  (
+    key: "frontend",
+    parola: "frontend",
+    desc: "Componente visiva e interattiva di un'applicazione software con cui l'utente si interfaccia direttamente. Gestisce la presentazione dei dati e l'interfaccia grafica, operando tipicamente lato client e separando la visualizzazione dalla logica di backend.",
+  ),
+  (
+    key: "claude",
+    parola: "Claude",
+    desc: "Avanzato modello linguistico (LLM) sviluppato da Anthropic.",
+  ),
+  (
+    key: "tenant",
+    parola: "tenant",
+    desc: "Cliente o organizzazione che dispone di uno spazio privato e isolato all'interno di un sistema software condiviso.",
+  ),
+  (
+    key: "cloud",
+    parola: "cloud",
+    desc: "Rete di server accessibili tramite internet, utilizzati per eseguire applicazioni e archiviare dati senza l'uso di macchine fisiche locali.",
+  ),
+  (
+    key: "exploit",
+    parola: "exploit",
+    desc: "Codice o procedura che sfrutta attivamente una vulnerabilità di un sistema informatico per comprometterne la sicurezza o il funzionamento.",
+  ),
+  (
+    key: "ssvc",
+    parola: "SSVC",
+    desc: [#emph("Stakeholder-Specific Vulnerability Categorization") - Metodologia ad alberi decisionali per prioritizzare le vulnerabilità, adattando le azioni di risposta allo specifico contesto operativo degli stakeholder.],
+  ),
+  (
+    key: "stakeholder",
+    parola: "stakeholder",
+    desc: "Persona, gruppo o organizzazione direttamente o indirettamente coinvolto nel progetto e in grado di influenzarne o subirne le conseguenze sull'esito finale",
+  ),
+  (
+    key: "pentesting",
+    parola: "pentesting",
+    desc: "Pratica di sicurezza informatica che consiste nell'esecuzione di attacchi simulati e autorizzati contro sistemi, reti o applicazioni per identificare e sfruttare le vulnerabilità che un cybercriminale potrebbe utilizzare.",
   ),
 )
 

@@ -18,10 +18,6 @@
 
 = Implementazione e Scelte Tecnologiche
 
-== Disaccoppiamento dei modellazione
+== Pydantic fuori dal dominio
 
 == Single Responsability Principle
-
-== Esecuzione Asincrona e Threading
-
-== Implementazione frontend

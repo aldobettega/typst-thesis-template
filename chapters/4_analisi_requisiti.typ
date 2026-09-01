@@ -5,7 +5,7 @@
 
 = Analisi dei Requisiti
 
-A seguito dello studio del dominio del problema e della definizione dei processi aziendali, si è proceduto alla definizione dei casi d'uso e alla conseguente stesura dei requisiti di sistema.
+A seguito dello studio del dominio del problema, si è proceduto alla definizione dei casi d'uso e alla conseguente stesura dei requisiti di sistema.
 
 == Casi d'uso del sistema
 
@@ -44,7 +44,7 @@ A seguito dello studio del dominio del problema e della definizione dei processi
   number: "1.3",
   name: [Definizione dell'#gls("asset context")],
   "Attore principale": "Utente",
-  "Flusso principale": "L'utente seleziona i tre parametri di contesto necessari a delineare il profilo di rischio del target: ambiente (environment), esposizione (exposure) e criticità (criticality)."
+  "Flusso principale": [L'utente seleziona i tre parametri di contesto necessari a delineare il profilo di rischio del target: ambiente (#emph("environment")), esposizione (#emph("exposure")) e criticità (#emph("criticality")).]
 ))
 
 #v(1em)
@@ -53,8 +53,8 @@ A seguito dello studio del dominio del problema e della definizione dei processi
   number: "2",
   name: "Monitoraggio dell'avanzamento dell'analisi",
   "Attore principale": "Utente",
-  "Flusso principale": [L'utente visualizza l'interfaccia dedicata allo stato dell'analisi. Il sistema interroga lo scanner e mostra in tempo reale l'avanzamento del processo (scansione in corso, recupero di dati, generazione #gls("AI") o pipeline fallita).",
-  "Postcondizione": "L'utente è costantemente informato sullo stato di completamento del task.]
+  "Flusso principale": [L'utente visualizza l'interfaccia dedicata allo stato dell'analisi. Il sistema interroga lo scanner e mostra in tempo reale l'avanzamento del processo (scansione in corso, recupero di dati, generazione #gls("AI") o #gls("pipeline") fallita).],
+  "Postcondizione": "L'utente è costantemente informato sullo stato di completamento del task."
 ))
 
 #v(1em)
@@ -64,7 +64,7 @@ A seguito dello studio del dominio del problema e della definizione dei processi
   name: "Apertura e consultazione del report di vulnerabilità",
   "Attore principale": "Utente",
   "Precondizione": "L'utente richiede l'accesso ai risultati di una specifica analisi.",
-  "Flusso principale": [Il sistema recupera il report e presenta un Vulnerability Report aggregato che include le vulnerabilità, la loro priorità operativa e la spiegazione generata dall'#gls("AI").],
+  "Flusso principale": [Il sistema recupera il report e presenta un #emph("Vulnerability Report") aggregato che include le vulnerabilità, la loro priorità operativa e la spiegazione generata dall'#gls("AI").],
   "Sottocasi inclusi": "UC3.1 (Report non disponibile)",
   "Postcondizione": "L'utente dispone delle metriche contestuali per prendere una decisione operativa sulle remediation."
 ))
@@ -99,6 +99,26 @@ A seguito dello studio del dominio del problema e della definizione dei processi
   "Attore principale": "Utente",
   "Flusso principale": [Se il processo di compilazione del file #gls("docx") o il suo salvataggio incontrano un'eccezione, il sistema interrompe il processo di esportazione e notifica l'errore all'utente tramite un apposito messaggio.],
   "Postcondizione": "Il sistema segnala il fallimento dell'operazione e l'esportazione viene annullata."
+))
+
+#v(1em)
+
+#useCase((
+  number: "5",
+  name: "Invio del report tramite email",
+  "Attore principale": "Utente",
+  "Flusso principale": [L'utente, dopo aver visualizzato un'analisi completata, richiede l'invio del report tramite email e specifica l'indirizzo di destinazione. Il sistema predispone il documento (es. in formato #gls("docx")), lo allega a un messaggio e lo inoltra al server SMTP per la consegna.],
+  "Postcondizione": "Il report viene inviato con successo all'indirizzo specificato e il sistema conferma all'utente la presa in carico dell'operazione."
+))
+
+#v(1em)
+
+#useCase((
+  number: "5.1",
+  name: "Fallimento invio del report tramite email",
+  "Attore principale": "Utente",
+  "Flusso principale": [Se il sistema rileva un errore durante la comunicazione con il server di posta (ad esempio per problemi di rete, timeout o credenziali non valide) o se l'indirizzo email fornito risulta malformato, il processo di invio viene interrotto.],
+  "Postcondizione": "L'email non viene inoltrata e il sistema notifica l'utente dell'errore, invitandolo a riprovare o a controllare i dati inseriti."
 ))
 
 == Requisiti Funzionali
