@@ -220,16 +220,169 @@ Come ultima fase vi è la creazione di un report riassuntivo. Il metodo `_genera
 
 === Architettura di gestione degli errori
 
+Al fine di tradurre in modo granulare eccezioni provenienti dall'esterno, facendole fluire nel modo corretto fino all'interfaccia utente, il sistema implementa un'architettura di gestione degli errori strutturata e centralizzata.
+Questo non solo permette di averne una gestione ordinata, ma anche di isolare nei punti corretti la logica di gestione delle eccezioni, in modo da non inquinare il dominio con la logica riguardante le tecnologie esterne.
+La logica di strutturazione è stata individuare le possibili classi di errore del sistema e costruirci una gerarchia di errori che potesse incapsulare anche i diversi tipi di errore provenienti da servizi esterni.
+
+In principio l'architettura suddivide le eccezioni nelle seguenti categorie principali:
+- *Eccezioni Applicative (`ApplicationError`)*
+- *Fallimenti di #gls("pipeline") (`PipelineError`)*
+- *Guasti Infrastrutturali (`InfrastructureError`)*
+
+==== Eccezioni Applicative
+
+Rappresentano condizioni previste da casi d'uso del sistama. Ognuna è associata a un codice di errore standardizzato (`ErrorCode`).
+Le eccezioni applicative del sistema implementano la generica `ApplicationError` (che a sua volta implementa la classe `Exception`) e sono:
+
+- `AnalysisNotFoundError`: segnala che l'analisi ricercata non è stata trovata
+- `ReportNotReadyError`: segnala che il report non è ancora stato generato
+- `UnsupportedScannerError`: segnala che la richiesta di scanner non è supportata dal sistema
+- `UnsupportedExportedExtensionError`: segnala che l'estensione richiesta non è supportata dal sistema
+- `ExportError`: segnala un errore durante l'esportazione
+
+==== Fallimenti di #gls("pipeline")
+
+Rappresentano errori bloccanti che si verificano durante il flusso sequenziale della #gls("pipeline"). Queste eccezioni hanno un codice di errore che registra lo specifico step di esecuzione in cui il sistema si è arrestato, permettendo di identificare con precisione il punto di rottura.
+I fallimenti della pipeline implementano la generica `PipelineFailure` (che a sua volta implementa la classe `Exception`) e sono:
+
+- `ScanFailure`: segnala un errore duranta la fase di scansione.
+- `PriorityCalculationFalure`: segnala un errore durante la fase di calcolo interno della priorità.
+- `ReportBuildFailure`: segnala un errore durante la fase di costruzione del report.
+- `UnexpectedPipelineFailure`: errore generico per errori non contemplati nel corso della #gls("pipeline").
+
+==== Guasti infrastrutturali
+
+Modellano i fallimenti derivati dagli outbound adapters. Queste classi hanno il compito di tradurre le eccezioni sollevate dalle librerie di terze parti o dalle #gls("api") esterne in errori gestibili dal sistema. Solitamente API e librerie esterne possono ritornare una vasta gamma di errori differneti, per questo sono stati gestiti i casi di errore principali o che sono stati ritenuti rilevanti avendone fatta esperienza in fase di sviluppo. Questi errori vengono incapsulati nelle classi di errori di sistema più ampie con annessa una descrizione esplicativa. L'impatto applicativo di questi errori è delegato ai livelli superiori del sistema.
+I guasti infrastrutturali implementano il generico `InfrastructureError` (che a sua volta implementa la classe `Exception`) e sono:
+
+- `ProviderUnavailableError`: il provider non è raggiungibile o non risponde.
+- `ProviderTimeoutError`: il provider non ha risposto entro il timeout.
+- `ProviderAuthenticationError`: il provider ha rifiutato le credenziali. 
+- `ProviderRateLimitError`: il provider ha applicato un limite alle richieste.
+- `ProviderResponseError`: la risposta ricevuta non rispetta il formato atteso.
+- `PersistenceError`: errore durante lettura o scrittura della persistenza.
+- `FileGenerationError`: errore tecnico durante la generazione di un file.
+
+==== Traduzione verso l'interfaccia
+
+La responsabilità di tradurre le eccezioni interne in risposte #gls("http") è delegata ad appositi #emph("exception handlers"). Questo approccio garantisce:
+
+- *Standardizzazione del contratto #gls("api"):* ogni errore esposto all'utente segue un `ErrorResponseSchema` che include:
+  - un codice identificativo
+  - un messaggio descrittivo
+  - dettagli tecnici opzionali
+
+- *Mappatura semantica dei codici:* gli errori applicativi vengono tradotti nei corretti codici #gls("http"), come `404 Not Found` per risorsa inesistente o `409 Conflict` per conflitti di stato applicativo.
+
+- *Gestione della validazione:* gli errori generati da input non conformi vengono restituiti con codice `422 Unprocessable Content`
+
+- *Tracciamento e sicurezza:* eccezioni inattese non vengono esposte in chiaro all'utente, ma il sistema restituisce un errore interno generico (`500 Internal Server Error`), registra la traccia dell'eccezione (#emph("stack trace")) tramite i log. Questo facilita le operazioni di debug senza compromettere la sicurezza del sistema.
 
 == Architettura di #gls("frontend")
 
-=== Diagramma delle classi
-==== Service Model
-==== Facade
-==== ViewModel
-==== View
+Il #gls("frontend") è stato progettato adottando un'architettura a livelli (#emph[Layered Architecture]) al fine di favorire una rigorosa separazione delle responsabilità. Sebbene nella pratica comune di sviluppo dell'ecosistema Angular si faccia talvolta riferimento al pattern #emph("Model-View-ViewModel") (MVVM), a livello architetturale la struttura implementata si fonda sull'integrazione del pattern #emph[Presentation Model] con un livello di astrazione basato su #emph[Facade].
+Questa struttura è stata adottata dopo un'attenta analisi delle moderne #emph("best practice") consolidate all'interno della #emph("community") di sviluppatori Angular. Tali pattern ampiamente discussi e validati nei canali specializzati di settore, rappresentano oggi uno standard emergente per la scalabilità e manutenibilità di applicazioni web reattive.
+\ 
+Questa scomposizione garantisce che l'interfaccia utente sia completamente disaccoppiata dalle complessità di rete, dalla logica di dominio e dall'orchestrazione dei flussi asincroni. Il sistema è pertanto strutturato in tre macro-livelli:
+- *Presentation Layer:* Organizzato secondo il pattern #emph[Smart e Dumb components], in cui i componenti presentazionali (View) gestiscono esclusivamente il rendering, mentre i componenti contenitore (Smart) adattano lo stato alle esigenze della vista.
+- *Abstraction Layer:* Mediato da un'implementazione reattiva del pattern Facade, che non si limita a fornire un'interfaccia unificata, ma orchestra i flussi asincroni e funge da singola fonte di verità per lo stato della UI.
+- *Core Layer:* Composto da servizi API rigorosamente #emph[stateless] che operano come #emph[Gateway] verso il backend, rispettando il principio di singola responsabilità.
 
-=== Principi di design nel #gls("frontend")
-==== Observer pattern
+=== Diagramma delle classi
+
+=== Service Model
+
+Hanno la responsabilità di comunicare con le #gls("api") di #gls("backend"), tramite chiamate #gls("http"). Secondo i principi della programmazione reattiva, i metodi di queste classi non ritornano un oggetto statico, ma un canale dinamico dal quale è possibile "osservare" i dati richiesti.
+I moduli che hanno questo compito sono:
+
+==== AnalysisApi
+
+Si occupa della gesitone di un'analisi di #gls("vulnerability-assessment"), presenta i metodi:
+
+- `startAnalysis(AssessmentRequest): Observable<AssessmentResponse>`: \ metodo che lancia la creazione dell'analisi e riceve un #emph("Observable") di tipo `AssessmentResponse` contenente l'identificativo del processo lanciato.
+\ \ 
+- `getAnalysesSummary(): Observable<AnalysesSummary>`: \ metodo che ritorna id e stato di tutte le analisi salvate nella memoria del sistema, serve a visualizzare nella home la lista di analisi create.
+
+==== CapabilitiesApi
+
+Si occupa di recuperare le funzionalità che il sistema dispone, serve a recuperare le opzioni selezionabili nel modulo di configurazione dell'analisi (come scanner disponibili e opzioni di contesto dell'asset). Questa classe è particolarmente utile perchè rende il backend intelligente e dipendente dalle funzionalità codificate nel #gls("backend"): nel caso si aggiunga un nuovo scanner non sarà necessario modificare il #gls("frontend"), essendo lui stesso a rilevare un nuovo scanner e mostrandone automaticamente l'opzione disponibile. Questo modulo è un buon esempio di come nel sistema siano le tecnologie esterne a dipendere da logica e configurazioni interne.
+Il metodo di questa classe è:
+\ \
+- `getCapabilities(): Observable<SystemCapabilities>`: \
+  ritorna le funzionalità che il sistema dispone all'utente
+
+==== PipelineApi
+
+Servizio che si occupa di richiedere lo stato della #gls("pipeline") di un'analisi, con il metodo:
+\ \
+- `getStatus(analysisId): Observable<Pipeline>`:\  ritorna un #emph("Observable") di tipo `Pipeline` (un oggetto di #gls("frontend")) contenente le informazioni della #gls("pipeline") che verranno mostrate all'utente. 
+
+==== ReportApi
+
+Ha la responsabilità di gestire operazioni riguardanti il report: richiederlo per mostrarlo all'utente e richiederne l'esportazione.
+\ \ 
+- `getReport(analysisId): Observable<VulnerabilityReport>`: \
+  ritorna un #emph("Observable") di tipo `VulnerabilityReport`, contenente tutte le informazioni da mostrare all'utente.
+
+=== Facade
+
+Questo layer ha la responsabilità di sollevare lo #emph("Smart Component") complessa gestione dei flussi di dati reattivi basata sugli #emph("Observable"). Questi canali di comunicazione asincrona richiedono un'orchestrazione attenta e centralizzata.
+Mischiare tale logica con la gestione dei #emph("Dumb Component"), avrebbe generato una classe difficilmente manutenibile.
+Delegando la gestione degli #emph("Observable") alla #emph("Facade"), si rispetta il #emph("Single Responsability Principle"), mantenendo il livello di presentazione pulito e focalizzato sulle logiche dell'interfaccia.
+
+==== HomeFacade
+
+Questo modulo si occupa di gestire lo stato della #emph("Home"), la pagina principale di ThreatLens.
+Presenta un singolo metodo:
+\ \
+- `loadAnalyses(): void`:\
+  utilizza `analysisApi` per caricare le analisi nella home, gestendone il loro stato ed eventuali errori.
+
+==== NewAnalysisFacade
+
+Questa classe ha il compito di gestire lo stato della pagina di analisi, inclusa la pipeline visiva, presenta due metodi:
+\ \
+- `loadCapabilities(): void`:\
+  utilizza `capabilitiesApi` per caricale le funzionalità del sistema, gestendone stato ed eventuali errori.
+\ \
+- `startAnalysis(AssessmentRequest): void`:\
+  utilizza `analysisApi` per lanciare l'analisi, resta in ascolto sul canale di risposta attendendo l'identificativo del processo generato.
+  Si occupa anche di far partire il metodo privato `startPollingStatus(analysisId)` che chiede periodicamente lo stato del processo, in modo da monitorare l'andamento della #gls("pipeline") di #gls("backend"), informando l'utente del suo stato e ridirezionando l'interfaccia alla pagina di report una volta terminata l'esecuzione.
+
+==== ReportFacade
+
+Il `ReportFacade` orchestra lo stato della pagina di report, con i metodi:
+\ \
+- `loadReport(analysisId): void`:\
+  utilizza `reportApi` per recuperare il report e gestire il flusso di dati ed eventuali errori.
+\ \
+- `exportReport(analysisId, format): void`:\
+  utilizza `reportApi` per generare e recuperare il file esportabile nel formato selezionato dall'utente.
+
+=== Smart Component (ViewModel)
+
+Questo componente agisce come contenitore e orchestratore a livello di interfaccia, fungendo da #emph[Presentation Model]. Lo #emph[Smart Component] non implementa logica di business o chiamate di rete dirette; si limita a passare i dati elaborati ai componenti figli e ad ascoltare i loro eventi, delegando le azioni dell'utente ai livelli architetturali sottostanti.
+
+=== Dumb Component (View)
+
+Rappresentano il livello di presentazione puro. La loro unica responsabilità è presentare gli elementi dell'interfaccia utente (UI) e delegare l'interazione dell'utente "verso l'alto", notificando lo #emph[Smart Component] tramite l'emissione di eventi. Essendo completamente privi di logica applicativa e ignari dei servizi #gls("api") o della Facade, questi componenti lavorano esclusivamente sui dati ricevuti in ingresso, risultando pertanto altamente riutilizzabili.
+
+=== Observer Pattern
+
+=== Il Pattern Observer e la Gestione Reattiva
+
+Nell'ambito dello sviluppo di interfacce web moderne, la gestione degli eventi asincroni, delle chiamate di rete e dei flussi di dati continui rappresenta una sfida architetturale di primaria importanza. Per orchestrare tale complessità in modo efficiente, l'infrastruttura di Angular adotta sistematicamente il pattern comportamentale #emph[Observer].
+
+Nella sua definizione canonica, l'Observer pattern stabilisce una dipendenza uno-a-molti tra oggetti: quando l'oggetto principale (denominato #emph[Subject] o #emph[Publisher]) subisce un cambiamento di stato, tutti gli oggetti da esso dipendenti (#emph[Observer] o #emph[Subscriber]) vengono notificati e aggiornati in modo automatico. All'interno dell'ecosistema Angular, questa dinamica è implementata in modo nativo e potenziata attraverso la libreria #emph[RxJS] (Reactive Extensions for JavaScript), la quale modella i flussi di dati nel tempo tramite il costrutto degli #emph[Observable].
+
+All'interno dell'architettura della piattaforma, l'Observer pattern costituisce il motore fondamentale per la comunicazione tra i livelli di astrazione e di presentazione, ribaltando il paradigma di controllo da un approccio imperativo (#emph[pull]) a uno puramente reattivo (#emph[push]):
+
+- *Il ruolo del Publisher (Facade):* Il livello di astrazione, oltre a mascherare le chiamate API, detiene lo stato applicativo locale (frequentemente tramite l'utilizzo di classi specializzate come i `BehaviorSubject`). La Facade espone questo stato all'esterno esclusivamente sotto forma di flussi continui in sola lettura (`Observable`).
+- *Il ruolo del Subscriber (Smart Component):* Il #emph[ViewModel] agisce da osservatore. Invece di interrogare ripetutamente i servizi per verificare la presenza di nuovi dati, lo #emph[Smart Component] si iscrive (#emph[subscribe]) ai flussi esposti dalla Facade. Non appena un nuovo dato è disponibile — ad esempio l'aggiornamento della percentuale di completamento della scansione o la ricezione del report finale — il componente riceve istantaneamente la notifica e propaga il nuovo stato ai #emph[Dumb Component] per il rendering.
+
+L'adozione rigorosa di questo pattern garantisce un disaccoppiamento totale tra la logica di recupero e orchestrazione dei dati e la loro effettiva visualizzazione. Inoltre, permette di gestire in modo elegante e dichiarativo scenari asincroni complessi, come il #emph[polling] periodico verso il backend, assicurando un'interfaccia utente (#gls("UI")) fluida e costantemente allineata con lo stato del sistema.
+
+
+
 
 

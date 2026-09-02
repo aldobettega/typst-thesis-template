@@ -230,6 +230,11 @@
     parola: "payload",
     desc: "Porzione di un messaggio, pacchetto o trasmissione che contiene i dati effettivi destinati all'utente finale o all'applicazione.",
   ),
+  (
+    key: "http",
+    parola: "HTTP",
+    desc: [#emph("HyperText Transfer Protocol") - protocollo applicativo usato come principale sistema per la trasmissione d'informazioni su internet],
+  ),
 )
 
 /*
