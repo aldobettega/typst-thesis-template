@@ -170,6 +170,16 @@ Questa responsabilità è dello `ScannerRegistryAdapter` che concretizza l'inter
 A differenza dei pattern creazionali come il #emph("Factory"), che gestiscono l'istanziazione di nuovi oggetti, il #emph("Registry") opera esclusivamente come risolutore di dipendenze.
 Lo `ScannerRegistryAdapter` riceve tramite #emph("Dependency Injection") istanze di adattatori già configurate e create all'avvio dell'applicazione dal #emph("Composition Root") (rappresentato nel sistema dal file `dependencies.py` di #gls("fastapi")).
 
+=== Single Responsability Principle
+
+Al fine di mantenere un codice ordinato e manutenibile, senza avere funzioni lunghe e complesse che gestiscono diverse parti del sistema, è necessario applicare rigorosamente il #emph("Single Responsability Principle") (SRP). L'SRP impone un vincolo architetturale più profondo: un modulo, una classe o una funzione deve avere uno e un solo motivo per essere modificato.
+
+- *A livello di classe*: la classe `AssessmentApplicationService` agisce esclusivamente da orchestratore del caso d'uso, ma delega l'effettiva esecuzione di tutte le sotto operazioni ad altri moduli del sistema. Ad esempio utilizza un adapter esterno per ottenere la lista di #gls("cve") che passerà ad altri moduli, oppure non calcola direttamente la priorità operativa ma delega l'operazione al `PriorityEngine`.
+
+- *A livello di funzione*: il metodo `_run_pipeline` gestisce con modularità tutte le fasi della pipeline, delegando l'esecuzione ad altri metodi specializzati nell'operazione (`_scan` o `_calculate_priority`). In questo modo ciascun metodo isola una tipologia di fallimento dell'operazione e un motivo di cambiamento distinto. 
+
+Questa rigorosa compartimentazione garantisce che modifiche future o la gestione di errori specifici non inquinino il flusso principale dell'applicazione, favorendo una gestione granulare delle eccezioni (tramite `PipelineFailure` specializzate) e garantendo un'elevata testabilità del codice.
+
 == Modellazione della #gls("pipeline") di assessment
 
 La #gls("pipeline") di assessment è il motore del sistema che colleziona dati da una serie di servizi esterni e da questi ne calcola un report finale ordinato.
@@ -361,28 +371,29 @@ Il `ReportFacade` orchestra lo stato della pagina di report, con i metodi:
 
 === Smart Component (ViewModel)
 
-Questo componente agisce come contenitore e orchestratore a livello di interfaccia, fungendo da #emph[Presentation Model]. Lo #emph[Smart Component] non implementa logica di business o chiamate di rete dirette; si limita a passare i dati elaborati ai componenti figli e ad ascoltare i loro eventi, delegando le azioni dell'utente ai livelli architetturali sottostanti.
+Questo layer ha il compito di gestire la logica di interfaccia e passare i dati già elaborati ai componenti figli. Deve inoltre restare in ascolto degli eventi emessi dall'utente, per invocare correttamente i metodi della facade lasciandole la responsabilità di orchestrare la chiamata di rete.
+Solitamente in Angular lo #gls("Smart Component") rappresenta una pagina web contenente vari pezzi di interfaccia con cui l'utente può interagire (i #gls("Dumb Component")).
+Dunque, gli #gls("Smart Component") di ThreatLens rappresentano le pagine della piattaforma:
+
+- `HomePage`
+- `NewAnalysisPage`
+- `ReportPage`
 
 === Dumb Component (View)
 
-Rappresentano il livello di presentazione puro. La loro unica responsabilità è presentare gli elementi dell'interfaccia utente (UI) e delegare l'interazione dell'utente "verso l'alto", notificando lo #emph[Smart Component] tramite l'emissione di eventi. Essendo completamente privi di logica applicativa e ignari dei servizi #gls("api") o della Facade, questi componenti lavorano esclusivamente sui dati ricevuti in ingresso, risultando pertanto altamente riutilizzabili.
+Rappresentano il livello di presentazione puro. La loro unica responsabilità è presentare gli elementi dell'interfaccia utente e delegare l'interazione dell'utente "verso l'alto", notificando lo #gls("Smart Component") tramite l'emissione di eventi. Essendo completamente privi di logica applicativa e ignari dei servizi #gls("api") o della Facade, questi componenti lavorano esclusivamente sui dati ricevuti in ingresso, risultando pertanto altamente riutilizzabili.
 
-=== Observer Pattern
+=== Flussi Asincroni e Gestione dello Stato Reattivo
 
-=== Il Pattern Observer e la Gestione Reattiva
+Nell'ambito dello sviluppo di interfacce web moderne, la gestione degli eventi asincroni e dei flussi di dati continui rappresenta una sfida architetturale di primaria importanza. In ThreatLens è stato deciso di adottare un paradigma ibrido, in modo da realizzare un sistema moderno, non aumentandone troppo la complessità. Le operazioni di rete prolungate viene orchestrata tramite la libreria #emph[RxJS], mentre la propagazione dello stato all'interfaccia utente è demandata al moderno costrutto dei #emph[Signal].
 
-Nell'ambito dello sviluppo di interfacce web moderne, la gestione degli eventi asincroni, delle chiamate di rete e dei flussi di dati continui rappresenta una sfida architetturale di primaria importanza. Per orchestrare tale complessità in modo efficiente, l'infrastruttura di Angular adotta sistematicamente il pattern comportamentale #emph[Observer].
+Per ottenere le informazioni sullo stato della pipeline non è stata implementata una comunicazione bidirezionale persistente con il backend, per via della sua complessità. Per implementare una feature visiva come l'andamento della pipeline è stato ritenuto sufficiente delegare al client la responsabilità di verificare attivamente aggiornamenti nel server di #gls("backend"). Questa problematica è stata risolta implementando il pattern del #emph("Polling Consumer"):
 
-Nella sua definizione canonica, l'Observer pattern stabilisce una dipendenza uno-a-molti tra oggetti: quando l'oggetto principale (denominato #emph[Subject] o #emph[Publisher]) subisce un cambiamento di stato, tutti gli oggetti da esso dipendenti (#emph[Observer] o #emph[Subscriber]) vengono notificati e aggiornati in modo automatico. All'interno dell'ecosistema Angular, questa dinamica è implementata in modo nativo e potenziata attraverso la libreria #emph[RxJS] (Reactive Extensions for JavaScript), la quale modella i flussi di dati nel tempo tramite il costrutto degli #emph[Observable].
+- *Il ruolo dell'Orchestratore (Facade):* questo modulo incapsula la logica di #emph[polling], interrogando attivamente e periodicamente il backend. Ogni volta che riceve un aggiornamento (ad esempio l'esito della scansione o l'avanzamento della #gls("pipeline")), non emette eventi tramite i classici #emph[Subject] tipici del pattern Observer canonico, ma aggiorna direttamente il proprio stato reattivo sincrono tramite i #emph[Signal]. In questo modo la Facade agisce come fonte di verità per dati in sola lettura verso l'interfaccia.
 
-All'interno dell'architettura della piattaforma, l'Observer pattern costituisce il motore fondamentale per la comunicazione tra i livelli di astrazione e di presentazione, ribaltando il paradigma di controllo da un approccio imperativo (#emph[pull]) a uno puramente reattivo (#emph[push]):
+- *Il ruolo del Consumatore (Smart Component):* Il #emph[ViewModel] agisce da osservatore, senza conoscere la logica di rete. Non gestisce la chiamata HTTP iterativa, ma si limita a reagire passivamente alla lettura dei #emph[Signal] esposti dalla Facade. Non appena quest'ultima aggiorna il proprio stato, il componente viene notificato automaticamente e propaga i dati aggiornati ai #emph[Dumb Component] per mostrarli all'utente.
 
-- *Il ruolo del Publisher (Facade):* Il livello di astrazione, oltre a mascherare le chiamate API, detiene lo stato applicativo locale (frequentemente tramite l'utilizzo di classi specializzate come i `BehaviorSubject`). La Facade espone questo stato all'esterno esclusivamente sotto forma di flussi continui in sola lettura (`Observable`).
-- *Il ruolo del Subscriber (Smart Component):* Il #emph[ViewModel] agisce da osservatore. Invece di interrogare ripetutamente i servizi per verificare la presenza di nuovi dati, lo #emph[Smart Component] si iscrive (#emph[subscribe]) ai flussi esposti dalla Facade. Non appena un nuovo dato è disponibile — ad esempio l'aggiornamento della percentuale di completamento della scansione o la ricezione del report finale — il componente riceve istantaneamente la notifica e propaga il nuovo stato ai #emph[Dumb Component] per il rendering.
-
-L'adozione rigorosa di questo pattern garantisce un disaccoppiamento totale tra la logica di recupero e orchestrazione dei dati e la loro effettiva visualizzazione. Inoltre, permette di gestire in modo elegante e dichiarativo scenari asincroni complessi, come il #emph[polling] periodico verso il backend, assicurando un'interfaccia utente (#gls("UI")) fluida e costantemente allineata con lo stato del sistema.
-
-
+Questa rigorosa separazione garantisce che il ciclo di vita della richiesta rimanga confinato nel livello della Facade, offrendo al livello di presentazione un'interfaccia dichiarativa e reattiva, costantemente sincronizzata con il server.
 
 
 
