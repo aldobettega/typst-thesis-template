@@ -37,6 +37,19 @@
         )
     }
 
+    // Regola per formattare elegantemente tutti i blocchi di codice
+    show raw.where(block: true): it => block(
+        fill: luma(250),                  // Sfondo grigio chiarissimo
+        stroke: 0.5pt + luma(200),        // Bordino sottile e sobrio
+        inset: 1em,                       // Margine interno (padding)
+        radius: 4pt,                      // Angoli leggermente smussati
+        width: 100%,                      // Occupa tutta la larghezza disponibile
+        [
+            #set text(size: 0.85em)         // Riduce leggermente la dimensione del font
+            #it
+        ]
+    )
+
   body
 }
 

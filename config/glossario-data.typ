@@ -233,7 +233,17 @@
   (
     key: "http",
     parola: "HTTP",
-    desc: [#emph("HyperText Transfer Protocol") - protocollo applicativo usato come principale sistema per la trasmissione d'informazioni su internet],
+    desc: [#emph("HyperText Transfer Protocol") - protocollo applicativo usato come principale sistema per la trasmissione d'informazioni su internet.],
+  ),
+  (
+    key: "pydantic",
+    parola: "Pydantic",
+    desc: "Libreria Python open source per la validazione, la serializzazione e la trasformazione dei dati, basata sull'uso delle annotazioni di tipo (type hints) native del linguaggio.",
+  ),
+  (
+    key: "python",
+    parola: "Python",
+    desc: "Linguaggio di programmazione ad alto livello, interpretato e open source.",
   ),
 )
 

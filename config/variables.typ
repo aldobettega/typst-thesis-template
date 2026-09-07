@@ -2,7 +2,7 @@
 #let myLang = "it"
 #let myName = "Aldo Bettega"
 #let myMatricola = "2101087"
-#let myTitle = "Sviluppo di una piattaforma evidence-based per la prioritizzazione delle vulnerabilità mediante analisi del rischio e contesto operativo"
+#let myTitle = [Sviluppo di una piattaforma evidence-based per la prioritizzazione delle vulnerabilità mediante analisi del rischio e contesto operativo]
 #let myDegree = "Tesi di Laurea"
 #let myUni = "Università degli Studi di Padova"
 #let myDepartment = "Dipartimento di Matematica ''Tullio Levi-Civita''"
