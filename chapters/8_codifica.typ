@@ -1,15 +1,12 @@
 #pagebreak(to:"odd")
 
 #import "../config/glossario-data.typ": gls
-#import "../config/thesis-config.typ"
 
 = Implementazione e \ Scelte Tecnologiche
 
 In questo capitolo vengono spiegati maggiormente nel dettaglio delle scelte implementative prese durante la fase di codifica del sistema.
 
-== Implementazione Backend
-
-=== Modellazione e Validazione dei Dati
+== Modellazione e Validazione dei Dati
 
 Avendo scelto un'architettura di tipo esagonale e #gls("fastapi") come framework per il backend è stato necessario scegliere in quale punto del sistema utilizzare #gls("pydantic") (libreria per la validazione dati spesso usata, poichè integrata nativamente, con #gls("fastapi")).
 Sostenendo delle ricerche su diversi forum di #emph("developers"), inserire #gls("pydantic") in un'architettura esagonale è un problema concreto che anima diverse discussioni. 
@@ -23,13 +20,13 @@ Tuttavia la seconda tesi è maggiormente supportata da gran parte della letterat
 In primo luogo, introdurre una libreria esterna come #gls("pydantic") nel dominio violerebbe il principio dell'architettura esagonale o della #emph("clean architecture"), come riportato in @clean. In secondo luogo, la validazione dei dati deve avvenire ai confini del sistema: nel nostro caso validiamo i dati in entrata e in uscita nel layer dell'Inbound Adapter.
 Dunque la soluzione è stata scrivere delle funzioni di mappatura a livello dell'Inbound Adapter, in modo che i dati vengano validati e serializzati in un oggetto #gls("pydantic") che possa rispettare le richieste del contratto dell'#gls("api"). In questo modo, oltre che validare, è possibile mantenere la logica di dominio stabile e lasciare eventuali modifiche al livello di mappatura dell'oggetto, adattandolo alle esigenze delle #gls("api").
 
-=== Persistenza dei dati nell MVP
+== Persistenza dei dati nell MVP
 
 Nell'MVP (#emph("Minimum Viable Product")) è stato deciso di mantenere una persistenza dati volatile, senza implementare un rigoroso #emph("database"). L'adattatore esterno `InMemoryAnalysisStore` gestisce autonomamente la persistenza e recupero degli oggetti tramite semplici metodi `get` e `save` che simulano un #emph("database") salvandoli in un dizionario. Tuttavia, in questo modo gli oggetti alla distruzione dell'istanza della classe (ad esempio quando il container dell'app viene ricostruito), vengono dimenticati e non è più possibile recuperarli.
 Questa scelta è stata fatta per semplificare e velocizzare lo sviluppo, considerando che i requisiti dell'attuale prototipo non rendono strettamente necessaria l'integrazione di un sistema completo per la gestione di basi di dati.
 Ad ogni modo, grazie alla modularità dell'architettura esagonale, una futura transizione verso una soluzione di persistenza stabile risulterebbe un'operazione semplice. Per integrare un #emph("database") sarà sufficiente sviluppare un nuovo #emph("Outbound Adapter") che concretizzi i metodi già definiti dalle interfacce delle porte dedicate. Questo approccio assicura che il nuovo innesto non alteri altre parti della piattaforma, come la logica interna di #gls("backend") o la parte di interfaccia di #gls("frontend").
 
-=== Sicurezza e comunicazione HTTP
+== Sicurezza e comunicazione HTTP
 
 L'architettura del sistema prevede una rigorosa segregazione tra il livello di presentazione (Angular, servito sulla porta `4200`) e il livello applicativo (FastAPI, esposto sulla porta `8000`). Anche se questa separazione garantisca un'elevata modularità e prevenga l'esposizione di informazioni sensibili lato client, introduce un vincolo nella comunicazione diretta a causa della #emph[Same-Origin Policy] (SOP). 
 
@@ -70,7 +67,10 @@ Access-Control-Allow-Origin: http://localhost:4200
 Access-Control-Allow-Methods: GET, POST, OPTIONS
 ```
 \ \
-== Implementazione Frontend
 
-=== Iniezione delle dipendenze in Angular
-=== Organizzazione del workspace e programmazione a componenti
+== Richieste #gls("api") Batch
+
+Una sfida implementativa è stata doversi scontrare con i limiti imposti dalle #gls("api") di tecnologie esterne, in particolare i data providers e il modello gratuito di Gemini.
+Infatti non è possibile, per limiti infrastrutturali di queste tencologie, richiedere con una sola chiamata #gls("api") dati o informazioni per centinaia di #gls("cve") senza incorrere in un #emph("rate limits").
+Per risolvere questa problematica è stato necessario dividere il payload totale di #gls("cve") in batch la cui dimensione non raggiungesse il #emph("rate limits") imposto dalla specifica #gls("api"). In certi casi, tra una chiamata di rete e l'altra è anche stato necessario apporre un timer per distaccarle temporaneamente, sempre per rispettare i limiti imposti dalle tecnologie esterne.
+Questa logica è stata confinata al livello degli outbound adapters, rivelando ancora una volta i vantaggi di modularità dell'architettura esagonale e di isolamento del dominio rispetto alle tecnologie esterne.

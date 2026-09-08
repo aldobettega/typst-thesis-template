@@ -245,6 +245,26 @@
     parola: "Python",
     desc: "Linguaggio di programmazione ad alto livello, interpretato e open source.",
   ),
+  (
+    key: "llm",
+    parola: "LLM",
+    desc: [#emph[Large Language Model] - sistema avanzato di intelligenza artificiale basato sul deep learning e su architetture di reti neurali.  Questi modelli vengono addestrati su enormi quantità di dati testuali per comprendere, interpretare e generare linguaggio naturale in modo coerente e contestualmente appropriato.],
+  ),
+  (
+    key: "prompt",
+    parola: "prompt",
+    desc: "Nel campo dell'intelligenza artificiale è il messaggio in input (direttiva) che viene fornito al modello linguistico.",
+  ),
+  (
+    key: "prompt-engeneering",
+    parola: "Prompt Engeneering",
+    desc: "Processo strategico di progettazione, perfezionamento e ottimizzazione degli input (chiamati prompt) forniti ai modelli di intelligenza artificiale, per guidarne la produzione di output accurati, pertinenti e di alta qualità.",
+  ),
+  (
+    key: "allucinazioni",
+    parola: "allucinazioni",
+    desc: "Nel campo dell'intelligenza artificiale è il fenomeno in cui il modello genera un output con argomentazioni false o inventate, presentandole come verità oggettive.",
+  ),
 )
 
 /*
