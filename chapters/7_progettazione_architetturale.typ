@@ -39,89 +39,98 @@ Questo modulo delega la validazione dei dati in ingresso e uscita agli schemi py
 I metodi principali di questa classe sono:
 \
 \
-- `start_analysis(
+```
+start_analysis(
         request: AssessmentRequestSchema,
         use_case: StartAssessmentUseCase,
-    ) -> AssessmentResponseSchema:`\ \
+    ) -> AssessmentResponseSchema:```\ \
   Avvia l'esecuzione della pipeline ricevendo in input l'IP e le informazioni di contesto del dispositivo target.
   Poichè la produzione del report è un'operazione che richiede diversi minuti per completarsi, la funzione non ritorna il report finale, ma lancia il processo in background e ne ritorna l'id.
   In questo modo il #gls("frontend") può effettuare un polling periodico per monitorare lo stato dell'operazione e mostrare all'utente gli avanzamenti di essa.
-\
-- `get_status(
+\ \
+```
+get_status(
         analysis_id: str,
         use_case: GetAssessmentStatusUseCase
-    ) -> PipelineSchema:`
-  \  \
+    ) -> PipelineSchema:```
   Dato l'id di un'analisi, ne ritorna lo stato sottoforma di `PipelineSchema` che contiene
   - stato
   - step della pipeline
   - messaggio descrittivo
   - eventuale errore o warnings
 \ \ 
-- `get_analysis_report(
+```
+get_analysis_report(
         analysis_id: str,
         use_case: GetAssessmentReportUseCase
-    ) -> VulnerabilityReportSchema:`
-  \ \
-  Dato l'id di un'analsi ne ritorna, se esistente e pronto, il report finale sottoforma di `VulnerabilityReportSchema`, tra i campi principali contiene una lista di vulnerabilità con le seguenti informazioni:
-  - #gls("cve")
-  - la severità calcolata dallo scanner (nell'MVP #gls("qualys"))
-  - #gls("cvss")
-  - #gls("epss")
-  - se è presente nel #gls("kev")
-  - la severità calcolata tramite il framework di @VMC (#emph("Vulnerability Management Chaining"))
-  - un resoconto generato dall'#gls("AI")
+    ) -> VulnerabilityReportSchema:
+```
+Dato l'id di un'analsi ne ritorna, se esistente e pronto, il report finale sottoforma di `VulnerabilityReportSchema`, tra i campi principali contiene una lista di vulnerabilità con le seguenti informazioni:
+- #gls("cve")
+- la severità calcolata dallo scanner (nell'MVP #gls("qualys"))
+- #gls("cvss")
+- #gls("epss")
+- se è presente nel #gls("kev")
+- la severità calcolata tramite il framework di @VMC (#emph("Vulnerability Management Chaining"))
+- un resoconto generato dall'#gls("AI")
 \ \
-- `export_analysis_report(
+```
+export_analysis_report(
         request: ExportRequestSchema,
         analysis_id: str,
         use_case: ExportAssessmentReportUseCase
-    ) -> Response:`
-  \ \
-  Dato l'id di un'analisi e l'estensione richiesta (nell'MVP l'unico formato disponibile è #gls("docx")), ne ritorna il file scaricabile.
+    ) -> Response:```
+Dato l'id di un'analisi e l'estensione richiesta (nell'MVP l'unico formato disponibile è #gls("docx")), ne ritorna il file scaricabile. \ \
 
 === Servizi Applicativi
 
 ==== AssessmentApplicationService
 
 L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione. Gestisce i tre casi d'uso principali, organizzando tutto il ciclo di vita dell'applicazione.
-\ \ 
-- `start_assessment(request: AssessmentRequest) -> AssessmentResponse:`
-  \ \
-  crea l'analisi e chiama in background la pipeline di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'id dell'analisi creata, in modo che lo possa usare per chiederne lo stato e recuperarne il report.
 \ \
-- `get_status(self, analysis_id: str) -> Pipeline:`
-  \ \
-  utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi 
-
+```
+start_assessment(request: AssessmentRequest) -> AssessmentResponse:```
+Crea l'analisi e chiama in background la pipeline di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'id dell'analisi creata, in modo che lo possa usare per chiederne lo stato e recuperarne il report.
+\ \
+```
+get_status(self, analysis_id: str) -> Pipeline:```
+Utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi 
+\ \
 ==== PriorityEngine
 
-Il `PriorityEnginer` è una classe di supporto all'`AssessmentApplicationService` che incapsula la logica di calcolo della priorità di ThreatLens.
+Il `PriorityEngine` è una classe di supporto all'`AssessmentApplicationService` che incapsula la logica di calcolo della priorità di ThreatLens.
 Questa classe modella il #emph("decision tree") descritto in @VMC. 
-
+\ \
 === Outbound Adapters
 
 ==== Scanner
 
 Per l'MVP è stato codificato un adapter per lo scanner di vulnerabilità #gls("qualys"), ma il sistema grazie alla sua architettura, è aperto a nuovi scanner tramite la codifica di adapter dedicati.
 L'adapter deve implementare il metodo della porta:
-
-- `scan(ip: str) -> ScannerResult`\ \
-  Tale metodo riceve l'ip del dispositivo target e ritorna l'oggetto di dominio `ScannerResult`, nel quale vengono mappati i risultati provenienti dalle API del tenant di #gls("qualys").
+\ \
+```
+scan(ip: str) -> ScannerResult```
+Tale metodo riceve l'ip del dispositivo target e ritorna l'oggetto di dominio `ScannerResult`, nel quale vengono mappati i risultati provenienti dalle #gls("api") del tenant di #gls("qualys").
 
 ==== AnalysisStore
 
 L'adapter `InMemoryAnalysisStore` gestisce la persistenza volatile delle `StoredAnalysis`, contenenti i risultati di un'analisi prodotti al termine della #gls("pipeline").
 Mette a disposizione metodi di lettura e scrittura dell'oggetto:
 \ \
-- `get_analysis(analysis_id: str) -> StoredAnalysis`: \
-  ritorna l'oggetto desiderato tramite il suo id\ \
+```
+get_analysis(analysis_id: str) -> StoredAnalysis
+```
+Ritorna l'oggetto desiderato tramite il suo id\ \
 
-- `get_all_analysis() -> list:` \
-  ritorna tutte le analisi salvate nel sistema\ \ 
+```
+get_all_analysis() -> list
+```
+Ritorna tutte le analisi salvate nel sistema\ \ 
 
-- `save_analysis(analysis: StoredAnalysis) -> None:`\
-  salva un'analisi nel sistema\ \
+```
+save_analysis(analysis: StoredAnalysis) -> None:
+```
+Salva un'analisi nel sistema\ \
 
 ==== Data providers
 
@@ -137,10 +146,10 @@ Il recupero dei dati necessari al calcolo della gravità (#gls("cvss"), #gls("ep
 
 Il `GeminiExplanationAdapter` adapter contretizza l'interfaccia definita in `AiExplanationPort`. Il modulo implementa il metodo:
 \ \
-  `generate_explanation_bulk(
-        vulnerabilities: list[PrioritizedVulnerability],
-    ) -> ExplanationById`
-\ \
+```
+generate_explanation_bulk(
+      vulnerabilities: list[PrioritizedVulnerability],
+  ) -> ExplanationById```
 Questo metodo riceve in input l'output delle fasi precedenti della #gls("pipeline"): una lista di vulnerabilità già prioritizzate e arricchite con le relative metriche di contesto. Restituisce una struttura dati indicizzata (`ExplanationById`) che mappa l'identificativo di ciascuna vulnerabilità al resoconto testuale generato dall'Intelligenza Artificiale.
 
 == Principi di Design e Modularità nel #gls("backend")
@@ -298,7 +307,7 @@ Questa scomposizione garantisce che l'interfaccia utente sia completamente disac
 - *Abstraction Layer:* Mediato da un'implementazione reattiva del pattern Facade, che non si limita a fornire un'interfaccia unificata, ma orchestra i flussi asincroni e funge da singola fonte di verità per lo stato della UI.
 - *Core Layer:* Composto da servizi API rigorosamente #emph[stateless] che operano come #emph[Gateway] verso il backend, rispettando il principio di singola responsabilità.
 
-=== Diagramma delle classi
+// === Diagramma delle classi
 
 === Service Model
 
@@ -308,31 +317,44 @@ I moduli che hanno questo compito sono:
 ==== AnalysisApi
 
 Si occupa della gesitone di un'analisi di #gls("vulnerability-assessment"), presenta i metodi:
-
-- `startAnalysis(AssessmentRequest): Observable<AssessmentResponse>`: \ metodo che lancia la creazione dell'analisi e riceve un #emph("Observable") di tipo `AssessmentResponse` contenente l'identificativo del processo lanciato.
+\ \
+```
+startAnalysis(AssessmentRequest): Observable<AssessmentResponse>
+```
+Metodo che lancia la creazione dell'analisi e riceve un #emph("Observable") di tipo `AssessmentResponse` contenente l'identificativo del processo lanciato.
 \ \ 
-- `getAnalysesSummary(): Observable<AnalysesSummary>`: \ metodo che ritorna id e stato di tutte le analisi salvate nella memoria del sistema, serve a visualizzare nella home la lista di analisi create.
+```
+getAnalysesSummary(): Observable<AnalysesSummary>
+```
+Metodo che ritorna id e stato di tutte le analisi salvate nella memoria del sistema, serve a visualizzare nella home la lista di analisi create.
 
 ==== CapabilitiesApi
 
 Si occupa di recuperare le funzionalità che il sistema dispone, serve a recuperare le opzioni selezionabili nel modulo di configurazione dell'analisi (come scanner disponibili e opzioni di contesto dell'asset). Questa classe è particolarmente utile perchè rende il backend intelligente e dipendente dalle funzionalità codificate nel #gls("backend"): nel caso si aggiunga un nuovo scanner non sarà necessario modificare il #gls("frontend"), essendo lui stesso a rilevare un nuovo scanner e mostrandone automaticamente l'opzione disponibile. Questo modulo è un buon esempio di come nel sistema siano le tecnologie esterne a dipendere da logica e configurazioni interne.
 Il metodo di questa classe è:
 \ \
-- `getCapabilities(): Observable<SystemCapabilities>`: \
-  ritorna le funzionalità che il sistema dispone all'utente
+```
+getCapabilities(): Observable<SystemCapabilities>
+```
+Ritorna le funzionalità che il sistema dispone all'utente.
 
 ==== PipelineApi
 
 Servizio che si occupa di richiedere lo stato della #gls("pipeline") di un'analisi, con il metodo:
 \ \
-- `getStatus(analysisId): Observable<Pipeline>`:\  ritorna un #emph("Observable") di tipo `Pipeline` (un oggetto di #gls("frontend")) contenente le informazioni della #gls("pipeline") che verranno mostrate all'utente. 
+```
+getStatus(analysisId): Observable<Pipeline>
+```
+Ritorna un #emph("Observable") di tipo `Pipeline` (un oggetto di #gls("frontend")) contenente le informazioni della #gls("pipeline") che verranno mostrate all'utente. 
 
 ==== ReportApi
 
 Ha la responsabilità di gestire operazioni riguardanti il report: richiederlo per mostrarlo all'utente e richiederne l'esportazione.
 \ \ 
-- `getReport(analysisId): Observable<VulnerabilityReport>`: \
-  ritorna un #emph("Observable") di tipo `VulnerabilityReport`, contenente tutte le informazioni da mostrare all'utente.
+```
+getReport(analysisId): Observable<VulnerabilityReport>
+```
+Ritorna un #emph("Observable") di tipo `VulnerabilityReport`, contenente tutte le informazioni da mostrare all'utente.
 
 === Facade
 
@@ -345,29 +367,39 @@ Delegando la gestione degli #emph("Observable") alla #emph("Facade"), si rispett
 Questo modulo si occupa di gestire lo stato della #emph("Home"), la pagina principale di ThreatLens.
 Presenta un singolo metodo:
 \ \
-- `loadAnalyses(): void`:\
-  utilizza `analysisApi` per caricare le analisi nella home, gestendone il loro stato ed eventuali errori.
+```
+loadAnalyses(): void
+```
+Utilizza `analysisApi` per caricare le analisi nella home, gestendone il loro stato ed eventuali errori.
 
 ==== NewAnalysisFacade
 
 Questa classe ha il compito di gestire lo stato della pagina di analisi, inclusa la pipeline visiva, presenta due metodi:
 \ \
-- `loadCapabilities(): void`:\
-  utilizza `capabilitiesApi` per caricale le funzionalità del sistema, gestendone stato ed eventuali errori.
+```
+loadCapabilities(): void
+```
+Utilizza `capabilitiesApi` per caricale le funzionalità del sistema, gestendone stato ed eventuali errori.
 \ \
-- `startAnalysis(AssessmentRequest): void`:\
-  utilizza `analysisApi` per lanciare l'analisi, resta in ascolto sul canale di risposta attendendo l'identificativo del processo generato.
-  Si occupa anche di far partire il metodo privato `startPollingStatus(analysisId)` che chiede periodicamente lo stato del processo, in modo da monitorare l'andamento della #gls("pipeline") di #gls("backend"), informando l'utente del suo stato e ridirezionando l'interfaccia alla pagina di report una volta terminata l'esecuzione.
+```
+startAnalysis(AssessmentRequest): void
+```
+Utilizza `analysisApi` per lanciare l'analisi, resta in ascolto sul canale di risposta attendendo l'identificativo del processo generato.
+Si occupa anche di far partire il metodo privato `startPollingStatus(analysisId)` che chiede periodicamente lo stato del processo, in modo da monitorare l'andamento della #gls("pipeline") di #gls("backend"), informando l'utente del suo stato e ridirezionando l'interfaccia alla pagina di report una volta terminata l'esecuzione.
 
 ==== ReportFacade
 
 Il `ReportFacade` orchestra lo stato della pagina di report, con i metodi:
 \ \
-- `loadReport(analysisId): void`:\
-  utilizza `reportApi` per recuperare il report e gestire il flusso di dati ed eventuali errori.
+```
+loadReport(analysisId): void
+```
+Utilizza `reportApi` per recuperare il report e gestire il flusso di dati ed eventuali errori.
 \ \
-- `exportReport(analysisId, format): void`:\
-  utilizza `reportApi` per generare e recuperare il file esportabile nel formato selezionato dall'utente.
+```
+exportReport(analysisId, format): void
+```
+Utilizza `reportApi` per generare e recuperare il file esportabile nel formato selezionato dall'utente.
 
 === Smart Component (ViewModel)
 
