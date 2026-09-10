@@ -1,6 +1,6 @@
 #import "../config/glossario-data.typ": gls
 
-#pagebreak(to:"odd")
+#pagebreak()
 
 = Processi e metodologie
 

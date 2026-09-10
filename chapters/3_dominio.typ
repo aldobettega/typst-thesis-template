@@ -1,5 +1,7 @@
 #import "../config/glossario-data.typ": gls
 
+#pagebreak()
+
 = Studio del dominio
 
 Durante la prima fase del tirocinio è stato fatto uno studio approfondito sul tema del #gls("vulnerability-assessment"), attraverso il quale sono stati compresi i termini chiave del dominio, le principali problematiche e le soluzioni che le aziende prendono in considerazione per gestire al meglio il tracciamento e risoluzione di vulnerabilità.

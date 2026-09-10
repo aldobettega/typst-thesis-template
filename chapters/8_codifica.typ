@@ -1,5 +1,7 @@
 #import "../config/glossario-data.typ": gls
 
+#pagebreak()
+
 = Implementazione e \ Scelte Tecnologiche
 
 In questo capitolo vengono spiegati maggiormente nel dettaglio delle scelte implementative prese durante la fase di codifica del sistema.

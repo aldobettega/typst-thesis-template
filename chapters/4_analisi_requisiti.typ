@@ -1,7 +1,7 @@
 #import "../config/thesis-config.typ": useCase
 #import "../config/glossario-data.typ": gls
 
-#pagebreak(to:"odd")
+#pagebreak()
 
 = Analisi dei Requisiti
 
@@ -125,14 +125,17 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 
 Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratti dai casi d'uso.
 
+#show figure: set block(breakable: true)
 #show table.cell.where(y: 0): set text(weight: "bold")
+
+#v(1em)
 
 #figure(
   caption: [Elenco dei Requisiti Funzionali obbligatori estratti dai casi d'uso.],
   kind: table,
   table(
     // Definiamo 3 colonne: Codice stretto, Descrizione espansa, Fonti stretta
-    columns: (auto, 1fr, auto),
+    columns: (auto, 1fr, auto, auto),
     
     // Allineiamo il testo: centrato per i codici e le fonti, a sinistra per la descrizione
     align: (col, row) => if col == 1 { left } else { center + horizon },
@@ -144,25 +147,29 @@ Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratt
     stroke: 0.5pt + black,
     
     // Intestazione
-    [Codice], [Descrizione], [Fonti],
+    [Codice], [Descrizione], [Fonti], [Stato],
 
     // Righe
-    [RF001], [Il sistema deve permettere all'Utente di richiedere l'avvio di una nuova analisi.], [UC1],
+    [RF001], [Il sistema deve permettere all'Utente di richiedere l'avvio di una nuova analisi.], [UC1], [Implementato],
     
-    [RF002], [L'Utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1],
+    [RF002], [L'Utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1], [Implementato],
     
-    [RF003], [L'Utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2],
+    [RF003], [L'Utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2], [Implementato],
     
-    [RF004], [L'Utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3],
+    [RF004], [L'Utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3], [Implementato],
     
-    [RF005], [Il sistema deve mostrare all'Utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2],
+    [RF005], [Il sistema deve mostrare all'Utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2], [Implementato],
     
-    [RF006], [Il sistema deve renderizzare a schermo il Vulnerability Report, mostrando le vulnerabilità, il badge della priorità operativa calcolata e il testo dell'#gls("AI").], [UC3],
+    [RF006], [Il sistema deve renderizzare a schermo il Vulnerability Report, mostrando le vulnerabilità, il badge della priorità operativa calcolata e il testo dell'#gls("AI").], [UC3], [Implementato],
     
-    [RF007], [Il sistema deve mostrare all'Utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1],
+    [RF007], [Il sistema deve mostrare all'Utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1], [Implementato],
     
-    [RF008], [L'Utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4],
+    [RF008], [L'Utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4], [Implementato],
     
-    [RF009], [Il sistema deve intercettare gli errori di generazione file e notificare l'Utente con un messaggio d'errore a schermo.], [UC4.1]
+    [RF009], [Il sistema deve intercettare gli errori di generazione file e notificare l'Utente con un messaggio d'errore a schermo.], [UC4.1], [Implementato],
+
+    [RF010], [L'utente deve poter inviare il report finale ad un indirizzo email specifico], [UC5], [Non Implementato],
+
+    [RF011], [Il sistema deve intercettare errori nell'invio email del report], [UC5.1], [Non Implementato]
   )
 )

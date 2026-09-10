@@ -1,5 +1,7 @@
 #import "../config/glossario-data.typ": gls
 
+#pagebreak()
+
 = Progettazione \ Architetturale
 
 L'obiettivo della fase di progettazione è stato delineare la struttura di un sistema in grado di rispettare i requisiti derivati dalla fase di studio del dominio.
