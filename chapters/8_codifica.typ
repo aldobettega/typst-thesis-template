@@ -1,5 +1,3 @@
-#pagebreak(to:"odd")
-
 #import "../config/glossario-data.typ": gls
 
 = Implementazione e \ Scelte Tecnologiche
@@ -17,7 +15,7 @@ Le due scelte plausibili sono:
 
 Gli argomenti a sostegno della prima tesi sono un minor codice boilerplate, evitando duplicazioni inutili e mappature di dati che aggiungono logica non necessaria al funzionamento del programma, allungando il lavoro del programmatore.
 Tuttavia la seconda tesi è maggiormente supportata da gran parte della letteratura architetturale.
-In primo luogo, introdurre una libreria esterna come #gls("pydantic") nel dominio violerebbe il principio dell'architettura esagonale o della #emph("clean architecture"), come riportato in @clean. In secondo luogo, la validazione dei dati deve avvenire ai confini del sistema: nel nostro caso validiamo i dati in entrata e in uscita nel layer dell'Inbound Adapter.
+In primo luogo, introdurre una libreria esterna come #gls("pydantic") nel dominio violerebbe il principio dell'architettura esagonale o della #emph("clean architecture"), come riportato dalla letteratura @clean. In secondo luogo, la validazione dei dati deve avvenire ai confini del sistema: nel nostro caso validiamo i dati in entrata e in uscita nel layer dell'Inbound Adapter.
 Dunque la soluzione è stata scrivere delle funzioni di mappatura a livello dell'Inbound Adapter, in modo che i dati vengano validati e serializzati in un oggetto #gls("pydantic") che possa rispettare le richieste del contratto dell'#gls("api"). In questo modo, oltre che validare, è possibile mantenere la logica di dominio stabile e lasciare eventuali modifiche al livello di mappatura dell'oggetto, adattandolo alle esigenze delle #gls("api").
 
 == Persistenza dei dati nell MVP

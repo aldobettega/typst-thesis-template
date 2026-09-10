@@ -265,6 +265,11 @@
     parola: "allucinazioni",
     desc: "Nel campo dell'intelligenza artificiale è il fenomeno in cui il modello genera un output con argomentazioni false o inventate, presentandole come verità oggettive.",
   ),
+  (
+    key: "mvp",
+    parola: "MVP",
+    desc: [#emph("Minimum Viable Product") - versione più semplice e basilare di un prodotto o servizio, dotata solo delle funzionalità essenziali per essere utilizzata dai primi utenti.],
+  ),
 )
 
 /*

@@ -1,5 +1,3 @@
-#pagebreak(to:"odd")
-
 #import "../config/glossario-data.typ": gls
 
 = Progettazione \ Architetturale
@@ -29,8 +27,14 @@ Il sistema è strutturato in livelli concentrici:
   #figure(
     image("/images/AssessmentDiagram.png", width: 100%),
     caption: [Diagramma architetturale dei componenti]
-  )
+  )<backend_classes>
 ]
+
+#v(1em)
+
+Il diagramma in @backend_classes modella le principali componenti di backend.
+
+#v(3em)
 
 === Inbound Adapters
 
@@ -71,7 +75,7 @@ Dato l'id di un'analsi ne ritorna, se esistente e pronto, il report finale sotto
 - #gls("cvss")
 - #gls("epss")
 - se è presente nel #gls("kev")
-- la severità calcolata tramite il framework di @VMC (#emph("Vulnerability Management Chaining"))
+- la severità calcolata tramite il framework di Shimizu e Hashimoto @VMC (#emph("Vulnerability Management Chaining"))
 - un resoconto generato dall'#gls("AI")
 \ \
 ```
@@ -99,7 +103,7 @@ Utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAn
 ==== PriorityEngine
 
 Il `PriorityEngine` è una classe di supporto all'`AssessmentApplicationService` che incapsula la logica di calcolo della priorità di ThreatLens.
-Questa classe modella il #emph("decision tree") descritto in @VMC. 
+Questa classe modella il #emph("decision tree") descritto da Shimizu e Hashimoto @VMC. 
 \ \
 === Outbound Adapters
 
@@ -219,7 +223,7 @@ Ne risulta una lista di `EnrichedVulnerability` che contiene degli elementi indi
 
 === Fase 3: Calcolo della priorità
 
-Questa fase è affidata al metodo `_calculate_priority`. La computazione è delegata al componente `PriorityEngine`, che incapsula la logica del #emph[#gls("decision-tree")] descritta in @VMC.
+Questa fase è affidata al metodo `_calculate_priority`. La computazione è delegata al componente `PriorityEngine`, che incapsula la logica del #emph[#gls("decision-tree")].
 
 L'elaborazione restituisce una lista di `PrioritizedVulnerability`. Ad ogni vulnerabilità viene assegnata una `OperationalPriority` che ne categorizza la gravità in ordine crescente:
 - `TRACK`
@@ -404,8 +408,8 @@ Utilizza `reportApi` per generare e recuperare il file esportabile nel formato s
 === Smart Component (ViewModel)
 
 Questo layer ha il compito di gestire la logica di interfaccia e passare i dati già elaborati ai componenti figli. Deve inoltre restare in ascolto degli eventi emessi dall'utente, per invocare correttamente i metodi della facade lasciandole la responsabilità di orchestrare la chiamata di rete.
-Solitamente in Angular lo #gls("Smart Component") rappresenta una pagina web contenente vari pezzi di interfaccia con cui l'utente può interagire (i #gls("Dumb Component")).
-Dunque, gli #gls("Smart Component") di ThreatLens rappresentano le pagine della piattaforma:
+Solitamente in Angular lo Smart Component rappresenta una pagina web contenente vari pezzi di interfaccia con cui l'utente può interagire (i Dumb Component).
+Dunque, gli Smart Component di ThreatLens rappresentano le pagine della piattaforma:
 
 - `HomePage`
 - `NewAnalysisPage`
@@ -413,7 +417,7 @@ Dunque, gli #gls("Smart Component") di ThreatLens rappresentano le pagine della 
 
 === Dumb Component (View)
 
-Rappresentano il livello di presentazione puro. La loro unica responsabilità è presentare gli elementi dell'interfaccia utente e delegare l'interazione dell'utente "verso l'alto", notificando lo #gls("Smart Component") tramite l'emissione di eventi. Essendo completamente privi di logica applicativa e ignari dei servizi #gls("api") o della Facade, questi componenti lavorano esclusivamente sui dati ricevuti in ingresso, risultando pertanto altamente riutilizzabili.
+Rappresentano il livello di presentazione puro. La loro unica responsabilità è presentare gli elementi dell'interfaccia utente e delegare l'interazione dell'utente "verso l'alto", notificando lo Smart Component tramite l'emissione di eventi. Essendo completamente privi di logica applicativa e ignari dei servizi #gls("api") o della Facade, questi componenti lavorano esclusivamente sui dati ricevuti in ingresso, risultando pertanto altamente riutilizzabili.
 
 === Flussi Asincroni e Gestione dello Stato Reattivo
 

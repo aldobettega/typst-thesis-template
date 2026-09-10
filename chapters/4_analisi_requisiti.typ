@@ -127,38 +127,42 @@ Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratt
 
 #show table.cell.where(y: 0): set text(weight: "bold")
 
-#table(
-  // Definiamo 3 colonne: Codice stretto, Descrizione espansa, Fonti stretta
-  columns: (auto, 1fr, auto),
-  
-  // Allineiamo il testo: centrato per i codici e le fonti, a sinistra per la descrizione
-  align: (col, row) => if col == 1 { left } else { center + horizon },
-  
-  // Colore di sfondo per la prima riga (simile allo screenshot)
-  fill: (col, row) => if row == 0 { rgb("539b98") } else { none },
-  
-  // Bordo tabella
-  stroke: 0.5pt + black,
-  
-  // Intestazione
-  [Codice], [Descrizione], [Fonti],
+#figure(
+  caption: [Elenco dei Requisiti Funzionali obbligatori estratti dai casi d'uso.],
+  kind: table,
+  table(
+    // Definiamo 3 colonne: Codice stretto, Descrizione espansa, Fonti stretta
+    columns: (auto, 1fr, auto),
+    
+    // Allineiamo il testo: centrato per i codici e le fonti, a sinistra per la descrizione
+    align: (col, row) => if col == 1 { left } else { center + horizon },
+    
+    // Colore di sfondo per la prima riga
+    fill: (col, row) => if row == 0 { rgb("539b98") } else { none },
+    
+    // Bordo tabella
+    stroke: 0.5pt + black,
+    
+    // Intestazione
+    [Codice], [Descrizione], [Fonti],
 
-  // Righe
-  [RF001], [Il sistema deve permettere all'Utente di richiedere l'avvio di una nuova analisi.], [UC1],
-  
-  [RF002], [L'Utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1],
-  
-  [RF003], [L'Utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2],
-  
-  [RF004], [L'Utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3],
-  
-  [RF005], [Il sistema deve mostrare all'Utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2],
-  
-  [RF006], [Il sistema deve renderizzare a schermo il Vulnerability Report, mostrando le vulnerabilità, il badge della priorità operativa calcolata e il testo dell'#gls("AI").], [UC3],
-  
-  [RF007], [Il sistema deve mostrare all'Utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1],
-  
-  [RF008], [L'Utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4],
-  
-  [RF009], [Il sistema deve intercettare gli errori di generazione file e notificare l'Utente con un messaggio d'errore a schermo.], [UC4.1]
+    // Righe
+    [RF001], [Il sistema deve permettere all'Utente di richiedere l'avvio di una nuova analisi.], [UC1],
+    
+    [RF002], [L'Utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1],
+    
+    [RF003], [L'Utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2],
+    
+    [RF004], [L'Utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3],
+    
+    [RF005], [Il sistema deve mostrare all'Utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2],
+    
+    [RF006], [Il sistema deve renderizzare a schermo il Vulnerability Report, mostrando le vulnerabilità, il badge della priorità operativa calcolata e il testo dell'#gls("AI").], [UC3],
+    
+    [RF007], [Il sistema deve mostrare all'Utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1],
+    
+    [RF008], [L'Utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4],
+    
+    [RF009], [Il sistema deve intercettare gli errori di generazione file e notificare l'Utente con un messaggio d'errore a schermo.], [UC4.1]
+  )
 )
