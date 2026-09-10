@@ -50,25 +50,37 @@
         ]
     )
 
+    show heading: set text(hyphenate: false)
+
   body
 }
 
 #let useCase(useCaseDetails) = {
-    let n = 1
-    if useCaseDetails.number != "" and useCaseDetails.name != "" {
+    // 1. Stampa il titolo del caso d'uso
+    if "number" in useCaseDetails and "name" in useCaseDetails and useCaseDetails.number != "" and useCaseDetails.name != "" {
         text(12pt, [ *UC#useCaseDetails.number: #useCaseDetails.name* ])
     }
-    let result = for (k, v) in useCaseDetails {
-        if k != "number" and k != "name" {
-            (text(k, weight: "bold"),
-            v,)
-        }
-        n = n + 1
+    
+    // 2. Se è stata passata un'immagine, inseriscila con un po' di margine
+    if "diagram" in useCaseDetails {
+        v(1em)
+        useCaseDetails.diagram
+        v(0.5em)
     }
+
+    // 3. Prepara le righe della tabella escludendo le chiavi speciali
+    let result = for (k, v) in useCaseDetails {
+        if k != "number" and k != "name" and k != "diagram" {
+            (text(k, weight: "bold"), v)
+        }
+    }
+    
+    // 4. Stampa la tabella
     table(
         inset: 8pt,
         stroke: none,
-        columns: 2,
+        // Ho impostato la prima colonna su auto (si adatta alle etichette) e la seconda su 1fr (prende il resto dello spazio)
+        columns: (auto, 1fr), 
         ..result
     )
 }

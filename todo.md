@@ -1,6 +1,6 @@
-- LUNGO Tutti i diagrammi uc
 - MEDIO-LUNGO grammatica
-- MEDIO sistemare asset context
+- immagine lab bridge
+- aggiungere bibliografia di siti
 
 - CORTO capitolo 1.3
 - CORTO ringraziamenti, citazioni, sommario

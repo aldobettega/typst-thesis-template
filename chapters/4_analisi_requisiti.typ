@@ -12,12 +12,16 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "1",
   name: "Creazione e avvio dell'analisi di sicurezza",
+  diagram: figure(
+    image("../images/usecase/UC1.png", width: 100%),
+    caption: [Use Case - UC1: Creazione e avvio dell'analisi di sicurezza]
+  ),
   "Attore principale": "Utente",
   "Attore secondario": "Scanner",
   "Precondizione": "L'utente si trova all'interno della piattaforma nella sezione di nuova analisi.",
   "Flusso principale": "L'utente configura i parametri fondamentali per la scansione (scanner, target, contesto) e ne richiede l'avvio. Il sistema convalida i dati in ingresso e avvia l'analisi.",
   "Sottocasi inclusi": "UC1.1 (Selezione scanner), UC1.2 (Inserimento IP), UC1.3 (Definizione Asset Context).",
-  "Postcondizione": "La scansione è avviata correttamente e il sistema entra in fase di elaborazione."
+  "Postcondizione": "La scansione è avviata correttamente e il sistema entra in fase di elaborazione.",
 ))
 
 #v(1em)
@@ -52,6 +56,10 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "2",
   name: "Monitoraggio dell'avanzamento dell'analisi",
+  diagram: figure(
+    image("../images/usecase/UC2.png", width: 100%),
+    caption: [Use Case - UC2: Monitoraggio dell'avanzamento dell'analisi]
+  ),
   "Attore principale": "Utente",
   "Flusso principale": [L'utente visualizza l'interfaccia dedicata allo stato dell'analisi. Il sistema interroga lo scanner e mostra in tempo reale l'avanzamento del processo (scansione in corso, recupero di dati, generazione #gls("AI") o #gls("pipeline") fallita).],
   "Postcondizione": "L'utente è costantemente informato sullo stato di completamento del task."
@@ -62,6 +70,10 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "3",
   name: "Apertura e consultazione del report di vulnerabilità",
+  diagram: figure(
+    image("../images/usecase/UC3.png", width: 100%),
+    caption: [Use Case - UC3: Apertura e consultazione del report di vulnerabilità]
+  ),
   "Attore principale": "Utente",
   "Precondizione": "L'utente richiede l'accesso ai risultati di una specifica analisi.",
   "Flusso principale": [Il sistema recupera il report e presenta un #emph("Vulnerability Report") aggregato che include le vulnerabilità, la loro priorità operativa e la spiegazione generata dall'#gls("AI").],
@@ -84,6 +96,10 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "4",
   name: "Esportazione del report",
+  diagram: figure(
+    image("../images/usecase/UC4.png", width: 80%),
+    caption: [Use Case - UC4: Esportazione del report]
+  ),
   "Attore principale": "Utente",
   "Precondizione": "L'utente sta visualizzando un report completato e accessibile.",
   "Flusso principale": [L'utente richiede l'esportazione del report. Il sistema compila un documento in formato #gls("docx") contenente il dettaglio tecnico delle vulnerabilità e lo rende disponibile per il download.],
@@ -106,6 +122,10 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "5",
   name: "Invio del report tramite email",
+  diagram: figure(
+    image("../images/usecase/UC5.png", width: 80%),
+    caption: [Use Case - UC5: Invio del report tramite email]
+  ),
   "Attore principale": "Utente",
   "Flusso principale": [L'utente, dopo aver visualizzato un'analisi completata, richiede l'invio del report tramite email e specifica l'indirizzo di destinazione. Il sistema predispone il documento (es. in formato #gls("docx")), lo allega a un messaggio e lo inoltra al server SMTP per la consegna.],
   "Postcondizione": "Il report viene inviato con successo all'indirizzo specificato e il sistema conferma all'utente la presa in carico dell'operazione."

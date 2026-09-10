@@ -2,7 +2,7 @@
 
 #import "../config/glossario-data.typ": gls
 
-= Integrazione dell'Intelligenza\ Artificiale
+= Integrazione dell'Intelligenza Artificiale
 
 L'obiettivo dell'integrazione di un Modello Linguistico all'interno di ThreatLens non è delegare un calcolo del rischio classificando la #gls("cve"), ma rielaborare tutti i dati ricavati dai vari provider in una sintesi in linguaggio naturale dando un chiaro contesto all'analista di sicurezza.
 All'intelligenza artificiale è stata data la direttiva di agire come un analista di #emph("cybersecurity") senior.

@@ -20,9 +20,6 @@
 #include "chapters/9_ai.typ"
 #include "chapters/10_conclusioni.typ"
 
-// Appendix
-// #include "./appendix/appendice-a.typ"
-
 // Backmatter
 #include "./appendix/glossario.typ"
 

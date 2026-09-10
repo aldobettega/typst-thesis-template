@@ -2,7 +2,7 @@
 
 #pagebreak()
 
-= Studio del dominio
+= Studio del Dominio
 
 Durante la prima fase del tirocinio è stato fatto uno studio approfondito sul tema del #gls("vulnerability-assessment"), attraverso il quale sono stati compresi i termini chiave del dominio, le principali problematiche e le soluzioni che le aziende prendono in considerazione per gestire al meglio il tracciamento e risoluzione di vulnerabilità.
 Come riporta Rajamani @rajamani2025, nel solo 2025 sono state pubblicate 48.185 #gls("cve"), di cui il 56% classificate come #emph("high") o #emph("critical"), rendendo la coda di #gls("remediation") ingestibile senza un #gls("triage") intelligente.
@@ -136,7 +136,7 @@ Dal #emph[#gls("decision-tree")] possono essere prodotti in output 4 risultati:
 Nella piattaforma ThreatLens per la classificazione dell'esito finale, il sistema adotta la nomenclatura introdotta dal framework #gls("ssvc"). 
 
 Questa scelta architetturale è motivata dal fatto che il modello #gls("ssvc") viene adottato come linguaggio di classificazione, in quanto progettato esplicitamente per categorizzare le decisioni di risposta attorno agli #emph[#gls("stakeholder")], alle azioni di mitigazione e alla tolleranza al rischio dell'organizzazione.
-Come riporta la documentazione ufficale di CISA @cisa_ssvc:
+Come riporta la documentazione ufficale di CISA @cisa_web:
 #align(center)[
   #block(
     fill: luma(250),
@@ -185,3 +185,65 @@ Se per esempio ci si trova in un ambiente particolarmente critico ed è necessar
 Se un'organizzazione ha meno risorse da allocare per il #gls("vulnerability-assessment"), si può decidere di alzare la soglia accettando un rischio maggiore, al fine di isolare un quantitativo minore di vulnerabilità da gestire.
 
 In ThreatLens è stato deciso di inserire nell'algoritmo le soglie indicate statisticamente ottimali da Shimizu e Hashimoto @VMC. Tuttavia, a fronte delle considerazioni sopracitate, è stato preso in considerazione come futuro sviluppo una configurazione dall'interfaccia web del calcolo della priorità. Questa implementazione consentirà all'analista di selezionare queste soglie calibrando l'algoritmo per adattare i risultati allo specifico contesto operativo e alla toleranza al rischio della propria organizzazione.
+
+=== Ruolo del contesto dell'asset
+
+Il sistema progettato analizza il contesto del dispostivo da analizzare attraverso tre parametri distinti forniti in input dall'utente: l'ambiente di esecuzione, l'esposizione di rete e la criticità sistemica dell'asset. Il sistema non utilizza questi dati per alterare matematicamente la priorità finale della vulnerabilità, ma vengono elaborati per produrre un indicatore parallelo e indipendente che segnala all'analista se il contesto richiede un'attenzione nulla, elevata o forte. Il calcolo è rappresentato dalla matrice @context
+
+#v(1em)
+
+#figure(
+  caption: [Matrice di calcolo deterministico per il livello di attenzione contestuale (#emph[Context Attention]).],
+  kind: table,
+  table(
+    columns: (auto, 1fr, 1fr, 1fr),
+    inset: 8pt,
+    align: center + horizon,
+    fill: (col, row) => if row == 0 or col == 0 { rgb("007373") } else { none },
+    stroke: 0.5pt + black,
+    
+    // -- CELLA IN ALTO A SINISTRA (Diagonale nativa su misura) --
+    table.cell(
+      inset: 0pt, // Rimuoviamo il margine per far toccare la linea agli angoli esatti
+      box(width: 110pt, height: 35pt, [
+        // Disegna la linea diagonale fissa da angolo ad angolo (110x35)
+        #place(top + left, line(start: (0pt, 0pt), end: (110pt, 35pt), stroke: 0.5pt + white))
+        
+        // "Esposizione" posizionato nell'angolo in basso a sinistra (si riferisce alle righe)
+        #place(bottom + left, dx: 5pt, dy: -4pt)[#text(fill: white, weight: "bold", size: 9pt)[Esposizione]]
+        
+        // "Criticità" posizionato nell'angolo in alto a destra (si riferisce alle colonne)
+        #place(top + right, dx: -5pt, dy: 4pt)[#text(fill: white, weight: "bold", size: 9pt)[Criticità]]
+      ])
+    ), 
+    
+    // -- INTESTAZIONE COLONNE --
+    text(fill: white, weight: "bold", size: 9pt)[LOW], 
+    text(fill: white, weight: "bold", size: 9pt)[MEDIUM], 
+    text(fill: white, weight: "bold", size: 9pt)[HIGH],
+    
+    // -- RIGA 1 --
+    text(fill: white, weight: "bold", size: 9pt)[ISOLATED], 
+    table.cell(fill: rgb("d4edda"))[NONE], 
+    table.cell(fill: rgb("d4edda"))[NONE], 
+    table.cell(fill: rgb("fff3cd"))[*ELEVATED*],
+    
+    // -- RIGA 2 --
+    text(fill: white, weight: "bold", size: 9pt)[INTERNAL], 
+    table.cell(fill: rgb("d4edda"))[NONE], 
+    table.cell(fill: rgb("fff3cd"))[*ELEVATED*], 
+    table.cell(fill: rgb("f8d7da"))[*STRONG*],
+    
+    // -- RIGA 3 --
+    text(fill: white, weight: "bold", size: 9pt)[PUBLIC], 
+    table.cell(fill: rgb("fff3cd"))[*ELEVATED*], 
+    table.cell(fill: rgb("f8d7da"))[*STRONG*], 
+    table.cell(fill: rgb("f8d7da"))[*STRONG*]
+  )
+)<context>
+
+#v(1em)
+
+Questa scelta progettuale è motivata dallo stato attuale della ricerca scientifica a riguardo. Sebbene la letteratura @agyei2026explainable riconosca che il contesto dell'asset sia un livello informativo cruciale per la prioritizzazione, non esistono ad oggi criteri empiricamente consolidati per convertire tali fattori in pesi numerici esatti.
+
+Per garantire un rigore scientifico e generare metriche non validate, si è deciso di trattare il contesto dell'asset come un segnale separato che arricchisce l'analisi generale. In questo modo si evita di inquinare il calcolo della gravità modellato su algoritmi comprovati dalla letteratura del settore @VMC.

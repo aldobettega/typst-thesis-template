@@ -2,4 +2,10 @@
 
 = Conclusioni
 
-capitolo conclusivo
+== Obiettivi Raggiunti
+
+== Conoscenze acquisite
+
+== Scenari futuri
+
+== Valutazione personale

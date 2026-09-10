@@ -2,9 +2,7 @@
 
 #pagebreak()
 
-= Implementazione e \ Scelte Tecnologiche
-
-In questo capitolo vengono spiegati maggiormente nel dettaglio delle scelte implementative prese durante la fase di codifica del sistema.
+= Implementazione e Scelte Tecnologiche
 
 == Modellazione e Validazione dei Dati
 

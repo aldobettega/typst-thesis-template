@@ -2,7 +2,7 @@
 
 #pagebreak()
 
-= Progettazione \ Architetturale
+= Progettazione Architetturale
 
 L'obiettivo della fase di progettazione è stato delineare la struttura di un sistema in grado di rispettare i requisiti derivati dalla fase di studio del dominio.
 La fase iniziale è stata dedicata alla strutturazione del #gls("backend"), costruendo i diagrammi delle classi per modellare le principali entità del sistema. A questa fase è stata data particolare attenzione poichè è il #gls("backend") che contiene tutta la logica del sistema, il recupero dati e il motore di classificazione delle vulnerabilità, delegando al #gls("frontend") solo la parte di interfaccia.
@@ -232,6 +232,8 @@ L'elaborazione restituisce una lista di `PrioritizedVulnerability`. Ad ogni vuln
 - `TRACK*`
 - `ATTEND`
 - `ACT`
+\ 
+Questo modulo calcola intoltre con la funzione `_calculate_context_attention` la `ContextAttention` tramite la `_CONTEXT_ATTENTION_MATRIX` che prende in input i tre parametri selezionati all'inizio dell'analisi dall'utente.
 
 ==== Fase 4: Generazione della spiegazione con l'#gls("AI")
 
