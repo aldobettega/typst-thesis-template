@@ -24,7 +24,7 @@ Questo crono-programma veniva poi condiviso a fine settimana per mostrare il pro
 
 L'attività di tirocinio si è aperta con una fase di inserimento in azienda, focalizzata sull'acquisizione del metodo di lavoro e sulla strutturazione delle attività di sviluppo del progetto.
 In seguito è stato fatto uno studio approfondito delle principali tecnologie con le quali si sarebbe sviluppata la piattaforma, partendo dal framework di #gls("angular") e dal suo linguaggio #gls("typescript").
-Lo studio teorico dei concetti è stato affiancato da esercizi, tutorial e progetti didattici orientati alla comprensione dei moduli principali del framework.
+Lo studio teorico dei concetti è stato affiancato da esercizi, tutorial e progetti didattici orientati alla comprensione dei moduli principali del framework, facendo sempre riferimento alla documentazione ufficiale @angular_web.
 
 === Seconda settimana
 
@@ -59,7 +59,7 @@ Per accelerare la codifica di questa parte e testare la validità degli studi fa
 
 Nella sesta settimana è stato integrato nel sistema l'#gls("AI"), tuttavia è stato necessario virare ad un modello gratuito come #emph("Gemini-Flash"), per una mancanza di credenziali di un modello a pagamento come #emph("Claude Sonnet").
 L'utilizzo di un modello gratuito è stato fortemente limitante per un'analisi accurata di tutte le #gls("cve") trovate dallo scanner. Per questo motivo nell'#gls("mvp") dimostrativo è stato necessario far generare una spiegazione solo alle cinque più gravi vulnerabilità del dispositivo target.
-In seguito è stato anche impostato l'ambiente di test con la macchina virtuale di #gls("qualys") con utenza al #gls("tenant") #gls("cloud") per interfacciarsi alle #gls("api") di lancio analisi e recupero dati.
+In seguito è stato anche impostato l'ambiente di test con la macchina virtuale di #gls("qualys") con utenza al #gls("tenant") #gls("cloud") per interfacciarsi alle #gls("api") di lancio analisi e recupero dati. Per la codifica dell'adapter di #gls("qualys") è stato necessario affrontare un accurato studio della sua documentazione #gls("api") @qualys_api_guide.
 
 === Settima settimana
 

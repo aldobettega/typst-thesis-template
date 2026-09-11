@@ -8,12 +8,8 @@
 
 #v(2em)
 #set par(first-line-indent: 0pt)
-Il presente documento descrive il lavoro svolto durante il periodo di stage, della durata di circa trecento ore, dal laureando Pinco Pallino presso l'azienda Azienda S.p.A.
+Il presente documento descrive il lavoro svolto durante il periodo di stage, della durata di circa trecento ore, dal laureando Aldo Bettega presso l'azienda Kirey Group.
 
-Gli obbiettivi da raggiungere erano molteplici.
-In primo luogo era richiesto lo sviluppo di ...
-In secondo luogo era richiesta l'implementazione di un ...
-Tale framework permette di registrare gli eventi di un controllore programmabile, quali segnali applicati
-Terzo ed ultimo obbiettivo era l'integrazione ...
+L'obiettivo del tirocinio è stato realizzare una piattaforma che affiancasse un analista di sicurezza nell'analisi di vulnerabilità informatiche.
 
 #v(1fr)

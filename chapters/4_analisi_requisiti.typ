@@ -141,6 +141,8 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
   "Postcondizione": "L'email non viene inoltrata e il sistema notifica l'errore all'utente, invitandolo a riprovare o a controllare i dati inseriti."
 ))
 
+#pagebreak()
+
 == Requisiti Funzionali
 
 Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratti dai casi d'uso.

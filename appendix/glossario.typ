@@ -2,6 +2,8 @@
 
 #import "../config/glossario-data.typ": mio-glossario
 
+#pagebreak()
+
 = Glossario
 
 #set par(first-line-indent: 0pt)
