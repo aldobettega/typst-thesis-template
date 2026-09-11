@@ -16,7 +16,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
     image("../images/usecase/UC1.png", width: 100%),
     caption: [Use Case - UC1: Creazione e avvio dell'analisi di sicurezza]
   ),
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Attore secondario": "Scanner",
   "Precondizione": "L'utente si trova all'interno della piattaforma nella sezione di nuova analisi.",
   "Flusso principale": "L'utente configura i parametri fondamentali per la scansione (scanner, target, contesto) e ne richiede l'avvio. Il sistema convalida i dati in ingresso e avvia l'analisi.",
@@ -29,7 +29,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "1.1",
   name: "Selezione dello scanner",
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [L'utente seleziona lo scanner da utilizzare per l'analisi. Attualmente il sistema vincola la selezione all'unica opzione supportata (#gls("qualys")).]
 ))
 
@@ -38,7 +38,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "1.2",
   name: [Inserimento #gls("ip") target],
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [L'utente inserisce un singolo indirizzo #gls("ip") che rappresenta il target su cui effettuare l'analisi delle vulnerabilità.]
 ))
 
@@ -47,7 +47,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "1.3",
   name: [Definizione dell'#gls("asset context")],
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [L'utente seleziona i tre parametri di contesto necessari a delineare il profilo di rischio del target: ambiente (#emph("environment")), esposizione (#emph("exposure")) e criticità (#emph("criticality")).]
 ))
 
@@ -60,7 +60,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
     image("../images/usecase/UC2.png", width: 100%),
     caption: [Use Case - UC2: Monitoraggio dell'avanzamento dell'analisi]
   ),
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [L'utente visualizza l'interfaccia dedicata allo stato dell'analisi. Il sistema interroga lo scanner e mostra in tempo reale l'avanzamento del processo (scansione in corso, recupero di dati, generazione #gls("AI") o #gls("pipeline") fallita).],
   "Postcondizione": "L'utente è costantemente informato sullo stato di completamento del task."
 ))
@@ -74,11 +74,11 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
     image("../images/usecase/UC3.png", width: 100%),
     caption: [Use Case - UC3: Apertura e consultazione del report di vulnerabilità]
   ),
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Precondizione": "L'utente richiede l'accesso ai risultati di una specifica analisi.",
   "Flusso principale": [Il sistema recupera il report e presenta un #emph("Vulnerability Report") aggregato che include le vulnerabilità, la loro priorità operativa e la spiegazione generata dall'#gls("AI").],
   "Sottocasi inclusi": "UC3.1 (Report non disponibile)",
-  "Postcondizione": "L'utente dispone delle metriche contestuali per prendere una decisione operativa sulle remediation."
+  "Postcondizione": [L'utente dispone delle metriche contestuali per prendere una decisione operativa sulla #gls("remediation").]
 ))
 
 #v(1em)
@@ -86,7 +86,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "3.1",
   name: "Report non disponibile",
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [Qualora l'analisi non sia ancora terminata, sia fallita durante la #gls("pipeline") o il report richiesto non esista nel sistema, viene mostrato un avviso a schermo che comunica esplicitamente che il report non è disponibile.],
   "Postcondizione": "L'utente è informato dell'indisponibilità del dato."
 ))
@@ -100,7 +100,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
     image("../images/usecase/UC4.png", width: 80%),
     caption: [Use Case - UC4: Esportazione del report]
   ),
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Precondizione": "L'utente sta visualizzando un report completato e accessibile.",
   "Flusso principale": [L'utente richiede l'esportazione del report. Il sistema compila un documento in formato #gls("docx") contenente il dettaglio tecnico delle vulnerabilità e lo rende disponibile per il download.],
   "Sottocasi inclusi": "UC4.1 (Fallimento esportazione)",
@@ -112,8 +112,8 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "4.1",
   name: "Fallimento esportazione del report",
-  "Attore principale": "Utente",
-  "Flusso principale": [Se il processo di compilazione del file #gls("docx") o il suo salvataggio incontrano un'eccezione, il sistema interrompe il processo di esportazione e notifica l'errore all'utente tramite un apposito messaggio.],
+  "Attore principale": "utente",
+  "Flusso principale": [Se il processo di compilazione del file #gls("docx") o il suo salvataggio incontra un'eccezione, il sistema interrompe il processo di esportazione e notifica l'errore all'utente tramite un apposito messaggio.],
   "Postcondizione": "Il sistema segnala il fallimento dell'operazione e l'esportazione viene annullata."
 ))
 
@@ -126,7 +126,7 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
     image("../images/usecase/UC5.png", width: 80%),
     caption: [Use Case - UC5: Invio del report tramite email]
   ),
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [L'utente, dopo aver visualizzato un'analisi completata, richiede l'invio del report tramite email e specifica l'indirizzo di destinazione. Il sistema predispone il documento (es. in formato #gls("docx")), lo allega a un messaggio e lo inoltra al server SMTP per la consegna.],
   "Postcondizione": "Il report viene inviato con successo all'indirizzo specificato e il sistema conferma all'utente la presa in carico dell'operazione."
 ))
@@ -136,9 +136,9 @@ A seguito dello studio del dominio del problema, si è proceduto alla definizion
 #useCase((
   number: "5.1",
   name: "Fallimento invio del report tramite email",
-  "Attore principale": "Utente",
+  "Attore principale": "utente",
   "Flusso principale": [Se il sistema rileva un errore durante la comunicazione con il server di posta (ad esempio per problemi di rete, timeout o credenziali non valide) o se l'indirizzo email fornito risulta malformato, il processo di invio viene interrotto.],
-  "Postcondizione": "L'email non viene inoltrata e il sistema notifica l'utente dell'errore, invitandolo a riprovare o a controllare i dati inseriti."
+  "Postcondizione": "L'email non viene inoltrata e il sistema notifica l'errore all'utente, invitandolo a riprovare o a controllare i dati inseriti."
 ))
 
 == Requisiti Funzionali
@@ -170,26 +170,26 @@ Nella seguente tabella sono riportati i requisiti funzionali obbligatori estratt
     [Codice], [Descrizione], [Fonti], [Stato],
 
     // Righe
-    [RF001], [Il sistema deve permettere all'Utente di richiedere l'avvio di una nuova analisi.], [UC1], [Implementato],
+    [RF001], [Il sistema deve permettere all'utente di richiedere l'avvio di una nuova analisi.], [UC1], [Implementato],
     
-    [RF002], [L'Utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1], [Implementato],
+    [RF002], [L'utente deve poter selezionare lo scanner dall'interfaccia. Il sistema deve forzare l'unica opzione supportata (#gls("qualys")).], [UC1.1], [Implementato],
     
-    [RF003], [L'Utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2], [Implementato],
+    [RF003], [L'utente deve poter inserire un singolo indirizzo #gls("ip") in un apposito campo di testo.], [UC1.2], [Implementato],
     
-    [RF004], [L'Utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3], [Implementato],
+    [RF004], [L'utente deve poter selezionare i parametri dell'#gls("asset context") (ambiente, esposizione e criticità) attraverso appositi menu a tendina o selettori.], [UC1.3], [Implementato],
     
-    [RF005], [Il sistema deve mostrare all'Utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2], [Implementato],
+    [RF005], [Il sistema deve mostrare all'utente un indicatore visivo in tempo reale con lo stato esatto della scansione (es. in corso, recupero dati, AI, fallita).], [UC2], [Implementato],
     
     [RF006], [Il sistema deve renderizzare a schermo il Vulnerability Report, mostrando le vulnerabilità, il badge della priorità operativa calcolata e il testo dell'#gls("AI").], [UC3], [Implementato],
     
-    [RF007], [Il sistema deve mostrare all'Utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1], [Implementato],
+    [RF007], [Il sistema deve mostrare all'utente un avviso di Report non disponibile se si tenta di aprire un'analisi inesistente, ancora in esecuzione o fallita.], [UC3.1], [Implementato],
     
-    [RF008], [L'Utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4], [Implementato],
+    [RF008], [L'utente deve poter cliccare un comando specifico per richiedere la compilazione e il download del report in formato #gls("docx").], [UC4], [Implementato],
     
-    [RF009], [Il sistema deve intercettare gli errori di generazione file e notificare l'Utente con un messaggio d'errore a schermo.], [UC4.1], [Implementato],
+    [RF009], [Il sistema deve intercettare gli errori di generazione file e avvisare l'utente con un messaggio d'errore a schermo.], [UC4.1], [Implementato],
 
-    [RF010], [L'utente deve poter inviare il report finale ad un indirizzo email specifico], [UC5], [Non Implementato],
+    [RF010], [L'utente deve poter inviare il report finale ad un indirizzo email specifico.], [UC5], [Non Implementato.],
 
-    [RF011], [Il sistema deve intercettare errori nell'invio email del report], [UC5.1], [Non Implementato]
+    [RF011], [Il sistema deve intercettare errori nell'invio tramite email del report.], [UC5.1], [Non Implementato.]
   )
 )

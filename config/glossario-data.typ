@@ -256,8 +256,8 @@
     desc: "Nel campo dell'intelligenza artificiale è il messaggio in input (direttiva) che viene fornito al modello linguistico.",
   ),
   (
-    key: "prompt-engeneering",
-    parola: "Prompt Engeneering",
+    key: "prompt-engineering",
+    parola: "Prompt Engineering",
     desc: "Processo strategico di progettazione, perfezionamento e ottimizzazione degli input (chiamati prompt) forniti ai modelli di intelligenza artificiale, per guidarne la produzione di output accurati, pertinenti e di alta qualità.",
   ),
   (
@@ -269,6 +269,11 @@
     key: "mvp",
     parola: "MVP",
     desc: [#emph("Minimum Viable Product") - versione più semplice e basilare di un prodotto o servizio, dotata solo delle funzionalità essenziali per essere utilizzata dai primi utenti.],
+  ),
+  (
+    key: "rate-limit",
+    parola: "rate limit",
+    desc: "Tecnica di controllo che limita il numero di richieste che un utente, client o indirizzo IP può inviare a un server o a un'API entro un intervallo di tempo specifico",
   ),
 )
 

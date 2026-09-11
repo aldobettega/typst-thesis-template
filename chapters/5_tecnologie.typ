@@ -6,7 +6,7 @@
 
 == Tecnologie di Backend
 
-Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato su Python. Di seguito sono riportate le tecnologie e dipendenze che compongono l'infrastruttura lato server.
+Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato su Python. Di seguito sono riportate le tecnologie e le dipendenze che compongono l'infrastruttura lato server.
 
 #v(1em)
 
@@ -31,7 +31,7 @@ Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato s
     
     [Python], 
     [3.12], 
-    [Linguaggio di programmazione utilizzato per il #gls("backend"), scelto per il suo ampio numero di librerie, la velocità di sviluppo e poichè è il linguaggio di FastAPI, uno dei principali framework di #gls("backend").],
+    [Linguaggio di programmazione utilizzato per il #gls("backend"), scelto per il suo ampio numero di librerie, la velocità di sviluppo e poiché è il linguaggio di FastAPI, uno dei principali framework di #gls("backend").],
     
     [Docker & Docker Compose], 
     [-], 
@@ -53,7 +53,7 @@ Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato s
     
     [Pydantic], 
     [2.13.4], 
-    [Libreria per la validazione rigida e type-safe. Viene utilizzato per validare tutti i dati in entrata e in uscita del #gls("backend"), supportata nativamente da FastAPI.],
+    [Libreria per la validazione rigida e type-safe. Viene utilizzata per validare tutti i dati in entrata e in uscita del #gls("backend"), supportata nativamente da FastAPI.],
     
     [Pydantic Settings], 
     [2.14.2], 
@@ -96,7 +96,7 @@ Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato s
 
 == Tecnologie di Frontend
 
-Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo vasto ecosistema di programmazione web (che include il routing nativo), una forte scalabilità per la sua architettura a componenti, per la presenza di pattern integrati nel sistema come l'iniezione delle dipendenze, e per l'uso di moderne liberie come RxJS per la programmazione reattiva.
+Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo vasto ecosistema di programmazione web (che include il routing nativo), per una forte scalabilità per la sua architettura a componenti, per la presenza di pattern integrati nel sistema come l'iniezione delle dipendenze, e per l'uso di moderne librerie come RxJS per la programmazione reattiva.
 
 #v(1em)
 
@@ -119,7 +119,7 @@ Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo
     
     [TypeScript], 
     [~6.0.2], 
-    [Linguaggio utilizzato per il frontend che garantirearantisce un *type-checking* rigoroso, nativo del framework di Angular.],
+    [Linguaggio utilizzato per il frontend che garantisce un *type-checking* rigoroso, nativo del framework di Angular.],
     
     [HTML5 & CSS3], 
     [Nativi], 
@@ -130,7 +130,7 @@ Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo
     
     [Angular], 
     [^22.0.0], 
-    [Framework open source per lo sviluppo di Single-page application, è stato usato per realizzare il frontend dell'applicazione.],
+    [Framework open source per lo sviluppo di Single-Page Application. È stato usato per realizzare il frontend dell'applicazione.],
     
     [RxJS], 
     [~7.8.0], 
@@ -140,7 +140,7 @@ Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo
 
 == Strumenti di Sviluppo e Ambiente
 
-Durante il ciclo di vita del software sono stati inoltre usati una serie di strumenti trasversali che hanno garantito un corretto sviluppo della piattaforma.
+Durante il ciclo di vita del software è stata inoltre usata una serie di strumenti trasversali che hanno garantito un corretto sviluppo della piattaforma.
 
 #v(1em)
 

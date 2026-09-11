@@ -5,21 +5,21 @@
 = Progettazione Architetturale
 
 L'obiettivo della fase di progettazione è stato delineare la struttura di un sistema in grado di rispettare i requisiti derivati dalla fase di studio del dominio.
-La fase iniziale è stata dedicata alla strutturazione del #gls("backend"), costruendo i diagrammi delle classi per modellare le principali entità del sistema. A questa fase è stata data particolare attenzione poichè è il #gls("backend") che contiene tutta la logica del sistema, il recupero dati e il motore di classificazione delle vulnerabilità, delegando al #gls("frontend") solo la parte di interfaccia.
-Successivamente è stato strutturato il #gls("frontend"), ricercando quali fossero i pattern più usati nel framework di Angular per strutturare correttamente un'interfaccia web.
+La fase iniziale è stata dedicata alla costruzione del #gls("backend"), costruendo i diagrammi delle classi per modellare le principali entità del sistema. A questa fase è stata data particolare attenzione poiché è il #gls("backend") che contiene tutta la logica del sistema, il recupero dei dati e il motore di classificazione delle vulnerabilità, delegando al #gls("frontend") solo la parte di interfaccia.
+Successivamente è stato definito il #gls("frontend"), ricercando quali fossero i pattern più usati nel framework di Angular per strutturare correttamente un'interfaccia web.
 
 == Architettura di #gls("backend"): Ports & Adapters
 
 Il #gls("backend") è stato modellato con un'architettura esagonale, conosciuta anche come #emph("Ports & Adapters"). Questo tipo di struttura ha come obiettivo primario isolare la logica di business, garantendo un'elevata testabilità e indipendenza da tecnologie esterne. Il #emph([#gls("core")]) in questo modo risulta completamente agnostico rispetto ai dettagli implementativi di framework, database o provider di dati esterni.
 Il sistema è strutturato in livelli concentrici:
 
-- #emph("Domain"): rappresenta il nucleo dell'architettura, contiene le entità (modellate tramite classi) sulle quali si basa tutto il sistema ed è privo di dipendenze esterne.
+- #emph("Domain"): rappresenta il nucleo dell'architettura, contiene le entità (modellate tramite classi) sulle quali si basa tutto il sistema ed è privo di dipendenze esterne;
 
-- #emph("Services"): definiscono i casi d'uso dell'applicazione e fungono da orchestratori. Hanno il compito di implementare le #emph("Inbound Ports") per gestire le richieste in ingresso, coordinano gli oggetti del dominio e utilizzano le #emph("Outbound Ports") per delegare all'esterno operazioni come salvataggio o recupero di dati.
+- #emph("Services"): definiscono i casi d'uso dell'applicazione e fungono da orchestratori. Hanno il compito di implementare le #emph("Inbound Ports") per gestire le richieste in ingresso, coordinano gli oggetti del dominio e utilizzano le #emph("Outbound Ports") per delegare all'esterno operazioni come salvataggio o recupero di dati;
 
-- #emph("Ports"): sono il punto di connessione tra il dominio e l'esterno, permettendo una comunicazione strutturata senza creare accoppiamento. Si suddividono in Inbound Ports (definiscono i casi d'uso accessibili dall'esterno) e Outbound Ports (modellano interfacce per dialogare con l'esterno)
+- #emph("Ports"): sono il punto di connessione tra il dominio e l'esterno, permettendo una comunicazione strutturata senza creare accoppiamento. Si suddividono in #emph("Inbound Ports") (definiscono i casi d'uso accessibili dall'esterno) e Outbound Ports (modellano interfacce per dialogare con l'esterno);
 
-- #emph("Adapters"): rappresentano lo strato più esterno e operando come traduttori tra le tecnologie specifiche ed il nucleo. Si suddividono in #emph("Inbound Adapters") (guidano l'input invocando le #emph("Inbound Ports")) e #emph("Outbound Adapters") (vengono guidati dall'applicazione per interagire con l'infrastruttura esterna tramite le #emph("Outbound Ports")).
+- #emph("Adapters"): rappresentano lo strato più esterno e operano come traduttori tra le tecnologie specifiche e il nucleo. Si suddividono in #emph("Inbound Adapters") (guidano l'input invocando le #emph("Inbound Ports")) e #emph("Outbound Adapters") (vengono guidati dall'applicazione per interagire con l'infrastruttura esterna tramite le #emph("Outbound Ports")).
 
 === Diagramma delle classi di #gls("backend")
 \
@@ -34,14 +34,14 @@ Il sistema è strutturato in livelli concentrici:
 
 #v(1em)
 
-Il diagramma in @backend_classes modella le principali componenti di backend.
+Il diagramma in @backend_classes modella le principali componenti di #gls("backend").
 
 #v(3em)
 
 === Inbound Adapters
 
-L'unico Inbound Adater è l'`AssessmentRouter`, responsabile dell'esposizione delle API di #gls("backend") al #gls("frontend").
-Questo modulo delega la validazione dei dati in ingresso e uscita agli schemi pydantic. Questa scelta protegge il core dell'applicazione e lo isola completamente.
+L'unico #emph("Inbound Adapter")  è l'`AssessmentRouter`, responsabile dell'esposizione delle API di #gls("backend") al #gls("frontend").
+Questo modulo delega la validazione dei dati in ingresso e uscita agli schemi Pydantic. Questa scelta protegge il core dell'applicazione e lo isola completamente.
 I metodi principali di questa classe sono:
 \
 \
@@ -50,20 +50,20 @@ start_analysis(
         request: AssessmentRequestSchema,
         use_case: StartAssessmentUseCase,
     ) -> AssessmentResponseSchema:```\ \
-  Avvia l'esecuzione della pipeline ricevendo in input l'IP e le informazioni di contesto del dispositivo target.
-  Poichè la produzione del report è un'operazione che richiede diversi minuti per completarsi, la funzione non ritorna il report finale, ma lancia il processo in background e ne ritorna l'id.
-  In questo modo il #gls("frontend") può effettuare un polling periodico per monitorare lo stato dell'operazione e mostrare all'utente gli avanzamenti di essa.
+  Avvia l'esecuzione della #gls("pipeline") ricevendo in input l'#gls("ip") e le informazioni di contesto del dispositivo target.
+  Poiché la produzione del report è un'operazione che richiede diversi minuti per completarsi, la funzione non ritorna il report finale, ma lancia il processo in #emph("background") e ne ritorna l'ID.
+  In questo modo il #gls("frontend") può effettuare un #emph("polling") periodico per monitorare lo stato dell'operazione e mostrare all'utente il suo avanzamento.
 \ \
 ```
 get_status(
         analysis_id: str,
         use_case: GetAssessmentStatusUseCase
     ) -> PipelineSchema:```
-  Dato l'id di un'analisi, ne ritorna lo stato sottoforma di `PipelineSchema` che contiene
+  Dato l'ID di un'analisi, ne ritorna lo stato sotto forma di `PipelineSchema` che contiene
   - stato
   - step della pipeline
   - messaggio descrittivo
-  - eventuale errore o warnings
+  - eventuale errore o #emph("warning")
 \ \ 
 ```
 get_analysis_report(
@@ -71,12 +71,12 @@ get_analysis_report(
         use_case: GetAssessmentReportUseCase
     ) -> VulnerabilityReportSchema:
 ```
-Dato l'id di un'analsi ne ritorna, se esistente e pronto, il report finale sottoforma di `VulnerabilityReportSchema`, tra i campi principali contiene una lista di vulnerabilità con le seguenti informazioni:
+Dato l'ID di un'analisi, ne ritorna, se esistente e pronto, il report finale sotto forma di `VulnerabilityReportSchema`, tra i campi principali contiene una lista di vulnerabilità con le seguenti informazioni:
 - #gls("cve")
 - la severità calcolata dallo scanner (nell'MVP #gls("qualys"))
 - #gls("cvss")
 - #gls("epss")
-- se è presente nel #gls("kev")
+- la presenza nel #gls("kev")
 - la severità calcolata tramite il framework di Shimizu e Hashimoto @VMC (#emph("Vulnerability Management Chaining"))
 - un resoconto generato dall'#gls("AI")
 \ \
@@ -86,21 +86,21 @@ export_analysis_report(
         analysis_id: str,
         use_case: ExportAssessmentReportUseCase
     ) -> Response:```
-Dato l'id di un'analisi e l'estensione richiesta (nell'MVP l'unico formato disponibile è #gls("docx")), ne ritorna il file scaricabile. \ \
+Dato l'ID di un'analisi e l'estensione richiesta (nell'MVP l'unico formato disponibile è #gls("docx")), ne ritorna il file scaricabile. \ \
 
 === Servizi Applicativi
 
 ==== AssessmentApplicationService
 
-L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione. Gestisce i tre casi d'uso principali, organizzando tutto il ciclo di vita dell'applicazione.
+L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione. Gestisce i tre casi d'uso principali, organizzando tutto il ciclo di vita del software.
 \ \
 ```
 start_assessment(request: AssessmentRequest) -> AssessmentResponse:```
-Crea l'analisi e chiama in background la pipeline di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'id dell'analisi creata, in modo che lo possa usare per chiederne lo stato e recuperarne il report.
+Crea l'analisi e chiama in #emph("background") la #gls("pipeline") di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'ID dell'analisi creata, questo possa utilizzarlo per chiederne lo stato e recuperarne il report.
 \ \
 ```
 get_status(self, analysis_id: str) -> Pipeline:```
-Utilizza l'id della pipeline per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi 
+Utilizza l'ID della #gls("pipeline") per recuperare da una memoria volatile la `StoredAnalysis` contenente l'analisi. 
 \ \
 ==== PriorityEngine
 
@@ -111,7 +111,7 @@ Questa classe modella il #emph("decision tree") descritto da Shimizu e Hashimoto
 
 ==== Scanner
 
-Per l'MVP è stato codificato un adapter per lo scanner di vulnerabilità #gls("qualys"), ma il sistema grazie alla sua architettura, è aperto a nuovi scanner tramite la codifica di adapter dedicati.
+Per l'MVP è stato codificato un adapter per lo scanner di vulnerabilità #gls("qualys"), ma il sistema, grazie alla sua architettura, è aperto a nuovi scanner tramite la codifica di adapter dedicati.
 L'adapter deve implementare il metodo della porta:
 \ \
 ```
@@ -126,7 +126,7 @@ Mette a disposizione metodi di lettura e scrittura dell'oggetto:
 ```
 get_analysis(analysis_id: str) -> StoredAnalysis
 ```
-Ritorna l'oggetto desiderato tramite il suo id\ \
+Ritorna l'oggetto desiderato tramite il suo ID\ \
 
 ```
 get_all_analysis() -> list
@@ -140,17 +140,17 @@ Salva un'analisi nel sistema\ \
 
 ==== Data providers
 
-Il recupero dei dati necessari al calcolo della gravità (#gls("cvss"), #gls("epss"), #gls("kev")), viene gestito da tre classi che si occupano di usare API di servizi esterni e normalizzare la loro risposta in oggetti di dominio.
+Il recupero dei dati necessari al calcolo della gravità (#gls("cvss"), #gls("epss"), #gls("kev")), viene gestito da tre classi che si occupano di interrogare API di servizi esterni e normalizzare la loro risposta in oggetti di dominio.
 
 - `NvdCvssAdapter` presenta il metodo `get_cvss_bulk(cve_list: list[str]) -> dict[str, CvssData]` che ritorna dal #emph("database") di #gls("nvd") i valori #gls("cvss") delle #gls("cve") che gli sono state fornite.\ \
 
-- `FirstEpssAdapter` espone il metodo `get_epss_bulk(cve_list: list[str]) -> dict[str, EpssData]` che ritorna dal database #emph("database") del #gls("first") i valori #gls("epss").\ \
+- `FirstEpssAdapter` espone il metodo `get_epss_bulk(cve_list: list[str]) -> dict[str, EpssData]` che ritorna dal #emph("database") del #gls("first") i valori #gls("epss").\ \
 
 - `CisaKevAdapter` ha il metodo ` check_kev_bulk(cve_list: list[str]) -> dict[str, KevData]` che indica per ogni #gls("cve") se sia presente nel catalogo del #gls("cisa").\ \
 
 ==== AiAdapter
 
-Il `GeminiExplanationAdapter` adapter contretizza l'interfaccia definita in `AiExplanationPort`. Il modulo implementa il metodo:
+Il `GeminiExplanationAdapter` adapter concretizza l'interfaccia definita in `AiExplanationPort`. Il modulo implementa il metodo:
 \ \
 ```
 generate_explanation_bulk(
@@ -164,14 +164,14 @@ Durante la progettazione sono state usate una serie di tecniche e design pattern
 
 === Inversione delle dipendenze
 
-Il principio di *inversione delle dipendenze* (#emph("Dependency Inversion Principle")) rappresenta il fondamento dell'architettura esagonale perchè rende possibile il disaccoppiamento tra modellazione del dominio e tecnologie esterne.
-In ThreatLens il nucleo applicativo, composto dalle classi di dominio e i servizi applicativi, non importa nessuna libreria esterna o tecnologia, ma fa uso solamente di moduli nativi del linguaggio python.
+Il principio di *inversione delle dipendenze* (#emph("Dependency Inversion Principle")) rappresenta il fondamento dell'architettura esagonale perché rende possibile il disaccoppiamento tra modellazione del dominio e tecnologie esterne.
+In ThreatLens il nucleo applicativo, composto dalle classi di dominio e i servizi applicativi, non importa nessuna libreria esterna o tecnologia, ma fa uso solamente di moduli nativi del linguaggio Python.
 I servizi applicativi, per ottenere i dati necessari al calcolo, non eseguono direttamente chiamate #gls("api"), ma fanno riferimento a interfacce astratte (le #emph("outbound ports")) che espongono dei metodi generici (per esempio `fetch_data()` o `scan()`)) la cui implementazione sarà gestita da un modulo esterno al #emph("core").
 Questo approccio ha tre principali vantaggi:
 
-- *Alta testabilità*: per testare un servizio applicativo non è necessario istanziare l'infrastruttura reale, ma basterà iniettare un componente fittizzio (un #emph[#gls("mock")]).
+- *Alta testabilità*: per testare un servizio applicativo non è necessario istanziare l'infrastruttura reale, ma basterà iniettare un componente fittizio (un #emph[#gls("mock")]).
 
-- *Iisolamento degli errori*: la maggior parte delle criticità in un sistema deriva dall'interazione con tecnolgie esterne (es. #emph("timeout") di rete, deserializzazione di #emph[#gls("payload")] imprevisti o librerie che possono variare e diventare incompatibili con il nostro sistema). Isolandole in un modulo esterno è possibile gestire in modo più efficace e ordinato questi errori, senza inquinare internamente la logica del sistema.
+- *Isolamento degli errori*: la maggior parte delle criticità in un sistema deriva dall'interazione con tecnologie esterne (es. #emph("timeout") di rete, deserializzazione di #emph[#gls("payload")] imprevisti o librerie che possono variare e diventare incompatibili con il nostro sistema). Isolandole in un modulo esterno è possibile gestire in modo più efficace e ordinato questi errori, senza inquinare internamente la logica del sistema.
 
 - *Modularità*: se si vuole cambiare tecnologia basta scrivere un altro adapter dedicato, senza dover modificare la logica interna del sistema. Questa flessibilità si è rivelata utile anche in fase di sviluppo, consentendo lo sviluppo del #emph("core") tramite adattatori #emph("dummy") (es. oggetti che ritornano risposte fittizzie simulando le #gls("api") esterne) per verificare il funzionamento interno del sistema e man mano integrare le tencologie esterne con moduli reali.
 
@@ -185,13 +185,13 @@ Questa responsabilità è dello `ScannerRegistryAdapter` che concretizza l'inter
 A differenza dei pattern creazionali come il #emph("Factory"), che gestiscono l'istanziazione di nuovi oggetti, il #emph("Registry") opera esclusivamente come risolutore di dipendenze.
 Lo `ScannerRegistryAdapter` riceve tramite #emph("Dependency Injection") istanze di adattatori già configurate e create all'avvio dell'applicazione dal #emph("Composition Root") (rappresentato nel sistema dal file `dependencies.py` di #gls("fastapi")).
 
-=== Single Responsability Principle
+=== Single Responsibility Principle
 
-Al fine di mantenere un codice ordinato e manutenibile, senza avere funzioni lunghe e complesse che gestiscono diverse parti del sistema, è necessario applicare rigorosamente il #emph("Single Responsability Principle") (SRP). L'SRP impone un vincolo architetturale più profondo: un modulo, una classe o una funzione deve avere uno e un solo motivo per essere modificato.
+Al fine di mantenere un codice ordinato e manutenibile, senza avere funzioni lunghe e complesse che gestiscono diverse parti del sistema, è necessario applicare rigorosamente il #emph("Single Responsibility Principle") (SRP). L'SRP impone un vincolo architetturale più profondo: un modulo, una classe o una funzione deve avere uno e un solo motivo per essere modificato.
 
-- *A livello di classe*: la classe `AssessmentApplicationService` agisce esclusivamente da orchestratore del caso d'uso, ma delega l'effettiva esecuzione di tutte le sotto operazioni ad altri moduli del sistema. Ad esempio utilizza un adapter esterno per ottenere la lista di #gls("cve") che passerà ad altri moduli, oppure non calcola direttamente la priorità operativa ma delega l'operazione al `PriorityEngine`.
+- *A livello di classe*: la classe `AssessmentApplicationService` agisce esclusivamente da orchestratore del caso d'uso, ma delega l'effettiva esecuzione di tutte le sotto-operazioni ad altri moduli del sistema. Ad esempio utilizza un adapter esterno per ottenere la lista di #gls("cve") che passerà ad altri moduli, oppure non calcola direttamente la priorità operativa ma delega l'operazione al `PriorityEngine`.
 
-- *A livello di funzione*: il metodo `_run_pipeline` gestisce con modularità tutte le fasi della pipeline, delegando l'esecuzione ad altri metodi specializzati nell'operazione (`_scan` o `_calculate_priority`). In questo modo ciascun metodo isola una tipologia di fallimento dell'operazione e un motivo di cambiamento distinto. 
+- *A livello di funzione*: il metodo `_run_pipeline` gestisce con modularità tutte le fasi della #gls("pipeline"), delegando l'esecuzione ad altri metodi specializzati nell'operazione (`_scan` o `_calculate_priority`). In questo modo ciascun metodo isola una tipologia di fallimento dell'operazione e un motivo di cambiamento distinto. 
 
 Questa rigorosa compartimentazione garantisce che modifiche future o la gestione di errori specifici non inquinino il flusso principale dell'applicazione, favorendo una gestione granulare delle eccezioni (tramite `PipelineFailure` specializzate) e garantendo un'elevata testabilità del codice.
 
@@ -200,18 +200,18 @@ Questa rigorosa compartimentazione garantisce che modifiche future o la gestione
 La #gls("pipeline") di assessment è il motore del sistema che colleziona dati da una serie di servizi esterni e da questi ne calcola un report finale ordinato.
 La classe che orchestra queste operazioni è l'`AssessmentApplicationService` che fa partire l'analisi con il metodo `start_assessment`.
 Il processo della #gls("pipeline") richiede diversi minuti, dunque è stato gestito attraverso l'utilizzo dei #emph("thread") di Python.
-Nel thread viene avviato in background il metodo `run_pipeline` che consta di cinque fasi:
+Nel thread viene avviato in #emph("background") il metodo `run_pipeline` che consta di cinque fasi:
 + scansione
 + enrichment
 + calcolo della priorità
 + generazione della spiegazione con l'#gls("AI")
 + creazione del report
 
-Nell'implementazione si è cercato di rispettare il single responsability principle, infatti come si può notare dalla struttura della #gls("pipeline"), nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabiità e gestione degli errori.
+Nell'implementazione si è cercato di rispettare il Single Responsibility Principle, infatti come si può notare dalla struttura della #gls("pipeline"), nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabiità e gestione degli errori.
 
 === Fase 1: Scansione
 
-Viene gestita dalla funzione `_scan` che utilizza la `ScannerRegistryPort` per recuperare lo scanner selezionato e la `ScannerPort` per ottenere un oggetto `ScannerResult`, contenente la lista di #emph("finding") trovati.
+Viene gestita dalla funzione `_scan` che utilizza la `ScannerRegistryPort` per recuperare lo scanner selezionato e la `ScannerPort` per ottenere un oggetto `ScannerResult`, contenente la lista di #emph("finding") rilevati.
 
 === Fase 2: Enrichment
 
@@ -220,8 +220,8 @@ In sequenza viene data questa lista di vulnerabilità ai tre data provider:
 - `_cvss_provider`
 - `_epss_provider`
 - `_kev_provider`
-che con i loro metodi `_get_*_bulk` (ogni provider al posto di `*` ha il dato che ricerca) arricchiscono la cve con i dati per il calcolo.
-Ne risulta una lista di `EnrichedVulnerability` che contiene degli elementi indicizzati per cve con i dati che ne indicano la gravità.
+che con i loro metodi `_get_*_bulk` (ogni provider al posto di `*` ha il dato che ricerca) arricchiscono la #gls("cve") con i dati per il calcolo.
+Ne risulta una lista di `EnrichedVulnerability` che contiene degli elementi indicizzati per #gls("cve") con i dati che ne indicano la gravità.
 
 === Fase 3: Calcolo della priorità
 
@@ -233,13 +233,13 @@ L'elaborazione restituisce una lista di `PrioritizedVulnerability`. Ad ogni vuln
 - `ATTEND`
 - `ACT`
 \ 
-Questo modulo calcola intoltre con la funzione `_calculate_context_attention` la `ContextAttention` tramite la `_CONTEXT_ATTENTION_MATRIX` che prende in input i tre parametri selezionati all'inizio dell'analisi dall'utente.
+Questo modulo calcola inoltre con la funzione `_calculate_context_attention` la `ContextAttention` tramite la `_CONTEXT_ATTENTION_MATRIX` che prende in input i tre parametri selezionati all'inizio dell'analisi dall'utente.
 
 ==== Fase 4: Generazione della spiegazione con l'#gls("AI")
 
 Dopo aver ottenuto tutti i dati necessari all'analisi di una #gls("cve"), l'#gls("AI") ha il compito di produrre una spiegazione sintetica in linguaggio naturale, con l'obiettivo di fornire un chiaro contesto della situazione motivando la priorità operativa assegnata dal `PriorityEngine`. La logica di questa fase risiede nel metodo `_generate_ai_explanation` che ha la responsabilità di utilizzare il metodo dell'`AiExplanationPort`, gestendone correttamente la risposta.
 Per una questione di performance, nell'#gls("mvp") vengono analizzate solamente le prime cinque vulnerabilità più gravi.
-Queste vengono date all'`_ai_explanation_provider` che tramite il metodo `generate_explanation_bulk` genera le spiegazioni necessarie a costruire la lista di `ExplainedVulnerability`.
+Queste vengono passate all'`_ai_explanation_provider` che tramite il metodo `generate_explanation_bulk` genera le spiegazioni necessarie a costruire la lista di `ExplainedVulnerability`.
 
 ==== Fase 5: Creazione del report
 
@@ -258,7 +258,7 @@ In principio l'architettura suddivide le eccezioni nelle seguenti categorie prin
 
 ==== Eccezioni Applicative
 
-Rappresentano condizioni previste da casi d'uso del sistama. Ognuna è associata a un codice di errore standardizzato (`ErrorCode`).
+Rappresentano condizioni previste da casi d'uso del sistema. Ognuna è associata a un codice di errore standardizzato (`ErrorCode`).
 Le eccezioni applicative del sistema implementano la generica `ApplicationError` (che a sua volta implementa la classe `Exception`) e sono:
 
 - `AnalysisNotFoundError`: segnala che l'analisi ricercata non è stata trovata
@@ -270,16 +270,16 @@ Le eccezioni applicative del sistema implementano la generica `ApplicationError`
 ==== Fallimenti di #gls("pipeline")
 
 Rappresentano errori bloccanti che si verificano durante il flusso sequenziale della #gls("pipeline"). Queste eccezioni hanno un codice di errore che registra lo specifico step di esecuzione in cui il sistema si è arrestato, permettendo di identificare con precisione il punto di rottura.
-I fallimenti della pipeline implementano la generica `PipelineFailure` (che a sua volta implementa la classe `Exception`) e sono:
+I fallimenti della #gls("pipeline") implementano la generica `PipelineFailure` (che a sua volta implementa la classe `Exception`) e sono:
 
-- `ScanFailure`: segnala un errore duranta la fase di scansione.
+- `ScanFailure`: segnala un errore durante la fase di scansione.
 - `PriorityCalculationFalure`: segnala un errore durante la fase di calcolo interno della priorità.
 - `ReportBuildFailure`: segnala un errore durante la fase di costruzione del report.
 - `UnexpectedPipelineFailure`: errore generico per errori non contemplati nel corso della #gls("pipeline").
 
 ==== Guasti infrastrutturali
 
-Modellano i fallimenti derivati dagli outbound adapters. Queste classi hanno il compito di tradurre le eccezioni sollevate dalle librerie di terze parti o dalle #gls("api") esterne in errori gestibili dal sistema. Solitamente API e librerie esterne possono ritornare una vasta gamma di errori differneti, per questo sono stati gestiti i casi di errore principali o che sono stati ritenuti rilevanti avendone fatta esperienza in fase di sviluppo. Questi errori vengono incapsulati nelle classi di errori di sistema più ampie con annessa una descrizione esplicativa. L'impatto applicativo di questi errori è delegato ai livelli superiori del sistema.
+Modellano i fallimenti derivati dagli outbound adapters. Queste classi hanno il compito di tradurre le eccezioni sollevate dalle librerie di terze parti o dalle #gls("api") esterne in errori gestibili dal sistema. Solitamente API e librerie esterne possono ritornare una vasta gamma di errori differenti, per questo sono stati gestiti i casi di errore principali o che sono stati ritenuti rilevanti avendone fatta esperienza in fase di sviluppo. Questi errori vengono incapsulati nelle classi di errori di sistema più ampie con annessa una descrizione esplicativa. L'impatto applicativo di questi errori è delegato ai livelli superiori del sistema.
 I guasti infrastrutturali implementano il generico `InfrastructureError` (che a sua volta implementa la classe `Exception`) e sono:
 
 - `ProviderUnavailableError`: il provider non è raggiungibile o non risponde.
@@ -299,16 +299,16 @@ La responsabilità di tradurre le eccezioni interne in risposte #gls("http") è 
   - un messaggio descrittivo
   - dettagli tecnici opzionali
 
-- *Mappatura semantica dei codici:* gli errori applicativi vengono tradotti nei corretti codici #gls("http"), come `404 Not Found` per risorsa inesistente o `409 Conflict` per conflitti di stato applicativo.
+- *Mappatura semantica dei codici:* gli errori applicativi vengono tradotti nei corretti codici #gls("http"), come `404 Not Found` per una risorsa inesistente o `409 Conflict` per conflitti di stato applicativo.
 
 - *Gestione della validazione:* gli errori generati da input non conformi vengono restituiti con codice `422 Unprocessable Content`
 
-- *Tracciamento e sicurezza:* eccezioni inattese non vengono esposte in chiaro all'utente, ma il sistema restituisce un errore interno generico (`500 Internal Server Error`), registra la traccia dell'eccezione (#emph("stack trace")) tramite i log. Questo facilita le operazioni di debug senza compromettere la sicurezza del sistema.
+- *Tracciamento e sicurezza:* eccezioni inattese non vengono esposte in chiaro all'utente, ma il sistema restituisce un errore interno generico (`500 Internal Server Error`) e registra la traccia dell'eccezione (#emph("stack trace")) tramite i log. Questo facilita le operazioni di debug senza compromettere la sicurezza del sistema.
 
 == Architettura di #gls("frontend")
 
 Il #gls("frontend") è stato progettato adottando un'architettura a livelli (#emph[Layered Architecture]) al fine di favorire una rigorosa separazione delle responsabilità. Sebbene nella pratica comune di sviluppo dell'ecosistema Angular si faccia talvolta riferimento al pattern #emph("Model-View-ViewModel") (MVVM), a livello architetturale la struttura implementata si fonda sull'integrazione del pattern #emph[Presentation Model] con un livello di astrazione basato su #emph[Facade].
-Questa struttura è stata adottata dopo un'attenta analisi delle moderne #emph("best practice") consolidate all'interno della #emph("community") di sviluppatori Angular. Tali pattern ampiamente discussi e validati nei canali specializzati di settore, rappresentano oggi uno standard emergente per la scalabilità e manutenibilità di applicazioni web reattive.
+Questa struttura è stata adottata dopo un'attenta analisi delle moderne #emph("best practice") consolidate all'interno della #emph("community") di sviluppatori Angular. Tali pattern, ampiamente discussi e validati nei canali specializzati di settore, rappresentano oggi uno standard emergente per la scalabilità e manutenibilità di applicazioni web reattive.
 \ 
 Questa scomposizione garantisce che l'interfaccia utente sia completamente disaccoppiata dalle complessità di rete, dalla logica di dominio e dall'orchestrazione dei flussi asincroni. Il sistema è pertanto strutturato in tre macro-livelli:
 - *Presentation Layer:* Organizzato secondo il pattern #emph[Smart e Dumb components], in cui i componenti presentazionali (View) gestiscono esclusivamente il rendering, mentre i componenti contenitore (Smart) adattano lo stato alle esigenze della vista.
@@ -319,12 +319,11 @@ Questa scomposizione garantisce che l'interfaccia utente sia completamente disac
 
 === Service Model
 
-Hanno la responsabilità di comunicare con le #gls("api") di #gls("backend"), tramite chiamate #gls("http"). Secondo i principi della programmazione reattiva, i metodi di queste classi non ritornano un oggetto statico, ma un canale dinamico dal quale è possibile "osservare" i dati richiesti.
-I moduli che hanno questo compito sono:
+Questi moduli hanno la responsabilità di comunicare con le #gls("api") di #gls("backend"), tramite chiamate #gls("http"). Secondo i principi della programmazione reattiva, i metodi di queste classi non ritornano un oggetto statico, ma un canale dinamico dal quale è possibile "osservare" i dati richiesti.
 
 ==== AnalysisApi
 
-Si occupa della gesitone di un'analisi di #gls("vulnerability-assessment"), presenta i metodi:
+Si occupa della gestione di un'analisi di #gls("vulnerability-assessment"), presenta i metodi:
 \ \
 ```
 startAnalysis(AssessmentRequest): Observable<AssessmentResponse>
@@ -334,11 +333,11 @@ Metodo che lancia la creazione dell'analisi e riceve un #emph("Observable") di t
 ```
 getAnalysesSummary(): Observable<AnalysesSummary>
 ```
-Metodo che ritorna id e stato di tutte le analisi salvate nella memoria del sistema, serve a visualizzare nella home la lista di analisi create.
+Metodo che ritorna l'ID e stato di tutte le analisi salvate nella memoria del sistema, serve a visualizzare nella home la lista di analisi create.
 
 ==== CapabilitiesApi
 
-Si occupa di recuperare le funzionalità che il sistema dispone, serve a recuperare le opzioni selezionabili nel modulo di configurazione dell'analisi (come scanner disponibili e opzioni di contesto dell'asset). Questa classe è particolarmente utile perchè rende il backend intelligente e dipendente dalle funzionalità codificate nel #gls("backend"): nel caso si aggiunga un nuovo scanner non sarà necessario modificare il #gls("frontend"), essendo lui stesso a rilevare un nuovo scanner e mostrandone automaticamente l'opzione disponibile. Questo modulo è un buon esempio di come nel sistema siano le tecnologie esterne a dipendere da logica e configurazioni interne.
+Si occupa di recuperare le funzionalità di cui il sistema dispone. Serve a recuperare le opzioni selezionabili nel modulo di configurazione dell'analisi (come scanner disponibili e opzioni di contesto dell'asset). Questa classe è particolarmente utile perché rende il #gls("frontend") intelligente e dipendente dalle funzionalità codificate nel #gls("backend"): nel caso si aggiunga un nuovo scanner non sarà necessario modificare il #gls("frontend"), essendo lui stesso a rilevare un nuovo scanner e mostrandone automaticamente l'opzione disponibile. Questo modulo è un buon esempio di come nel sistema siano le tecnologie esterne a dipendere da logica e configurazioni interne.
 Il metodo di questa classe è:
 \ \
 ```
@@ -366,9 +365,9 @@ Ritorna un #emph("Observable") di tipo `VulnerabilityReport`, contenente tutte l
 
 === Facade
 
-Questo layer ha la responsabilità di sollevare lo #emph("Smart Component") complessa gestione dei flussi di dati reattivi basata sugli #emph("Observable"). Questi canali di comunicazione asincrona richiedono un'orchestrazione attenta e centralizzata.
-Mischiare tale logica con la gestione dei #emph("Dumb Component"), avrebbe generato una classe difficilmente manutenibile.
-Delegando la gestione degli #emph("Observable") alla #emph("Facade"), si rispetta il #emph("Single Responsability Principle"), mantenendo il livello di presentazione pulito e focalizzato sulle logiche dell'interfaccia.
+Questo layer ha la responsabilità di sollevare lo #emph("Smart Component") dalla complessa gestione dei flussi di dati reattivi basata sugli #emph("Observable"). Questi canali di comunicazione asincrona richiedono un'orchestrazione attenta e centralizzata.
+Mischiare tale logica con la gestione dei #emph("Dumb Component") avrebbe generato una classe difficilmente manutenibile.
+Delegando la gestione degli #emph("Observable") alla #emph("Facade"), si rispetta il #emph("Single Responsibility Principle"), mantenendo il livello di presentazione pulito e focalizzato sulle logiche dell'interfaccia.
 
 ==== HomeFacade
 
@@ -378,21 +377,21 @@ Presenta un singolo metodo:
 ```
 loadAnalyses(): void
 ```
-Utilizza `analysisApi` per caricare le analisi nella home, gestendone il loro stato ed eventuali errori.
+Utilizza `analysisApi` per caricare le analisi nella home, gestendone lo stato ed eventuali errori.
 
 ==== NewAnalysisFacade
 
-Questa classe ha il compito di gestire lo stato della pagina di analisi, inclusa la pipeline visiva, presenta due metodi:
+Questa classe ha il compito di gestire lo stato della pagina di analisi, inclusa la #gls("pipeline") visiva, presenta due metodi:
 \ \
 ```
 loadCapabilities(): void
 ```
-Utilizza `capabilitiesApi` per caricale le funzionalità del sistema, gestendone stato ed eventuali errori.
+Utilizza `capabilitiesApi` per caricare le funzionalità del sistema, gestendone stato ed eventuali errori.
 \ \
 ```
 startAnalysis(AssessmentRequest): void
 ```
-Utilizza `analysisApi` per lanciare l'analisi, resta in ascolto sul canale di risposta attendendo l'identificativo del processo generato.
+Utilizza `analysisApi` per lanciare l'analisi; resta in ascolto sul canale di risposta attendendo l'identificativo del processo generato.
 Si occupa anche di far partire il metodo privato `startPollingStatus(analysisId)` che chiede periodicamente lo stato del processo, in modo da monitorare l'andamento della #gls("pipeline") di #gls("backend"), informando l'utente del suo stato e ridirezionando l'interfaccia alla pagina di report una volta terminata l'esecuzione.
 
 ==== ReportFacade
@@ -425,15 +424,12 @@ Rappresentano il livello di presentazione puro. La loro unica responsabilità è
 
 === Flussi Asincroni e Gestione dello Stato Reattivo
 
-Nell'ambito dello sviluppo di interfacce web moderne, la gestione degli eventi asincroni e dei flussi di dati continui rappresenta una sfida architetturale di primaria importanza. In ThreatLens è stato deciso di adottare un paradigma ibrido, in modo da realizzare un sistema moderno, non aumentandone troppo la complessità. Le operazioni di rete prolungate viene orchestrata tramite la libreria #emph[RxJS], mentre la propagazione dello stato all'interfaccia utente è demandata al moderno costrutto dei #emph[Signal].
+Nell'ambito dello sviluppo di interfacce web moderne, la gestione degli eventi asincroni e dei flussi di dati continui rappresenta una sfida architetturale di primaria importanza. In ThreatLens è stato deciso di adottare un paradigma ibrido, in modo da realizzare un sistema moderno, senza aumentare troppo la complessità. Le operazioni di rete prolungate vengono orchestrate tramite la libreria #emph[RxJS], mentre la propagazione dello stato all'interfaccia utente è demandata al moderno costrutto dei #emph[Signal].
 
-Per ottenere le informazioni sullo stato della pipeline non è stata implementata una comunicazione bidirezionale persistente con il backend, per via della sua complessità. Per implementare una feature visiva come l'andamento della pipeline è stato ritenuto sufficiente delegare al client la responsabilità di verificare attivamente aggiornamenti nel server di #gls("backend"). Questa problematica è stata risolta implementando il pattern del #emph("Polling Consumer"):
+Per ottenere le informazioni sullo stato della #gls("pipeline") non è stata implementata una comunicazione bidirezionale persistente con il backend, per via della sua complessità. Per implementare una feature visiva come l'andamento della #gls("pipeline") è stato ritenuto sufficiente delegare al client la responsabilità di verificare attivamente gli aggiornamenti nel server di #gls("backend"). Questa problematica è stata risolta implementando il pattern del #emph("Polling Consumer"):
 
 - *Il ruolo dell'Orchestratore (Facade):* questo modulo incapsula la logica di #emph[polling], interrogando attivamente e periodicamente il backend. Ogni volta che riceve un aggiornamento (ad esempio l'esito della scansione o l'avanzamento della #gls("pipeline")), non emette eventi tramite i classici #emph[Subject] tipici del pattern Observer canonico, ma aggiorna direttamente il proprio stato reattivo sincrono tramite i #emph[Signal]. In questo modo la Facade agisce come fonte di verità per dati in sola lettura verso l'interfaccia.
 
-- *Il ruolo del Consumatore (Smart Component):* Il #emph[ViewModel] agisce da osservatore, senza conoscere la logica di rete. Non gestisce la chiamata HTTP iterativa, ma si limita a reagire passivamente alla lettura dei #emph[Signal] esposti dalla Facade. Non appena quest'ultima aggiorna il proprio stato, il componente viene notificato automaticamente e propaga i dati aggiornati ai #emph[Dumb Component] per mostrarli all'utente.
+- *Il ruolo del Consumatore (Smart Component):* il #emph[ViewModel] agisce da osservatore, senza conoscere la logica di rete. Non gestisce la chiamata HTTP iterativa, ma si limita a reagire passivamente alla lettura dei #emph[Signal] esposti dalla Facade. Non appena quest'ultima aggiorna il proprio stato, il componente viene notificato automaticamente e propaga i dati aggiornati ai #emph[Dumb Component] per mostrarli all'utente.
 
 Questa rigorosa separazione garantisce che il ciclo di vita della richiesta rimanga confinato nel livello della Facade, offrendo al livello di presentazione un'interfaccia dichiarativa e reattiva, costantemente sincronizzata con il server.
-
-
-
