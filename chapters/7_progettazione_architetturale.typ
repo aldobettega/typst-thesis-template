@@ -96,7 +96,7 @@ L'`AssessmentApplicationService` è l'orchestratore principale dell'applicazione
 \ \
 ```
 start_assessment(request: AssessmentRequest) -> AssessmentResponse:```
-Crea l'analisi e chiama in #emph("background") la #gls("pipeline") di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'ID dell'analisi creata, questo possa utilizzarlo per chiederne lo stato e recuperarne il report.
+Crea l'analisi e chiama in #emph("background") la #gls("pipeline") di esecuzione, in questo modo il #gls("backend") non è bloccato durante l'esecuzione e può gestire altre richieste da parte del #gls("frontend"). Ritorna al #gls("frontend") l'ID dell'analisi creata, affinché questo possa utilizzarlo per chiederne lo stato e recuperarne il report.
 \ \
 ```
 get_status(self, analysis_id: str) -> Pipeline:```
@@ -116,7 +116,7 @@ L'adapter deve implementare il metodo della porta:
 \ \
 ```
 scan(ip: str) -> ScannerResult```
-Tale metodo riceve l'ip del dispositivo target e ritorna l'oggetto di dominio `ScannerResult`, nel quale vengono mappati i risultati provenienti dalle #gls("api") del tenant di #gls("qualys").
+Tale metodo riceve l'#gls("ip") del dispositivo target e ritorna l'oggetto di dominio `ScannerResult`, nel quale vengono mappati i risultati provenienti dalle #gls("api") del tenant di #gls("qualys").
 
 ==== AnalysisStore
 
@@ -150,7 +150,7 @@ Il recupero dei dati necessari al calcolo della gravità (#gls("cvss"), #gls("ep
 
 ==== AiAdapter
 
-Il `GeminiExplanationAdapter` adapter concretizza l'interfaccia definita in `AiExplanationPort`. Il modulo implementa il metodo:
+Il `GeminiExplanationAdapter` concretizza l'interfaccia definita in `AiExplanationPort`. Il modulo implementa il metodo:
 \ \
 ```
 generate_explanation_bulk(
@@ -166,14 +166,14 @@ Durante la progettazione sono state usate una serie di tecniche e design pattern
 
 Il principio di *inversione delle dipendenze* (#emph("Dependency Inversion Principle")) rappresenta il fondamento dell'architettura esagonale perché rende possibile il disaccoppiamento tra modellazione del dominio e tecnologie esterne.
 In ThreatLens il nucleo applicativo, composto dalle classi di dominio e i servizi applicativi, non importa nessuna libreria esterna o tecnologia, ma fa uso solamente di moduli nativi del linguaggio Python.
-I servizi applicativi, per ottenere i dati necessari al calcolo, non eseguono direttamente chiamate #gls("api"), ma fanno riferimento a interfacce astratte (le #emph("outbound ports")) che espongono dei metodi generici (per esempio `fetch_data()` o `scan()`)) la cui implementazione sarà gestita da un modulo esterno al #emph("core").
+I servizi applicativi, per ottenere i dati necessari al calcolo, non eseguono direttamente chiamate #gls("api"), ma fanno riferimento a interfacce astratte (le #emph("outbound ports")) che espongono dei metodi generici (per esempio `fetch_data()` o `scan()`) la cui implementazione sarà gestita da un modulo esterno al #emph("core").
 Questo approccio ha tre principali vantaggi:
 
 - *Alta testabilità*: per testare un servizio applicativo non è necessario istanziare l'infrastruttura reale, ma basterà iniettare un componente fittizio (un #emph[#gls("mock")]).
 
 - *Isolamento degli errori*: la maggior parte delle criticità in un sistema deriva dall'interazione con tecnologie esterne (es. #emph("timeout") di rete, deserializzazione di #emph[#gls("payload")] imprevisti o librerie che possono variare e diventare incompatibili con il nostro sistema). Isolandole in un modulo esterno è possibile gestire in modo più efficace e ordinato questi errori, senza inquinare internamente la logica del sistema.
 
-- *Modularità*: se si vuole cambiare tecnologia basta scrivere un altro adapter dedicato, senza dover modificare la logica interna del sistema. Questa flessibilità si è rivelata utile anche in fase di sviluppo, consentendo lo sviluppo del #emph("core") tramite adattatori #emph("dummy") (es. oggetti che ritornano risposte fittizzie simulando le #gls("api") esterne) per verificare il funzionamento interno del sistema e man mano integrare le tencologie esterne con moduli reali.
+- *Modularità*: se si vuole cambiare tecnologia basta scrivere un altro adapter dedicato, senza dover modificare la logica interna del sistema. Questa flessibilità si è rivelata utile anche in fase di sviluppo, consentendo lo sviluppo del #emph("core") tramite adattatori #emph("dummy") (es. oggetti che ritornano risposte fittizie simulando le #gls("api") esterne) per verificare il funzionamento interno del sistema e man mano integrare le tecnologie esterne con moduli reali.
 
 === Estensibilità tramite Strategy e Registry
 
@@ -207,7 +207,7 @@ Nel thread viene avviato in #emph("background") il metodo `run_pipeline` che con
 + generazione della spiegazione con l'#gls("AI")
 + creazione del report
 
-Nell'implementazione si è cercato di rispettare il Single Responsibility Principle, infatti come si può notare dalla struttura della #gls("pipeline"), nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabiità e gestione degli errori.
+Nell'implementazione si è cercato di rispettare il Single Responsibility Principle, infatti come si può notare dalla struttura della #gls("pipeline"), nelle classi c'è un metodo principale orchestratore che chiama una serie di metodi privati che eseguono una sola operazione logica. Questo rende il codice più leggibile e manutenibile, cercando di atomizzare le operazioni di una funzione, dando più semantica ed evitando funzioni ingestibili con centinaia di righe di codice, favorendo inoltre testabilità e gestione degli errori.
 
 === Fase 1: Scansione
 
@@ -273,7 +273,7 @@ Rappresentano errori bloccanti che si verificano durante il flusso sequenziale d
 I fallimenti della #gls("pipeline") implementano la generica `PipelineFailure` (che a sua volta implementa la classe `Exception`) e sono:
 
 - `ScanFailure`: segnala un errore durante la fase di scansione.
-- `PriorityCalculationFalure`: segnala un errore durante la fase di calcolo interno della priorità.
+- `PriorityCalculationFailure`: segnala un errore durante la fase di calcolo interno della priorità.
 - `ReportBuildFailure`: segnala un errore durante la fase di costruzione del report.
 - `UnexpectedPipelineFailure`: errore generico per errori non contemplati nel corso della #gls("pipeline").
 
@@ -301,7 +301,7 @@ La responsabilità di tradurre le eccezioni interne in risposte #gls("http") è 
 
 - *Mappatura semantica dei codici:* gli errori applicativi vengono tradotti nei corretti codici #gls("http"), come `404 Not Found` per una risorsa inesistente o `409 Conflict` per conflitti di stato applicativo.
 
-- *Gestione della validazione:* gli errori generati da input non conformi vengono restituiti con codice `422 Unprocessable Content`
+- *Gestione della validazione:* gli errori generati da input non conformi vengono restituiti con codice `422 Unprocessable Content`.
 
 - *Tracciamento e sicurezza:* eccezioni inattese non vengono esposte in chiaro all'utente, ma il sistema restituisce un errore interno generico (`500 Internal Server Error`) e registra la traccia dell'eccezione (#emph("stack trace")) tramite i log. Questo facilita le operazioni di debug senza compromettere la sicurezza del sistema.
 
@@ -343,7 +343,7 @@ Il metodo di questa classe è:
 ```
 getCapabilities(): Observable<SystemCapabilities>
 ```
-Ritorna le funzionalità che il sistema dispone all'utente.
+Ritorna all'utente le funzionalità di cui il sistema dispone.
 
 ==== PipelineApi
 

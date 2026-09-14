@@ -4,11 +4,6 @@
 #set par(first-line-indent: 0pt)
 #set page(numbering: "i")
 
-#align(right, [
-    #text(style: "italic", "cit...")
-    #v(6pt)
-])
-
 #v(10em)
 
 #text(24pt, weight: "semibold", acknowledgements)
@@ -19,11 +14,8 @@
 
 #linebreak()
 
-#text(style: "italic", "Desidero ringraziare ...")
+#text(style: "italic", "Il mio primo ringraziamento va ai miei genitori per il sostegno lungo questo percorso, e alla mia famiglia e ai miei fratelli per i momenti passati insieme. Ringrazio Maria per essermi stata sempre vicina. Un ultimo pensiero è rivolto ai miei amici, per le preziose esperienze condivise, e ai miei compagni universitari Marco e Paolo, per il prezioso supporto in questi anni di studi.")
 
-#linebreak()
-
-#text(style: "italic", "Ringrazio anche...")
 
 #v(2em)
 

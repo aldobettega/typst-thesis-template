@@ -12,7 +12,7 @@
   (
     key: "cpe",
     parola: "CPE",
-    desc: "Le Common Platform Enumeration sono stringhe standardizzate utilizzae per identificare in modo univoco hardware, software e sistemi operativi all’interno di un’infrastruttura.",
+    desc: "Le Common Platform Enumeration sono stringhe standardizzate utilizzate per identificare in modo univoco hardware, software e sistemi operativi all’interno di un’infrastruttura.",
   ),
   (
     key: "ctem",
@@ -21,7 +21,7 @@
   ),
   (
     key: "vulnerability-fatigue",
-    parola: "Vulneravibity Fatigue / Alert Fatigue",
+    parola: "Vulnerability Fatigue / Alert Fatigue",
     desc: "Stato di esaurimento mentale e disimpegno psicologico che colpisce gli operatori della sicurezza informatica e gli sviluppatori, derivante dall'essere sommersi da un volume eccessivo di vulnerabilità e alert. Questo fenomeno porta a una desensibilizzazione verso i rischi reali, poiché la difficoltà di gestire tutte le minacce individuate porta a ignorare o rimandare indefinitamente la risoluzione delle falle, aumentando la superficie di attacco aziendale.",
   ),
   (
@@ -71,7 +71,7 @@
   ),
   (
     key: "refactoring",
-    parola: "refacoring",
+    parola: "refactoring",
     desc: "Il refactoring è una tecnica di ingegneria del software che consiste nella ristrutturazione della struttura interna del codice sorgente con l'obiettivo principale di migliorare la leggibilità, la manutenibilità e l'efficienza del codice, rendendolo più pulito e facile da comprendere per gli sviluppatori.",
   ),
   (
@@ -102,7 +102,7 @@
   (
     key: "scanner",
     parola: "scanner",
-    desc: [termine che indica scanner di vulnerabilità (come qualys) che consentono di rilevare le CVE associate alle CPE di un dispositivo.],
+    desc: [termine che indica scanner di vulnerabilità (come Qualys) che consentono di rilevare le CVE associate alle CPE di un dispositivo.],
   ),
   (
     key: "docx",
@@ -122,12 +122,12 @@
   (
     key: "cvss",
     parola: "CVSS",
-    desc: [#emph("Common Vulnerability Scoring System") - standard sviluppato da FIRTS per valutare la gravità delle vulnerabilità di sicurezza, assegnando un punteggio da 0,0 a 10,0.],
+    desc: [#emph("Common Vulnerability Scoring System") - standard sviluppato da FIRST per valutare la gravità delle vulnerabilità di sicurezza, assegnando un punteggio da 0,0 a 10,0.],
   ),
     (
     key: "triage",
     parola: "triage",
-    desc: "Nel campo del vulnerability assessment indica il processo di classificazione di vulnerabilità in classi di emergenza crescenti in base alla loro gravità",
+    desc: "Nel campo del vulnerability assessment indica il processo di classificazione di vulnerabilità in classi di emergenza crescenti in base alla loro gravità.",
   ),
   (
     key: "epss",
@@ -162,7 +162,7 @@
   (
     key: "mock",
     parola: "mock",
-    desc: "Oggetti fittizi che imitano il comportamento di oggetti reali in modo controllato.  Vengono utilizzati principalmente negli unit test per isolare il codice testato, simulando dipendenze complesse, non deterministiche o non ancora implementate (come database o API esterne)",
+    desc: "Oggetti fittizi che imitano il comportamento di oggetti reali in modo controllato.  Vengono utilizzati principalmente negli unit test per isolare il codice testato, simulando dipendenze complesse, non deterministiche o non ancora implementate (come database o API esterne).",
   ),
   (
     key: "decision-tree",
@@ -218,7 +218,7 @@
   (
     key: "stakeholder",
     parola: "stakeholder",
-    desc: "Persona, gruppo o organizzazione direttamente o indirettamente coinvolto nel progetto e in grado di influenzarne o subirne le conseguenze sull'esito finale",
+    desc: "Persona, gruppo o organizzazione direttamente o indirettamente coinvolto nel progetto e in grado di influenzarne o subirne le conseguenze sull'esito finale.",
   ),
   (
     key: "pentesting",
@@ -273,7 +273,12 @@
   (
     key: "rate-limit",
     parola: "rate limit",
-    desc: "Tecnica di controllo che limita il numero di richieste che un utente, client o indirizzo IP può inviare a un server o a un'API entro un intervallo di tempo specifico",
+    desc: "Tecnica di controllo che limita il numero di richieste che un utente, client o indirizzo IP può inviare a un server o a un'API entro un intervallo di tempo specifico.",
+  ),
+  (
+    key: "nessus",
+    parola: "Nessus",
+    desc: "Software proprietario di tipo client-server sviluppato da Tenable Network Security, uno degli scanner di vulnerabilità più usati in ambito industriale.",
   ),
 )
 

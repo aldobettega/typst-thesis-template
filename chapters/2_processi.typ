@@ -36,7 +36,7 @@ In seguito è stato affrontato il dominio del problema, studiando i concetti di 
 
 In questo periodo è stato completato lo studio del dominio ed è iniziata l'analisi dei requisiti della piattaforma, delineando le principali funzionalità dell'applicazione e la sua interfaccia.
 Contestualmente è stata fatta formazione riguardo alla piattaforma di #gls("qualys"), prodotto enterprise utilizzato dall'azienda per scansionare le vulnerabilità di dispositivi.
-È stata poi fatta della formazione sull'utilizzo di docker e docker compose, raffinando i concetti già presenti per avere un più consapevole utilizzo dello strumento.
+È stata poi fatta della formazione sull'utilizzo di Docker e Docker Compose, raffinando i concetti già presenti per avere un più consapevole utilizzo dello strumento.
 
 === Quarta settimana
 

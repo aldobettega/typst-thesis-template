@@ -20,7 +20,7 @@
   target: figure.where(kind: image)
 )
 
-#v(8em)
+#pagebreak()
 
 #outline(
     title: tablesList,

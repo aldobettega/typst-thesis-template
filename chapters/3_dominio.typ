@@ -136,7 +136,7 @@ Dal #emph[#gls("decision-tree")] possono essere prodotti in output quattro risul
 Nella piattaforma ThreatLens, per la classificazione dell'esito finale, il modello #gls("ssvc") viene impiegato come linguaggio di riferimento. 
 
 Questa scelta progettuale è motivata dal fatto che il modello #gls("ssvc") viene adottato come linguaggio di classificazione, in quanto progettato esplicitamente per categorizzare le decisioni di risposta attorno agli #emph[#gls("stakeholder")], alle azioni di mitigazione e alla tolleranza al rischio dell'organizzazione.
-Come riporta la documentazione ufficale di CISA @cisa_web:
+Come riporta la documentazione ufficiale di CISA @cisa_web:
 #align(center)[
   #block(
     fill: luma(250),
@@ -170,7 +170,7 @@ Di conseguenza, gli esiti dell'elaborazione algoritmica vengono mappati sulle se
 
 I tre dati da soli forniscono poche informazioni, ma combinati si compensano tra di loro, dando un contesto più completo:
 
-- il #gls("kev") ha un'alta confidenza (se presente nel database è un dato molto rilevante), ma ha una copertura limitata e una natura reattiva (non prevede rischi potenzialmente gravi;
+- il #gls("kev") ha un'alta confidenza (se presente nel database è un dato molto rilevante), ma ha una copertura limitata e una natura reattiva (non prevede rischi potenzialmente gravi);
 - l'#gls("epss") ha una forte copertura predittiva, ma proprio per questo è un dato probabilistico con alta incertezza che produce falsi positivi e falsi negativi;
 - il #gls("cvss") valuta l'impatto potenziale in modo accurato, ma non indica se la vulnerabilità sarà realmente sfruttata.
 

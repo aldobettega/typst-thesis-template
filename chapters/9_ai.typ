@@ -35,4 +35,4 @@ La struttura dell'output è rigidamente tipizzata e richiede la generazione di c
 - *Documented Action:* Le azioni di mitigazione concrete, estraendo solo dati reali senza inventare comandi o procedure non documentate.
 - *Uncertainty:* L'esplicitazione formale del limite informativo più rilevante per il caso in esame.
 
-Per limitare ulteriormente il fenomeno delle #gls("allucinazioni"), il #gls("prompt") include una  serie di limiti comportamentali. Al modello sono stati imposti dei divieti come affermare che un asset sia compromesso in assenza di prove o introdurre informazioni esterne non presenti nel #gls("payload") partenza. 
+Per limitare ulteriormente il fenomeno delle #gls("allucinazioni"), il #gls("prompt") include una  serie di limiti comportamentali. Al modello sono stati imposti dei divieti come affermare che un asset sia compromesso in assenza di prove o introdurre informazioni esterne non presenti nel #gls("payload") di partenza. 

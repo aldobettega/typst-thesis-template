@@ -26,7 +26,7 @@ Ad ogni modo, grazie alla modularità dell'architettura esagonale, una futura tr
 
 == Sicurezza e comunicazione HTTP
 
-L'architettura del sistema prevede una rigorosa segregazione tra il livello di presentazione (Angular, servito sulla porta `4200`) e il livello applicativo (FastAPI, esposto sulla porta `8000`). Anche se questa separazione garantisce un'elevata modularità e prevenga l'esposizione di informazioni sensibili lato client, introduce un vincolo nella comunicazione diretta a causa della #emph[Same-Origin Policy] (SOP). 
+L'architettura del sistema prevede una rigorosa segregazione tra il livello di presentazione (Angular, servito sulla porta `4200`) e il livello applicativo (FastAPI, esposto sulla porta `8000`). Anche se questa separazione garantisce un'elevata modularità e previene l'esposizione di informazioni sensibili lato client, introduce un vincolo nella comunicazione diretta a causa della #emph[Same-Origin Policy] (SOP). 
 
 La SOP è una regola di sicurezza implementata dai browser che impedisce agli script eseguiti in una specifica "origine" (formata dalla combinazione di protocollo, dominio e porta) di leggere dati provenienti da un'origine differente. Nel nostro caso le origini di frontend e backend differiscono nella porta, per questo si attiva tale regola di sicurezza, bloccando di default le richieste dirette dal #gls("frontend") al #gls("backend").
 
@@ -47,7 +47,7 @@ app.add_middleware(
 )
 ```
 \ \
-In questo, il server è configurato per consentire l'origine differente del frontend (`http://localhost:4200`), consentendo qualsiasi metodo e qualsiasi header.
+In questo modo, il server è configurato per consentire l'origine differente del frontend (`http://localhost:4200`), consentendo qualsiasi metodo e qualsiasi header.
 Questo funziona perché quando #gls("angular") con #emph("HttpClient") effettua una richiesta verso #gls("fastapi"), il browser esegue prima una *#emph("Preflight Request")* di questo tipo:
 \ \
 ```
@@ -69,6 +69,6 @@ Access-Control-Allow-Methods: GET, POST, OPTIONS
 == Richieste #gls("api") Batch
 
 Una sfida implementativa è stata doversi scontrare con i limiti imposti dalle #gls("api") di tecnologie esterne, in particolare i data providers e il modello gratuito di Gemini.
-Infatti, non è possibile, per limiti infrastrutturali di queste tencologie, richiedere con una sola chiamata #gls("api") dati o informazioni per centinaia di #gls("cve") senza incorrere in un #emph[#gls("rate-limit")].
+Infatti, non è possibile, per limiti infrastrutturali di queste tecnologie, richiedere con una sola chiamata #gls("api") dati o informazioni per centinaia di #gls("cve") senza incorrere in un #emph[#gls("rate-limit")].
 Per risolvere questa problematica è stato necessario dividere il payload totale di #gls("cve") in batch la cui dimensione non raggiungesse il #emph[#gls("rate-limit")] imposto dalla specifica #gls("api"). In certi casi, tra una chiamata di rete e l'altra è anche stato necessario introdurre un ritardo programmato per distanziarle temporaneamente, sempre per rispettare i limiti imposti dalle tecnologie esterne.
 Questa logica è stata confinata al livello degli #emph("Outbound Adapters"), rivelando ancora una volta i vantaggi di modularità dell'architettura esagonale e di isolamento del dominio rispetto alle tecnologie esterne.
