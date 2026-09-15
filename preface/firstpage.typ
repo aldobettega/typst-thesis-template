@@ -1,4 +1,4 @@
-#let logo = "../images/unipd-logo.svg"
+#let logo = "../images/unipd.webp"
 #import "../config/variables.typ": myUni, myDepartment, myFaculty, myTitle, myDegree, profTitle, myProf, myName, myMatricola, myAA
 #import "../config/constants.typ": supervisor, undergraduate, academicYear, ID
 
@@ -18,7 +18,7 @@
     // Corpo
     [
         // Logo
-        #align(center, image(logo, width: 50%))
+        #align(center, image(logo, width: 60%))
         #v(30pt)
 
         // Titolo

@@ -98,7 +98,7 @@ Per lo sviluppo del #gls("backend") si è adottato un approccio moderno basato s
 
 Per lo sviluppo del frontend è stato scelto il framework Angular 22, per il suo vasto ecosistema di programmazione web (che include il routing nativo), per una forte scalabilità per la sua architettura a componenti, per la presenza di pattern integrati nel sistema come l'iniezione delle dipendenze, e per l'uso di moderne librerie come RxJS per la programmazione reattiva.
 
-#v(1em)
+#pagebreak()
 
 #figure(
   caption: [Tecnologie di frontend],
