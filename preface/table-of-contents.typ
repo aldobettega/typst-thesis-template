@@ -1,6 +1,8 @@
+#set page(numbering: none)
 #pagebreak(weak: true, to: "odd")
+#set page(numbering: "i.")
+
 #import "../config/constants.typ": figuresList, tablesList
-#set page(numbering: "i")
 
 #[
   #show outline.entry.where(level: 1): it => {

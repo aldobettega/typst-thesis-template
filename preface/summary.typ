@@ -1,5 +1,6 @@
 #import "../config/constants.typ": abstract
 
+#set page(numbering: none)
 #pagebreak(weak: true, to: "odd")
 #set page(numbering: "i")
 #counter(page).update(1)

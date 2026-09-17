@@ -8,9 +8,7 @@
 
 
 // Mainmatter
-#set page(numbering: none)
 #pagebreak(weak: true, to: "odd")
-#set page(numbering: "1.")
 #counter(page).update(1)
 
 #include "chapters/1_introduzione.typ"

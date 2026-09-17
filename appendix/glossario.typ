@@ -2,7 +2,9 @@
 
 #import "../config/glossario-data.typ": mio-glossario
 
-#pagebreak()
+#set page(numbering: none)
+#pagebreak(weak: true, to: "odd")
+#set page(numbering: "1.")
 
 = Glossario
 

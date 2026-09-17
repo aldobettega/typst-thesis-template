@@ -1,4 +1,6 @@
+#set page(numbering: none)
 #pagebreak(weak: true, to: "odd")
+#set page(numbering: "i")
 #import "../config/variables.typ" : profTitle, myProf, myLocation, myTime, myName
 #import "../config/constants.typ" : acknowledgements
 
