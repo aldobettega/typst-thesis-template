@@ -1,3 +1,4 @@
+#pagebreak(weak: true, to: "odd")
 #import "../config/constants.typ": figuresList, tablesList
 #set page(numbering: "i")
 

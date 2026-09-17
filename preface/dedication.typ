@@ -1,3 +1,4 @@
+#pagebreak(weak: true, to: "odd")
 #set page(numbering: none)
 
 #v(3cm)

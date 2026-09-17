@@ -1,6 +1,6 @@
 #import "../config/glossario-data.typ": gls
 
-#pagebreak()
+#pagebreak(weak: true, to: "odd")
 
 = Studio del Dominio
 

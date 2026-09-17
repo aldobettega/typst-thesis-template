@@ -1,7 +1,7 @@
 #import "../config/thesis-config.typ": useCase
 #import "../config/glossario-data.typ": gls
 
-#pagebreak()
+#pagebreak(weak: true, to: "odd")
 
 = Analisi dei Requisiti
 

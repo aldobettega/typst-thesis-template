@@ -1,4 +1,4 @@
-#pagebreak()
+#pagebreak(weak: true, to: "odd")
 
 #import "../config/glossario-data.typ": gls
 

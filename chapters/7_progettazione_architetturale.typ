@@ -1,6 +1,6 @@
 #import "../config/glossario-data.typ": gls
 
-#pagebreak()
+#pagebreak(weak: true, to: "odd")
 
 = Progettazione Architetturale
 
@@ -27,7 +27,7 @@ Il sistema è strutturato in livelli concentrici:
 
 #pad(x: -2.5cm)[
   #figure(
-    image("/images/AssessmentDiagram.png", width: 100%),
+    image("/images/AssessmentDiagram.png", width: 90%),
     caption: [Diagramma architetturale dei componenti]
   )<backend_classes>
 ]

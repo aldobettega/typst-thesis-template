@@ -1,5 +1,7 @@
 #import "../config/glossario-data.typ": gls
 
+#pagebreak(weak: true, to: "odd")
+
 = Introduzione
 
 == L'azienda

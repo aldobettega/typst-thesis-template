@@ -1,3 +1,4 @@
+#pagebreak(weak: true, to: "odd")
 #import "../config/variables.typ" : profTitle, myProf, myLocation, myTime, myName
 #import "../config/constants.typ" : acknowledgements
 

@@ -11,7 +11,12 @@
     show math.equation: set text(weight: 400)
 
     // LaTeX look (secondo la doc di Typst)
-    set page(margin: 1.75in, numbering: myNumbering, number-align: center)
+    set page(
+        margin: (inside: 3.5cm, outside: 2.5cm, top: 3cm, bottom: 3cm), 
+        numbering: myNumbering, 
+        number-align: center
+    )
+
     // set par(leading: 0.55em, first-line-indent: 1.8em, justify: true)
     set par(
         leading: 0.55em,
